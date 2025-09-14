@@ -1,48 +1,47 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+このプロジェクトは、Android・iOS・デスクトップ（JVM）を対象とした Kotlin Multiplatform プロジェクトです。
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+また、本アプリケーションはオンデバイス LLM を利用して、RSS で取得した記事をユーザーの興味・関心にあった形で表示することを目指しています。
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+* [/composeApp](./composeApp/src) には、Compose Multiplatform アプリ間で共有されるコードが含まれます。
+  次のようなサブフォルダがあります:
+  - [commonMain](./composeApp/src/commonMain/kotlin) すべてのターゲットに共通のコードを配置します。
+  - そのほかの各フォルダには、フォルダ名で示されたプラットフォーム専用にコンパイルされる Kotlin コードを配置します。
+    例えば、iOS で Apple の CoreCrypto を使いたい場合は、[iosMain](./composeApp/src/iosMain/kotlin) フォルダに記述します。
+    同様に、デスクトップ（JVM）固有のコードは [jvmMain](./composeApp/src/jvmMain/kotlin) フォルダに記述します。
 
-### Build and Run Android Application
+* [/iosApp](./iosApp/iosApp) には iOS アプリケーションが含まれます。Compose Multiplatform で UI を共有していても、
+  iOS アプリのエントリポイントとしてこのモジュールが必要です。SwiftUI のコードを追加する場合もここに配置します。
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
+### Android アプリのビルドと実行
+
+開発版の Android アプリをビルド・実行するには、IDE のツールバーにある実行構成（Run Configuration）を使用するか、
+ターミナルから次のコマンドを実行します:
+- macOS/Linux の場合
   ```shell
   ./gradlew :composeApp:assembleDebug
   ```
-- on Windows
+- Windows の場合
   ```shell
   .\gradlew.bat :composeApp:assembleDebug
   ```
 
-### Build and Run Desktop (JVM) Application
+### デスクトップ（JVM）アプリのビルドと実行
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
+開発版のデスクトップアプリをビルド・実行するには、IDE の実行構成を使用するか、
+ターミナルから次のコマンドを実行します:
+- macOS/Linux の場合
   ```shell
   ./gradlew :composeApp:run
   ```
-- on Windows
+- Windows の場合
   ```shell
   .\gradlew.bat :composeApp:run
   ```
 
-### Build and Run iOS Application
+### iOS アプリのビルドと実行
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+開発版の iOS アプリをビルド・実行するには、IDE の実行構成を使用するか、[/iosApp](./iosApp) ディレクトリを Xcode で開いて実行してください。
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+[Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) の詳細はこちらをご覧ください。
