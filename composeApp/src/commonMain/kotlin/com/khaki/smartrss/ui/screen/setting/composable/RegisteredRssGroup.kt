@@ -27,7 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun RegisteredRssGroup(
     targetGroup: RegisterableRssGroup,
     registeredRss: List<RegisteredRssGroup>,
-    onCLickAddButton: (RegisterableRssGroup) -> Unit,
+    onClickAddButton: (RegisterableRssGroup) -> Unit,
     onClickGroupItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -101,7 +101,7 @@ internal fun RegisteredRssGroup(
 
         Button(
             onClick = {
-                onCLickAddButton(targetGroup)
+                onClickAddButton(targetGroup)
             },
             modifier = Modifier
                 .align(Alignment.End)
@@ -119,7 +119,7 @@ private fun RegisteredRssGroupPreview() {
         RegisteredRssGroup(
             targetGroup = RegisterableRssGroup.Qiita,
             registeredRss = RegisteredRssGroupPreviewParameterProvider().values.toList(),
-            onCLickAddButton = {},
+            onClickAddButton = {},
             onClickGroupItem = {}
         )
     }

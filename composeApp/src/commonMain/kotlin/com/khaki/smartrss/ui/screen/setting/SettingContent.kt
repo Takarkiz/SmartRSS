@@ -73,7 +73,7 @@ internal fun SettingContent(
                     // Use a defined value from the placeholder enum RegisterableRssGroup
                     targetGroup = RegisterableRssGroup.entries[index],
                     registeredRss = sampleRegisteredRssList,
-                    onCLickAddButton = {
+                    onClickAddButton = {
                         onClickAddItem(it)
                     },
                     onClickGroupItem = {
