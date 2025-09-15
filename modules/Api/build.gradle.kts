@@ -12,7 +12,7 @@ kotlin {
     androidLibrary {
         namespace = "com.khaki.api"
         compileSdk = 36
-        minSdk = 28
+        minSdk = 24
 
         withHostTestBuilder {
         }
@@ -50,6 +50,8 @@ kotlin {
             baseName = xcfName
         }
     }
+
+    jvm()
 
     sourceSets {
         commonMain {

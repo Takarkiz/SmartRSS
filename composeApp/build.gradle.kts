@@ -46,6 +46,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
 
             implementation(libs.koin.core)
+            implementation(project(":modules:Api"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
