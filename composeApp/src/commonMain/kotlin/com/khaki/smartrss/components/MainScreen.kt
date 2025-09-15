@@ -88,6 +88,12 @@ fun MainScreen() {
 
             AppTabs.Settings -> {
                 SettingContent(
+                    onClickAddItem = {
+                        // TODO: Implement action
+                    },
+                    onClickRssItem = {
+                        // TODO: Implement action
+                    },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
