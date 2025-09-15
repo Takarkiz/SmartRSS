@@ -59,6 +59,7 @@ kotlin {
                 implementation(project(":modules:core:Repository"))
 
                 implementation(libs.kotlin.stdlib)
+                implementation(libs.kotlinx.datetime)
             }
         }
 
