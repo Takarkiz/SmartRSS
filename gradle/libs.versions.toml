@@ -21,6 +21,8 @@ detekt = "1.23.8"
 composeRules = "0.4.27"
 ktor = "3.3.0"
 koin = "4.1.1"
+xml-utils = "0.91.2"
+kotlinx-serialization = "1.9.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -57,8 +59,14 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
+xmlutils-core = { group = "io.github.pdvrieze.xmlutil", name = "core", version.ref = "xml-utils" }
+xmlutils-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "xml-utils" }
+kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 [bundles]
 ktor-core-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]
+xmlutils = ["xmlutils-core", "xmlutils-serialization"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -70,3 +78,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidLint = { id = "com.android.lint", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
