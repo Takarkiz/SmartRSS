@@ -34,3 +34,4 @@ plugins {
 
 include(":composeApp")
 include(":modules:core:model")
+include(":modules:Api")
