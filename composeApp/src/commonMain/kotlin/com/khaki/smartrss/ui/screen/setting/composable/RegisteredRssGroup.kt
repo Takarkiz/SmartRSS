@@ -25,11 +25,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun RegisteredRssGroup(
-    modifier: Modifier = Modifier,
     targetGroup: RegisterableRssGroup,
     registeredRss: List<RegisteredRssGroup>,
     onCLickAddButton: (RegisterableRssGroup) -> Unit,
-    onClickGroupItem: (RegisteredRssGroup) -> Unit
+    onClickGroupItem: (RegisteredRssGroup) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -62,7 +62,7 @@ internal fun RegisteredRssGroup(
                         )
                         .clickable(
                             onClick = {
-
+                                onClickGroupItem(item)
                             },
                             interactionSource = remember { MutableInteractionSource() },
                             indication = ripple(color = MaterialTheme.colorScheme.primary)
@@ -101,7 +101,7 @@ internal fun RegisteredRssGroup(
 
         Button(
             onClick = {
-
+                onCLickAddButton(targetGroup)
             },
             modifier = Modifier
                 .align(Alignment.End)

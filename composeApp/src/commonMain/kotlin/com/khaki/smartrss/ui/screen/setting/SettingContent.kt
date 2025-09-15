@@ -17,12 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.khaki.smartrss.ui.screen.setting.composable.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup // Make sure this enum has BLOG or adapt
+import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroupPreviewParameterProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SettingContent(
+internal fun SettingContent(
+    onClickAddItem: (RegisterableRssGroup) -> Unit,
+    onClickRssItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
@@ -68,8 +71,12 @@ fun SettingContent(
                     // Use a defined value from the placeholder enum RegisterableRssGroup
                     targetGroup = RegisterableRssGroup.entries[index],
                     registeredRss = sampleRegisteredRssList,
-                    onCLickAddButton = {},
-                    onClickGroupItem = {}
+                    onCLickAddButton = {
+                        onClickAddItem(it)
+                    },
+                    onClickGroupItem = {
+                        onClickRssItem(it)
+                    }
                 )
             }
         }
