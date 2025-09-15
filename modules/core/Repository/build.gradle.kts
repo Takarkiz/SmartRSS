@@ -50,6 +50,7 @@ kotlin {
                 implementation(project(":modules:core:model"))
 
                 implementation(libs.kotlin.stdlib)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
     }
