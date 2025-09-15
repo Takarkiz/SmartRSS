@@ -24,7 +24,7 @@ import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun RegisteredRssGroup(
+internal fun RegisteredRssGroupCard(
     targetGroup: RegisterableRssGroup,
     registeredRss: List<RegisteredRssGroup>,
     onClickAddButton: (RegisterableRssGroup) -> Unit,
@@ -113,10 +113,10 @@ internal fun RegisteredRssGroup(
 
 @Preview
 @Composable
-private fun RegisteredRssGroupPreview() {
+private fun RegisteredRssGroupCardPreview() {
 
     SmartRssTheme {
-        RegisteredRssGroup(
+        RegisteredRssGroupCard(
             targetGroup = RegisterableRssGroup.Qiita,
             registeredRss = RegisteredRssGroupPreviewParameterProvider().values.toList(),
             onClickAddButton = {},

@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.khaki.smartrss.ui.screen.setting.composable.RegisteredRssGroup
+import com.khaki.smartrss.ui.screen.setting.composable.RegisteredRssGroupCard
 import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroupPreviewParameterProvider
@@ -69,7 +69,7 @@ internal fun SettingContent(
                 count = RegisterableRssGroup.entries.size,
                 key = { index -> RegisterableRssGroup.entries[index].name }
             ) { index ->
-                RegisteredRssGroup(
+                RegisteredRssGroupCard(
                     // Use a defined value from the placeholder enum RegisterableRssGroup
                     targetGroup = RegisterableRssGroup.entries[index],
                     registeredRss = sampleRegisteredRssList,
