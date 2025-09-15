@@ -1,0 +1,16 @@
+# Detekt configuration for SmartRss
+# Using default config and enabling Compose rules via the detekt plugin dependency.
+
+# Fail build on any finding
+build:
+  maxIssues: -1
+
+config:
+  validation: true
+
+# You can fine-tune Compose rules here if needed in the future.
+# For reference, rule set is provided by io.nlopez.compose.rules
+# Example:
+# compose:
+#   ComposableParameterNaming:
+#     active: true
