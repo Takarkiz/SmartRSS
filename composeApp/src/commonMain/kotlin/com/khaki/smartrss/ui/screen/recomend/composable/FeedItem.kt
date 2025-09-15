@@ -41,7 +41,7 @@ fun FeedItem(
                     onClickItem(item.id)
                 },
                 interactionSource = remember { MutableInteractionSource() },
-                indication = ripple()
+                indication = ripple(color = MaterialTheme.colorScheme.primary)
             )
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
