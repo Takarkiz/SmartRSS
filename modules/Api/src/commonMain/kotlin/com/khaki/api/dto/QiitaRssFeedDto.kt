@@ -12,6 +12,7 @@ private const val ATOM_NS = "http://www.w3.org/2005/Atom"
 data class QiitaRssFeedDto(
     val title: String,
     val link: List<Link>,
+    val description: String,
     val entry: List<QiitaRssEntryDto>
 ) {
     @Serializable
@@ -21,6 +22,7 @@ data class QiitaRssFeedDto(
         val title: String,
         val link: List<Link>,
         @XmlSerialName("published") val pubDate: String,
+        @XmlSerialName("updated") val updatedDate: String,
         val author: Author,
         @XmlSerialName("content") val description: Description
     )
