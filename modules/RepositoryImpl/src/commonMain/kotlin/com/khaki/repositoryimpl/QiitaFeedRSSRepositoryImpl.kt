@@ -5,42 +5,53 @@ import com.khaki.api.service.RSSApiService
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.repository.QiitaFeedRSSRepository
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 
 class QiitaFeedRSSRepositoryImpl(
     private val apiService: RSSApiService
 ) : QiitaFeedRSSRepository {
+
+    companion object {
+        const val BASE_URL = "https://qiita.com"
+    }
+
     override suspend fun popularFeeds(): RSSFeed {
-        val response = apiService.fetchQiitaRssFeed("https://qiita.com/popular-items/feed.atom")
+        val response = apiService.fetchQiitaRssFeed("$BASE_URL/popular-items/feed.atom")
         return mapToDomain(response)
     }
 
     override suspend fun feedsByTag(tag: String): RSSFeed {
-        val response = apiService.fetchQiitaRssFeed("https://qiita.com/tags/$tag/feed.atom")
+        val response = apiService.fetchQiitaRssFeed("$BASE_URL/tags/$tag/feed.atom")
         return mapToDomain(response)
     }
 
     override suspend fun feedsByUserId(userId: String): RSSFeed {
-        val response = apiService.fetchQiitaRssFeed("https://qiita.com/$userId/feed.atom")
+        val response = apiService.fetchQiitaRssFeed("$BASE_URL/$userId/feed.atom")
         return mapToDomain(response)
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun mapToDomain(dto: QiitaRssFeedDto): RSSFeed {
         return RSSFeed(
             title = dto.title,
-            link = dto.link.getOrElse(0) { throw IllegalStateException("Link is empty") }.href,
+            link = dto.link.first { it.rel == "alternate" }.href,
             description = dto.description,
             items = dto.entry.map { entry ->
                 FeedItem(
                     title = entry.title,
-                    link = entry.link.getOrElse(0) { throw IllegalStateException("Link is empty") }.href,
-                    description = entry.description.type,
-                    pubDate = LocalDateTime.parse(entry.pubDate),
+                    link = entry.link.first { it.rel == "alternate" }.href,
+                    description = entry.description.value,
+                    pubDate = Instant.parse(entry.pubDate)
+                        .toLocalDateTime(TimeZone.currentSystemDefault()),
                     rssType = FeedItem.RSSType.Qiita(
                         authorName = entry.author.name,
-                        updatedDate = LocalDateTime.parse(entry.updatedDate)
+                        updatedDate = Instant.parse(entry.updatedDate).toLocalDateTime(
+                            TimeZone.currentSystemDefault()
+                        )
                     )
-                )
             }
         )
     }
