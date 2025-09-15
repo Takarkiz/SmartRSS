@@ -10,7 +10,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.khaki.modules.core.model"
+        namespace = "com.khaki.repository"
         compileSdk = 36
         minSdk = 24
 
@@ -47,8 +47,10 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":modules:core:model"))
+
                 implementation(libs.kotlin.stdlib)
-                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
     }

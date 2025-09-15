@@ -35,3 +35,5 @@ plugins {
 include(":composeApp")
 include(":modules:core:model")
 include(":modules:Api")
+include(":modules:core:Repository")
+include(":modules:RepositoryImpl")

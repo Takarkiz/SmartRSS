@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -11,7 +10,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.khaki.api"
+        namespace = "com.khaki.repositoryimpl"
         compileSdk = 36
         minSdk = 24
 
@@ -32,7 +31,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "ApiKit"
+    val xcfName = "RepositoryImplKit"
 
     iosX64 {
         binaries.framework {
@@ -52,18 +51,16 @@ kotlin {
         }
     }
 
-    jvm()
-
     sourceSets {
         commonMain {
             dependencies {
-                implementation(libs.kotlin.stdlib)
-                implementation(libs.bundles.ktor.core.client)
-                implementation(libs.koin.core)
-                implementation(libs.koin.ktor)
+                implementation(project(":modules:Api"))
+                implementation(project(":modules:core:model"))
+                implementation(project(":modules:core:Repository"))
 
-                implementation(libs.bundles.xmlutils)
-                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlin.stdlib)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
@@ -75,20 +72,16 @@ kotlin {
 
         androidMain {
             dependencies {
-                implementation(libs.ktor.client.okhttp)
+                // Add Android-specific dependencies here. Note that this source set depends on
+                // commonMain by default and will correctly pull the Android artifacts of any KMP
+                // dependencies declared in commonMain.
             }
         }
 
         iosMain {
             dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
-        }
-
-        jvmMain {
-            dependencies {
-                implementation(libs.ktor.client.okhttp)
             }
         }
     }
+
 }
