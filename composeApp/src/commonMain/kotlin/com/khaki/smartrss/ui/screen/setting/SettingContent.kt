@@ -88,7 +88,10 @@ internal fun SettingContent(
 fun SettingContentPreview_Normal() {
     SmartRssTheme {
         Surface {
-            SettingContent()
+            SettingContent(
+                onClickAddItem = {},
+                onClickRssItem = {},
+            )
         }
     }
 }
