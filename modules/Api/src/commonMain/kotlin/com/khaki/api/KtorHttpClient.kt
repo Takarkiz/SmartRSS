@@ -14,11 +14,13 @@ val apiClientModule = module {
         HttpClient(get<HttpClientEngine>()) {
             install(ContentNegotiation) {
                 json(Json {
-                    ignoreUnknownKeys = true // APIレスポンスに知らないキーあってもスルー！
+                    ignoreUnknownKeys = true
                     isLenient = true
                 })
             }
-            install(Logging) { // ログ見る設定
+            install(Logging) {
+                // TODO: リリース時にはロギングの対象を見直すこと
+                // 参考: https://github.com/Takarkiz/SmartRSS/pull/4#discussion_r2348330125
                 level = LogLevel.ALL
             }
         }

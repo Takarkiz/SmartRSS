@@ -20,7 +20,7 @@ core = "1.5.0"
 detekt = "1.23.8"
 composeRules = "0.4.27"
 ktor = "3.3.0"
-koin= "4.1.1"
+koin = "4.1.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -42,7 +42,7 @@ compose-rules-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref 
 # Ktor dependencies
 
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-client-content-negotation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 
@@ -58,7 +58,7 @@ koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koin"
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 [bundles]
-ktor-core-client = ["ktor-client-core", "ktor-client-content-negotation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]
+ktor-core-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
