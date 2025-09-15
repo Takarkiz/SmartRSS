@@ -6,8 +6,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -255,19 +253,4 @@ fun SmartRssTheme(
         shapes = Shapes,
         content = content
     )
-}
-
-// Small utility for contrasting on-colors; avoids pulling in extra libs
-private object ColorUtils {
-    fun onPrimaryFor(color: Color, dark: Boolean = false): Color {
-        // Choose black or white based on luminance; tweak for dark scheme if needed
-        val threshold = 0.5f
-        val base = if (color.luminance() > threshold) Color(0xFF000000) else Color(0xFFFFFFFF)
-        return if (dark) base.copy(alpha = 0.92f) else base
-    }
-
-    fun onSurfaceFor(color: Color, dark: Boolean = false): Color {
-        val base = if (dark) Color(0xFFECECEC) else Color(0xFF1A1A1A)
-        return base
-    }
 }
