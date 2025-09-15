@@ -57,11 +57,16 @@ fun SettingContent(
                 )
             }
 
-            val sampleRegisteredRssList = RegisteredRssGroupPreviewParameterProvider().values.toList()
-            items(20) { // Or items(sampleRegisteredRssList.size) { index -> val item = sampleRegisteredRssList[index] ... }
+            // サンプル用のデータを使用
+            val sampleRegisteredRssList =
+                RegisteredRssGroupPreviewParameterProvider().values.toList()
+            items(
+                count = RegisterableRssGroup.entries.size,
+                key = { index -> RegisterableRssGroup.entries[index].name }
+            ) { index ->
                 RegisteredRssGroup(
                     // Use a defined value from the placeholder enum RegisterableRssGroup
-                    targetGroup = RegisterableRssGroup.Qiita,
+                    targetGroup = RegisterableRssGroup.entries[index],
                     registeredRss = sampleRegisteredRssList,
                     onCLickAddButton = {},
                     onClickGroupItem = {}
