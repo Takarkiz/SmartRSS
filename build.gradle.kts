@@ -9,4 +9,20 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
     alias(libs.plugins.androidLint) apply false
+    alias(libs.plugins.detekt) apply false
+}
+
+subprojects {
+    // Apply Detekt to all modules
+    pluginManager.apply("io.gitlab.arturbosch.detekt")
+
+    dependencies {
+        // Jetpack Compose-specific rules for Detekt
+        add("detektPlugins", "io.nlopez.compose.rules:detekt:0.4.7")
+    }
+
+    // Ensure detekt runs as part of verification
+    tasks.matching { it.name == "check" }.configureEach {
+        dependsOn("detekt")
+    }
 }
