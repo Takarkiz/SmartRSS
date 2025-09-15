@@ -13,10 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.khaki.smartrss.ui.screen.setting.composable.RegisteredRssGroup
-import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup // Make sure this enum has BLOG or adapt
+import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroupPreviewParameterProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
@@ -34,6 +35,10 @@ internal fun SettingContent(
         } else {
             StaggeredGridCells.Fixed(2)
         }
+
+        // サンプル用のデータを用意
+        val sampleRegisteredRssList =
+            remember { RegisteredRssGroupPreviewParameterProvider().values.toList() }
 
         LazyVerticalStaggeredGrid(
             columns = columns,
@@ -60,9 +65,6 @@ internal fun SettingContent(
                 )
             }
 
-            // サンプル用のデータを使用
-            val sampleRegisteredRssList =
-                RegisteredRssGroupPreviewParameterProvider().values.toList()
             items(
                 count = RegisterableRssGroup.entries.size,
                 key = { index -> RegisterableRssGroup.entries[index].name }
