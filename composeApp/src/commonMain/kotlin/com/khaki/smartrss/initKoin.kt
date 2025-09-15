@@ -1,12 +1,14 @@
 package com.khaki.smartrss
 
+import com.khaki.api.apiClientModule
+import com.khaki.api.platformClientEngineModule
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
 
 fun initKoin() {
     startKoin {
-        module {
-
-        }
+        modules(
+            platformClientEngineModule,
+            apiClientModule,
+        )
     }
 }
