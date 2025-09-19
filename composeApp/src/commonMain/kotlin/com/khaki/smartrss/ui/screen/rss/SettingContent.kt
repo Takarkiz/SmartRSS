@@ -50,7 +50,12 @@ internal fun RssContent(
 
         LazyVerticalStaggeredGrid(
             columns = columns,
-            contentPadding = PaddingValues(12.dp),
+            contentPadding = PaddingValues(
+                top = 12.dp,
+                start = 12.dp,
+                end = 12.dp,
+                bottom = 48.dp
+            ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalItemSpacing = 16.dp,
             modifier = Modifier // Modifier is applied to BoxWithConstraints, this fills the box
