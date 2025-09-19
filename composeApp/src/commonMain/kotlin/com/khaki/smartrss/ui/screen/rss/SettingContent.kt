@@ -9,13 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.khaki.smartrss.ui.screen.rss.composable.RSSAdditionalFormContent
 import com.khaki.smartrss.ui.screen.rss.composable.RegisteredRssGroupCard
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
@@ -23,9 +29,9 @@ import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroupPreviewParameter
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun RssContent(
-    onClickAddItem: (RegisterableRssGroup) -> Unit,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,6 +45,8 @@ internal fun RssContent(
         // サンプル用のデータを用意
         val sampleRegisteredRssList =
             remember { RegisteredRssGroupPreviewParameterProvider().values.toList() }
+
+        var selectedGroup: RegisterableRssGroup? by remember { mutableStateOf(null) }
 
         LazyVerticalStaggeredGrid(
             columns = columns,
@@ -74,11 +82,24 @@ internal fun RssContent(
                     targetGroup = RegisterableRssGroup.entries[index],
                     registeredRss = sampleRegisteredRssList,
                     onClickAddButton = {
-                        onClickAddItem(it)
+                        selectedGroup = it
                     },
                     onClickGroupItem = {
                         onClickRssItem(it)
                     }
+                )
+            }
+        }
+
+        if (selectedGroup != null) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    selectedGroup = null
+                },
+            ) {
+                RSSAdditionalFormContent(
+                    target = selectedGroup!!,
+                    inputForms = listOf()
                 )
             }
         }
@@ -91,7 +112,6 @@ fun RssContentPreview_Normal() {
     SmartRssTheme {
         Surface {
             RssContent(
-                onClickAddItem = {},
                 onClickRssItem = {},
             )
         }

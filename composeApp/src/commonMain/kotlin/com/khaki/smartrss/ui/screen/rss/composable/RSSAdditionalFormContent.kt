@@ -88,23 +88,33 @@ internal fun RSSAdditionalFormContent(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            inputForms.forEachIndexed { index, item ->
-                RssInputForm(
-                    model = item,
-                    isExpanded = (index == expandedFormIndex),
-                    inputValue = inputValue,
-                    onClick = {
-                        if (index == expandedFormIndex) {
-                            expandedFormIndex = -1
-                        } else {
-                            expandedFormIndex = index
-                            inputValue = ""
-                        }
-                    },
-                    onValueChange = { value ->
-                        inputValue = value
-                    }
+            if (inputForms.isEmpty()) {
+
+                Text(
+                    text = "これ以上RSSを追加することができません",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                 )
+            } else {
+
+                inputForms.forEachIndexed { index, item ->
+                    RssInputForm(
+                        model = item,
+                        isExpanded = (index == expandedFormIndex),
+                        inputValue = inputValue,
+                        onClick = {
+                            if (index == expandedFormIndex) {
+                                expandedFormIndex = -1
+                            } else {
+                                expandedFormIndex = index
+                                inputValue = ""
+                            }
+                        },
+                        onValueChange = { value ->
+                            inputValue = value
+                        }
+                    )
+                }
             }
         }
 
@@ -128,6 +138,17 @@ private fun RSSAdditionalFormContentPreview() {
         RSSAdditionalFormContent(
             target = RegisterableRssGroup.Qiita,
             inputForms = RssInputFormTypePreviewParameterProvider().values.toList()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RSSAdditionalFormContentPreview_Empty() {
+    SmartRssTheme {
+        RSSAdditionalFormContent(
+            target = RegisterableRssGroup.Qiita,
+            inputForms = emptyList(),
         )
     }
 }

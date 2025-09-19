@@ -88,9 +88,6 @@ fun MainScreen() {
 
             AppTabs.RSS -> {
                 RssContent(
-                    onClickAddItem = {
-                        // TODO: Implement action
-                    },
                     onClickRssItem = {
                         // TODO: Implement action
                     },
