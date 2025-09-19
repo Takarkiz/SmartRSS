@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.setting.model
+package com.khaki.smartrss.ui.screen.rss.model
 
 import org.jetbrains.compose.resources.DrawableResource
 import smartrss.composeapp.generated.resources.Res

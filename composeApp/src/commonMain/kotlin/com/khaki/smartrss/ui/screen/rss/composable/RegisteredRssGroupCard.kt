@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.setting.composable
+package com.khaki.smartrss.ui.screen.rss.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,9 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup
-import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroup
-import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroupPreviewParameterProvider
+import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
+import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
+import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroupPreviewParameterProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

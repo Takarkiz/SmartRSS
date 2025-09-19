@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.khaki.smartrss.ui.screen.recomend.RecommendContent
 import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
-import com.khaki.smartrss.ui.screen.setting.RssContent
+import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
