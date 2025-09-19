@@ -63,6 +63,7 @@ fun RssInputForm(
             Icon(
                 imageVector = model.iconImageVector,
                 contentDescription = model.title,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(24.dp),
             )
@@ -102,6 +103,8 @@ fun RssInputForm(
                         }
                     )
                 },
+                singleLine = true,
+                textStyle = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp) // Add some padding when expanded

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,10 +25,9 @@ import androidx.compose.ui.unit.dp
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormType
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormTypePreviewParameterProvider
+import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import smartrss.composeapp.generated.resources.Res
-import smartrss.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 internal fun RSSAdditionalFormContent(
@@ -35,28 +35,6 @@ internal fun RSSAdditionalFormContent(
     inputForms: List<RssInputFormType>,
     modifier: Modifier = Modifier,
 ) {
-
-    when (target) {
-        RegisterableRssGroup.Qiita -> {
-            // Qiita用の追加フォームコンテンツをここに追加
-        }
-
-        RegisterableRssGroup.Zenn -> {
-            // Zenn用の追加フォームコンテンツをここに追加
-        }
-
-        RegisterableRssGroup.HatenaBlog -> {
-            // はてなブログ用の追加フォームコンテンツをここに追加
-        }
-
-        RegisterableRssGroup.Github -> {
-            // GitHubリリースノート用の追加フォームコンテンツをここに追加
-        }
-
-        RegisterableRssGroup.Others -> {
-            // カスタムRSS用の追加フォームコンテンツをここに追加
-        }
-    }
 
     Column(
         modifier = modifier
@@ -68,13 +46,16 @@ internal fun RSSAdditionalFormContent(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
+        var expandedFormIndex: Int by remember { mutableIntStateOf(-1) }
+        var inputValue: String by remember { mutableStateOf("") }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Image(
-                painter = painterResource(Res.drawable.compose_multiplatform),
+                painter = painterResource(target.iconRes),
                 contentDescription = null,
                 modifier = Modifier
                     .size(36.dp)
@@ -103,11 +84,9 @@ internal fun RSSAdditionalFormContent(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
-            var expandedFormIndex: Int by remember { mutableIntStateOf(-1) }
-            var inputValue: String by remember { mutableStateOf("") }
 
             inputForms.forEachIndexed { index, item ->
                 RssInputForm(
@@ -128,14 +107,27 @@ internal fun RSSAdditionalFormContent(
                 )
             }
         }
+
+        Button(
+            onClick = {
+
+            },
+            enabled = inputValue.isNotBlank(),
+            modifier = Modifier
+                .align(Alignment.End)
+        ) {
+            Text(text = "追加する")
+        }
     }
 }
 
 @Preview
 @Composable
 private fun RSSAdditionalFormContentPreview() {
-    RSSAdditionalFormContent(
-        target = RegisterableRssGroup.Qiita,
-        inputForms = RssInputFormTypePreviewParameterProvider().values.toList()
-    )
+    SmartRssTheme {
+        RSSAdditionalFormContent(
+            target = RegisterableRssGroup.Qiita,
+            inputForms = RssInputFormTypePreviewParameterProvider().values.toList()
+        )
+    }
 }
