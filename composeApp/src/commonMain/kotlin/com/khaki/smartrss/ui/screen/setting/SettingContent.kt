@@ -24,7 +24,7 @@ import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun SettingContent(
+internal fun RssContent(
     onClickAddItem: (RegisterableRssGroup) -> Unit,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
@@ -87,10 +87,10 @@ internal fun SettingContent(
 
 @Preview
 @Composable
-fun SettingContentPreview_Normal() {
+fun RssContentPreview_Normal() {
     SmartRssTheme {
         Surface {
-            SettingContent(
+            RssContent(
                 onClickAddItem = {},
                 onClickRssItem = {},
             )
