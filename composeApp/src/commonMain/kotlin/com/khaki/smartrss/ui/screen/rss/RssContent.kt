@@ -96,14 +96,14 @@ internal fun RssContent(
             }
         }
 
-        if (selectedGroup != null) {
+        selectedGroup?.let { group ->
             ModalBottomSheet(
                 onDismissRequest = {
                     selectedGroup = null
                 },
             ) {
                 RSSAdditionalFormContent(
-                    target = selectedGroup!!,
+                    target = group,
                     inputForms = listOf()
                 )
             }
