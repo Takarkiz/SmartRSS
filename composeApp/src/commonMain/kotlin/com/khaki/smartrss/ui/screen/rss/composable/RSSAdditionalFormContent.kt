@@ -73,7 +73,7 @@ internal fun RSSAdditionalFormContent(
                 )
 
                 Text(
-                    text = "技術記事共有サイト",
+                    text = target.description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                 )
