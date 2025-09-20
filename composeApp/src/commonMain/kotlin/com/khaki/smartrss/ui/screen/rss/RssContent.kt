@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.setting
+package com.khaki.smartrss.ui.screen.rss
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,23 +9,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.khaki.smartrss.ui.screen.setting.composable.RegisteredRssGroupCard
-import com.khaki.smartrss.ui.screen.setting.model.RegisterableRssGroup
-import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroup
-import com.khaki.smartrss.ui.screen.setting.model.RegisteredRssGroupPreviewParameterProvider
+import com.khaki.smartrss.ui.screen.rss.composable.RSSAdditionalFormContent
+import com.khaki.smartrss.ui.screen.rss.composable.RegisteredRssGroupCard
+import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
+import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingContent(
-    onClickAddItem: (RegisterableRssGroup) -> Unit,
+internal fun RssContent(
+    uiState: RssUiState,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -36,13 +43,16 @@ internal fun SettingContent(
             StaggeredGridCells.Fixed(2)
         }
 
-        // サンプル用のデータを用意
-        val sampleRegisteredRssList =
-            remember { RegisteredRssGroupPreviewParameterProvider().values.toList() }
+        var selectedGroup: RegisterableRssGroup? by remember { mutableStateOf(null) }
 
         LazyVerticalStaggeredGrid(
             columns = columns,
-            contentPadding = PaddingValues(12.dp),
+            contentPadding = PaddingValues(
+                top = 12.dp,
+                start = 12.dp,
+                end = 12.dp,
+                bottom = 48.dp
+            ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalItemSpacing = 16.dp,
             modifier = Modifier // Modifier is applied to BoxWithConstraints, this fills the box
@@ -69,16 +79,29 @@ internal fun SettingContent(
                 count = RegisterableRssGroup.entries.size,
                 key = { index -> RegisterableRssGroup.entries[index].name }
             ) { index ->
+                val group = RegisterableRssGroup.entries[index]
                 RegisteredRssGroupCard(
-                    // Use a defined value from the placeholder enum RegisterableRssGroup
-                    targetGroup = RegisterableRssGroup.entries[index],
-                    registeredRss = sampleRegisteredRssList,
+                    targetGroup = group,
+                    registeredRss = uiState.registeredRssGroupList[group] ?: emptyList(),
                     onClickAddButton = {
-                        onClickAddItem(it)
+                        selectedGroup = it
                     },
                     onClickGroupItem = {
                         onClickRssItem(it)
                     }
+                )
+            }
+        }
+
+        selectedGroup?.let { group ->
+            ModalBottomSheet(
+                onDismissRequest = {
+                    selectedGroup = null
+                },
+            ) {
+                RSSAdditionalFormContent(
+                    target = group,
+                    inputForms = uiState.registerableRssFormat[group] ?: emptyList(),
                 )
             }
         }
@@ -87,11 +110,13 @@ internal fun SettingContent(
 
 @Preview
 @Composable
-fun SettingContentPreview_Normal() {
+fun RssContentPreview_Normal(
+    @PreviewParameter(RssUiStatePreviewParameterProvider::class) uiState: RssUiState
+) {
     SmartRssTheme {
         Surface {
-            SettingContent(
-                onClickAddItem = {},
+            RssContent(
+                uiState = uiState,
                 onClickRssItem = {},
             )
         }

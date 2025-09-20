@@ -1,11 +1,10 @@
-package com.khaki.smartrss.ui.screen.setting.model
+package com.khaki.smartrss.ui.screen.rss.model
 
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 
-internal data class RegisteredRssGroup(
+data class RegisteredRssGroup(
     val id: String,
     val name: String,
-    val description: String,
     val url: String,
     val type: RegisterableRssGroup,
     val isEnable: Boolean,
@@ -19,7 +18,6 @@ internal class RegisteredRssGroupPreviewParameterProvider :
             RegisteredRssGroup(
                 id = "1",
                 name = "Takarkiz の投稿 - Qiita",
-                description = "Latest news and articles about technology and software development.",
                 url = "https://example.com/techbloga",
                 type = RegisterableRssGroup.Qiita,
                 isEnable = true,
@@ -28,7 +26,6 @@ internal class RegisteredRssGroupPreviewParameterProvider :
             RegisteredRssGroup(
                 id = "2",
                 name = "人気の投稿 - Qiita",
-                description = "General news from around the world.",
                 url = "https://example.com/newssiteb",
                 type = RegisterableRssGroup.Zenn,
                 isEnable = false,
@@ -37,7 +34,6 @@ internal class RegisteredRssGroupPreviewParameterProvider :
             RegisteredRssGroup(
                 id = "3",
                 name = "Compose Framework Docs",
-                description = "Official documentation for the Jetpack Compose framework.",
                 url = "https://developer.android.com/jetpack/compose",
                 type = RegisterableRssGroup.Others,
                 isEnable = true,
