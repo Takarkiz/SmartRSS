@@ -25,13 +25,14 @@ import com.khaki.smartrss.ui.screen.rss.composable.RSSAdditionalFormContent
 import com.khaki.smartrss.ui.screen.rss.composable.RegisteredRssGroupCard
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
-import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroupPreviewParameterProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun RssContent(
+    uiState: RssUiState,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -41,10 +42,6 @@ internal fun RssContent(
         } else {
             StaggeredGridCells.Fixed(2)
         }
-
-        // サンプル用のデータを用意
-        val sampleRegisteredRssList =
-            remember { RegisteredRssGroupPreviewParameterProvider().values.toList() }
 
         var selectedGroup: RegisterableRssGroup? by remember { mutableStateOf(null) }
 
@@ -82,10 +79,10 @@ internal fun RssContent(
                 count = RegisterableRssGroup.entries.size,
                 key = { index -> RegisterableRssGroup.entries[index].name }
             ) { index ->
+                val group = RegisterableRssGroup.entries[index]
                 RegisteredRssGroupCard(
-                    // Use a defined value from the placeholder enum RegisterableRssGroup
-                    targetGroup = RegisterableRssGroup.entries[index],
-                    registeredRss = sampleRegisteredRssList,
+                    targetGroup = group,
+                    registeredRss = uiState.registeredRssGroupList[group] ?: emptyList(),
                     onClickAddButton = {
                         selectedGroup = it
                     },
@@ -104,7 +101,7 @@ internal fun RssContent(
             ) {
                 RSSAdditionalFormContent(
                     target = group,
-                    inputForms = listOf()
+                    inputForms = uiState.registerableRssFormat[group] ?: emptyList(),
                 )
             }
         }
@@ -113,10 +110,13 @@ internal fun RssContent(
 
 @Preview
 @Composable
-fun RssContentPreview_Normal() {
+fun RssContentPreview_Normal(
+    @PreviewParameter(RssUiStatePreviewParameterProvider::class) uiState: RssUiState
+) {
     SmartRssTheme {
         Surface {
             RssContent(
+                uiState = uiState,
                 onClickRssItem = {},
             )
         }

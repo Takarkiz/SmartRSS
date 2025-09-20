@@ -2,7 +2,7 @@ package com.khaki.smartrss.ui.screen.rss.model
 
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 
-internal data class RegisteredRssGroup(
+data class RegisteredRssGroup(
     val id: String,
     val name: String,
     val url: String,

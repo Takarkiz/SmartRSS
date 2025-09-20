@@ -8,7 +8,7 @@ import smartrss.composeapp.generated.resources.favicon_qiita
 import smartrss.composeapp.generated.resources.favicon_rss
 import smartrss.composeapp.generated.resources.favicon_zenn
 
-internal enum class RegisterableRssGroup(
+enum class RegisterableRssGroup(
     val displayName: String,
     val description: String,
     val iconRes: DrawableResource,
