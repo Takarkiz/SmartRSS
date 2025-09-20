@@ -20,7 +20,7 @@ enum class RegisterableRssGroup(
         iconRes = Res.drawable.favicon_qiita,
     ),
     Zenn(
-        "Zenn",
+        displayName = "Zenn",
         description = "以下の方法でZennの新着記事を取得します",
         iconRes = Res.drawable.favicon_zenn
     ),
