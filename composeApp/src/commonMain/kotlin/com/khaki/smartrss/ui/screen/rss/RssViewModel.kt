@@ -6,11 +6,13 @@ import com.khaki.modules.core.model.feed.FormType
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormType
+import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RssViewModel(
@@ -29,6 +31,34 @@ class RssViewModel(
             started = SharingStarted.Eagerly,
             initialValue = RssViewModelState().toUiState()
         )
+
+    init {
+        viewModelState.update { viewModelState ->
+            viewModelState.copy(
+                registerableRssFormat = mapOf(
+                    RegisterableRssGroup.Qiita to listOf(
+                        RssInputFormType.USER,
+                        RssInputFormType.TAG,
+                        RssInputFormType.POPULAR
+                    ),
+                    RegisterableRssGroup.Zenn to listOf(
+                        RssInputFormType.USER,
+                        RssInputFormType.TAG,
+                        RssInputFormType.POPULAR
+                    ),
+                    RegisterableRssGroup.HatenaBlog to listOf(
+                        RssInputFormType.USER
+                    ),
+                    RegisterableRssGroup.Github to listOf(
+                        RssInputFormType.USER,
+                    ),
+                    RegisterableRssGroup.Others to listOf(
+                        RssInputFormType.URL
+                    )
+                )
+            )
+        }
+    }
 
     fun appendRssFeed(group: RegisterableRssGroup, form: FormType) {
 

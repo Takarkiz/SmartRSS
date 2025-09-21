@@ -57,6 +57,7 @@ kotlin {
             implementation(project(":modules:Api"))
             implementation(project(":modules:core:model"))
             implementation(project(":modules:core:Repository"))
+            implementation(project(":modules:RepositoryImpl"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
