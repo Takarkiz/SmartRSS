@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
@@ -5,6 +7,8 @@ plugins {
 }
 
 kotlin {
+    // Use Java 21 for JVM targets
+    jvmToolchain(21)
 
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
@@ -21,6 +25,13 @@ kotlin {
             sourceSetTreeName = "test"
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+    }
+
+    // Add JVM target for desktop and other JVM consumers
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
