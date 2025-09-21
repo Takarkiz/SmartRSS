@@ -40,7 +40,7 @@ fun MainScreen() {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = currentTab.title, // Update title based on current tab
+                        text = currentTab.title,
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -48,7 +48,7 @@ fun MainScreen() {
         },
         bottomBar = {
             NavigationBar {
-                AppTabs.entries.forEach { tab -> // Removed Indexed as index is not used
+                AppTabs.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTab == tab,
                         onClick = {
@@ -89,11 +89,14 @@ fun MainScreen() {
 
             AppTabs.RSS -> {
                 RssContent(
+                    // TODO: サンプルの値を入れる
+                    uiState = RssUiStatePreviewParameterProvider().values.first(),
                     onClickRssItem = {
                         // TODO: Implement action
                     },
-                    // TODO: サンプルの値を入れる
-                    uiState = RssUiStatePreviewParameterProvider().values.first(),
+                    onConfirmItem = { _, _ ->
+
+                    },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
