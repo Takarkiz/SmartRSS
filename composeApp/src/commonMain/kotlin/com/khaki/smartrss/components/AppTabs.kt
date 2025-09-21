@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class AppTabs(val title: String, val icon: ImageVector) {
     Recommended("おすすめ", Icons.Default.SmartToy),
-    All("すべて", Icons.AutoMirrored.Filled.Feed),
+    AllFeeds("すべて", Icons.AutoMirrored.Filled.Feed),
     Bookmarks("後で見る", Icons.Default.Bookmark),
     RSS("RSS", Icons.Default.RssFeed)
 }

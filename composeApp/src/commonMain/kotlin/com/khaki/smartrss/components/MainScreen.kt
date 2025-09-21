@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
+import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.recomend.RecommendContent
 import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
 import com.khaki.smartrss.ui.screen.rss.RssContent
@@ -79,12 +81,12 @@ fun MainScreen() {
                 )
             }
 
-            AppTabs.All -> {
-
+            AppTabs.AllFeeds -> {
+                AllFeedsContent()
             }
 
             AppTabs.Bookmarks -> {
-
+                BookmarkFeedsContent()
             }
 
             AppTabs.RSS -> {
