@@ -24,6 +24,8 @@ ktor = "3.3.0"
 koin = "4.1.1"
 xml-utils = "0.91.2"
 kotlinx-serialization = "1.9.0"
+room = "2.7.0"
+sqlite = "2.5.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -66,6 +68,11 @@ xmlutils-core = { group = "io.github.pdvrieze.xmlutil", name = "core", version.r
 xmlutils-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "xml-utils" }
 kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Room (KMP)
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 [bundles]
 ktor-core-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]
