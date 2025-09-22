@@ -68,7 +68,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                // Room KMP dependencies
+                // Room KMP dependencies (既に存在)
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
             }
