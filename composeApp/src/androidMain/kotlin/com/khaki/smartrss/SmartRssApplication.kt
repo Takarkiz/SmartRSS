@@ -8,6 +8,8 @@ class SmartRssApplication : Application() {
         super.onCreate()
 
         // Koinの初期化
-        initKoin()
+        initKoin(
+            appDeclaration = { applicationContext }
+        )
     }
 }

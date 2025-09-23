@@ -8,11 +8,10 @@ import androidx.room.PrimaryKey
 data class RssCategoryEntity(
     @PrimaryKey val id: String,
     @ColumnInfo(name = "category_name") val name: String,
-    @ColumnInfo(name = "rss_feed_id") val rssFeedId: String,
+    val description: String?,
     val following: Boolean = true,
     val url: String,
     val type: RSSGroupType,
-    val orderType: RssCategoryOrderType,
 )
 
 enum class RSSGroupType {
@@ -21,11 +20,4 @@ enum class RSSGroupType {
     HatenaBlog,
     Github,
     Others;
-}
-
-enum class RssCategoryOrderType {
-    UserId,
-    Tag,
-    Popular,
-    URL;
 }

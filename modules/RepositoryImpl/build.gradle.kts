@@ -68,6 +68,7 @@ kotlin {
                 implementation(project(":modules:Api"))
                 implementation(project(":modules:core:model"))
                 implementation(project(":modules:core:Repository"))
+                implementation(project(":modules:Room"))
 
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.kotlinx.datetime)

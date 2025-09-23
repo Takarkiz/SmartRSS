@@ -71,6 +71,8 @@ kotlin {
                 // Room KMP dependencies (既に存在)
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
+
+                implementation(libs.koin.core)
             }
         }
 
