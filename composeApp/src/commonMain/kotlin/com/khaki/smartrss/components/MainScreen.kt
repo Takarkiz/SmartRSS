@@ -12,18 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
+import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.recomend.RecommendContent
 import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
 import com.khaki.smartrss.ui.screen.rss.RssContent
-import com.khaki.smartrss.ui.screen.rss.RssUiStatePreviewParameterProvider
+import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +44,7 @@ fun MainScreen() {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = currentTab.title, // Update title based on current tab
+                        text = currentTab.title,
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -48,7 +52,7 @@ fun MainScreen() {
         },
         bottomBar = {
             NavigationBar {
-                AppTabs.entries.forEach { tab -> // Removed Indexed as index is not used
+                AppTabs.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTab == tab,
                         onClick = {
@@ -79,21 +83,26 @@ fun MainScreen() {
                 )
             }
 
-            AppTabs.All -> {
-
+            AppTabs.AllFeeds -> {
+                AllFeedsContent()
             }
 
             AppTabs.Bookmarks -> {
-
+                BookmarkFeedsContent()
             }
 
             AppTabs.RSS -> {
+                val rssViewModel = koinInject<RssViewModel>()
+                val uiState by rssViewModel.uiState.collectAsState()
+
                 RssContent(
+                    uiState = uiState,
                     onClickRssItem = {
-                        // TODO: Implement action
+                        // TODO: Implement item click action when navigating to a feed list/detail
                     },
-                    // TODO: サンプルの値を入れる
-                    uiState = RssUiStatePreviewParameterProvider().values.first(),
+                    onConfirmItem = { group, form ->
+                        rssViewModel.appendRssFeed(group, form)
+                    },
                     modifier = Modifier.padding(innerPadding)
                 )
             }

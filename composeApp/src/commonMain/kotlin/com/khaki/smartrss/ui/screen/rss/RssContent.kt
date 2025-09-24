@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.khaki.modules.core.model.feed.FormType
 import com.khaki.smartrss.ui.screen.rss.composable.RSSAdditionalFormContent
 import com.khaki.smartrss.ui.screen.rss.composable.RegisteredRssGroupCard
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
@@ -34,6 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 internal fun RssContent(
     uiState: RssUiState,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
+    onConfirmItem: (RegisterableRssGroup, FormType) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
@@ -102,6 +104,9 @@ internal fun RssContent(
                 RSSAdditionalFormContent(
                     target = group,
                     inputForms = uiState.registerableRssFormat[group] ?: emptyList(),
+                    onClickAddConfirm = { group, formType ->
+                        onConfirmItem(group, formType)
+                    }
                 )
             }
         }
@@ -118,6 +123,7 @@ fun RssContentPreview_Normal(
             RssContent(
                 uiState = uiState,
                 onClickRssItem = {},
+                onConfirmItem = { _, _ -> },
             )
         }
     }

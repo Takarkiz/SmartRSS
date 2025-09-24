@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -22,6 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.khaki.modules.core.model.feed.FormType
+import com.khaki.modules.core.model.feed.Popular
+import com.khaki.modules.core.model.feed.Tag
+import com.khaki.modules.core.model.feed.URL
+import com.khaki.modules.core.model.feed.UserId
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormType
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormTypePreviewParameterProvider
@@ -33,6 +40,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun RSSAdditionalFormContent(
     target: RegisterableRssGroup,
     inputForms: List<RssInputFormType>,
+    onClickAddConfirm: (RegisterableRssGroup, FormType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -103,11 +111,11 @@ internal fun RSSAdditionalFormContent(
                         isExpanded = (index == expandedFormIndex),
                         inputValue = inputValue,
                         onClick = {
-                            if (index == expandedFormIndex) {
-                                expandedFormIndex = -1
+                            inputValue = ""
+                            expandedFormIndex = if (index == expandedFormIndex) {
+                                -1
                             } else {
-                                expandedFormIndex = index
-                                inputValue = ""
+                                index
                             }
                         },
                         onValueChange = { value ->
@@ -120,7 +128,14 @@ internal fun RSSAdditionalFormContent(
 
         Button(
             onClick = {
-
+                val formType = when (inputForms.getOrNull(expandedFormIndex)) {
+                    RssInputFormType.USER -> UserId.of(inputValue)
+                    RssInputFormType.TAG -> Tag.of(inputValue)
+                    RssInputFormType.URL -> URL.of(inputValue)
+                    RssInputFormType.POPULAR -> Popular
+                    null -> throw IllegalArgumentException("invalid form type")
+                }
+                onClickAddConfirm(target, formType)
             },
             enabled = inputValue.isNotBlank(),
             modifier = Modifier
@@ -128,6 +143,11 @@ internal fun RSSAdditionalFormContent(
         ) {
             Text(text = "追加する")
         }
+
+        Spacer(
+            modifier = Modifier
+                .height(32.dp)
+        )
     }
 }
 
@@ -137,7 +157,8 @@ private fun RSSAdditionalFormContentPreview() {
     SmartRssTheme {
         RSSAdditionalFormContent(
             target = RegisterableRssGroup.Qiita,
-            inputForms = RssInputFormTypePreviewParameterProvider().values.toList()
+            inputForms = RssInputFormTypePreviewParameterProvider().values.toList(),
+            onClickAddConfirm = { _, _ -> },
         )
     }
 }
@@ -149,6 +170,7 @@ private fun RSSAdditionalFormContentPreview_Empty() {
         RSSAdditionalFormContent(
             target = RegisterableRssGroup.Qiita,
             inputForms = emptyList(),
+            onClickAddConfirm = { _, _ -> },
         )
     }
 }

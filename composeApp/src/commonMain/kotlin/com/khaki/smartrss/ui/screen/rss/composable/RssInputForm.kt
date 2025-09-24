@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -80,35 +81,86 @@ fun RssInputForm(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            OutlinedTextField(
-                value = inputValue,
-                onValueChange = {
-                    onValueChange(it)
-                },
-                label = {
+
+            if (model == RssInputFormType.POPULAR) {
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+
+                    val isChecked = inputValue.toBooleanStrictOrNull() ?: false
+
                     Text(
-                        text = when (model) {
-                            RssInputFormType.TAG -> "タグ名"
-                            RssInputFormType.USER -> "ユーザー名"
-                            RssInputFormType.URL -> "RSSフィードのURL"
-                        }
+                        text = "人気記事は特定のユーザーやタグに依存しない、全体の人気記事を表示します。購読する場合はチェックを入れて追加をしてください。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
                     )
-                },
-                placeholder = {
-                    Text(
-                        text = when (model) {
-                            RssInputFormType.TAG -> "例: kotlin"
-                            RssInputFormType.USER -> "例: JetBrains"
-                            RssInputFormType.URL -> "例: https://example.com/rss"
-                        }
-                    )
-                },
-                singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp) // Add some padding when expanded
-            )
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(
+                                onClick = {
+                                    onValueChange(if (!isChecked) "true" else "")
+                                },
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = ripple()
+                            )
+                    ) {
+
+                        Checkbox(
+                            checked = isChecked,
+                            onCheckedChange = { checked ->
+                                onValueChange(if (checked) "true" else "")
+                            },
+                        )
+
+                        Text(
+                            text = "人気記事を購読する",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+
+                }
+            } else {
+
+                OutlinedTextField(
+                    value = inputValue,
+                    onValueChange = {
+                        onValueChange(it)
+                    },
+                    label = {
+                        Text(
+                            text = when (model) {
+                                RssInputFormType.POPULAR -> "人気記事"
+                                RssInputFormType.TAG -> "タグ名"
+                                RssInputFormType.USER -> "ユーザー名"
+                                RssInputFormType.URL -> "RSSフィードのURL"
+                            }
+                        )
+                    },
+                    placeholder = {
+                        Text(
+                            text = when (model) {
+                                RssInputFormType.POPULAR -> "人気記事"
+                                RssInputFormType.TAG -> "例: kotlin"
+                                RssInputFormType.USER -> "例: JetBrains"
+                                RssInputFormType.URL -> "例: https://example.com/rss"
+                            }
+                        )
+                    },
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp)
+                )
+            }
         }
     }
 }
@@ -135,6 +187,22 @@ private fun RssInputFormPreview_Expanded() {
     SmartRssTheme {
         RssInputForm(
             model = RssInputFormType.TAG,
+            isExpanded = true,
+            inputValue = "https://example.com/rss",
+            onClick = {},
+            onValueChange = {},
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+        )
+    }
+}
+
+@Preview()
+@Composable
+private fun RssInputFormPreview_Expanded_Papular() {
+    SmartRssTheme {
+        RssInputForm(
+            model = RssInputFormType.POPULAR,
             isExpanded = true,
             inputValue = "https://example.com/rss",
             onClick = {},

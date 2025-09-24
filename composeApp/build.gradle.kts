@@ -10,8 +10,12 @@ plugins {
 }
 
 kotlin {
+    // Use Java 21 for JVM targets
+    jvmToolchain(21)
+
     androidTarget {
         compilerOptions {
+            // Keep Android at 11 to match toolchain while Desktop uses 21
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
@@ -26,12 +30,17 @@ kotlin {
         }
     }
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+        }
+    }
 
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
 
@@ -46,7 +55,13 @@ kotlin {
             implementation(compose.materialIconsExtended)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
             implementation(project(":modules:Api"))
+            implementation(project(":modules:core:model"))
+            implementation(project(":modules:core:Repository"))
+            implementation(project(":modules:RepositoryImpl"))
+            implementation(project(":modules:Room"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
