@@ -24,11 +24,11 @@ class RssUseCase(
      * QiitaのRSSフィードが有効であるかどうかを判断し、RSSフィードとして追加をする
      *
      * 1. QiitaのユーザーIDまたは組織IDが有効であるかを確認する
-     * 2. 有効であれば、QiitaのRSSフィードURLを生成し、Roomデータベースに追加する
-     * 3. 確認する際に取得したフィードは最新のフィードとして追加する
+     * 2. 確認する際に取得したフィードは最新のフィードとして追加する
+     * 3. 有効であれば、QiitaのRSSフィードURLを生成し、Roomデータベースに追加する
      */
     @OptIn(ExperimentalUuidApi::class)
-    suspend fun chackAndAddQiitaRssFeed(form: FormType): Result<Boolean, RssAppendingError> {
+    suspend fun checkAndAddQiitaRssFeed(form: FormType): Result<Boolean, RssAppendingError> {
         val rssFeed = try {
             when (form) {
                 is UserId -> {
@@ -54,6 +54,8 @@ class RssUseCase(
         if (rssFeed.items.isEmpty()) {
             return Result.Error(RssAppendingError.NotFoundFeed)
         }
+
+        // TODO: 取得したRSSフィードをRoomデータベースに追加する
 
         try {
             val hasDuplicate = rssCategoryRepository.doesUrlExist(rssFeed.link)

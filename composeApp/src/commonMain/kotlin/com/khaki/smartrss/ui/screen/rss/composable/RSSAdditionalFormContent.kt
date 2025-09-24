@@ -133,7 +133,7 @@ internal fun RSSAdditionalFormContent(
                     RssInputFormType.TAG -> Tag.of(inputValue)
                     RssInputFormType.URL -> URL.of(inputValue)
                     RssInputFormType.POPULAR -> Popular
-                    null -> TODO()
+                    null -> throw IllegalArgumentException("invalid form type")
                 }
                 onClickAddConfirm(target, formType)
             },

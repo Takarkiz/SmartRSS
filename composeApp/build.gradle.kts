@@ -55,6 +55,8 @@ kotlin {
             implementation(compose.materialIconsExtended)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
             implementation(project(":modules:Api"))
             implementation(project(":modules:core:model"))
             implementation(project(":modules:core:Repository"))

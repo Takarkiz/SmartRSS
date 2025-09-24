@@ -46,9 +46,14 @@ value class URL(
 
     companion object {
 
-        fun of(rawValue: String) = URL(
-            value = rawValue.trim()
-        )
+        fun of(rawValue: String): URL {
+            val url = rawValue.trim()
+            return if (url.isNotEmpty() && URL(url).isValidUrl()) {
+                URL(url)
+            } else {
+                throw IllegalArgumentException("Invalid URL format: $rawValue")
+            }
+        }
     }
 
     private fun isValidUrl(): Boolean {

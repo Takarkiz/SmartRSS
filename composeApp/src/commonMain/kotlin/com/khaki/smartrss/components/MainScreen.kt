@@ -12,11 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
@@ -27,8 +27,7 @@ import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,8 +92,7 @@ fun MainScreen() {
             }
 
             AppTabs.RSS -> {
-                // Generate RssViewModel via Koin DI just before RssContent
-                val rssViewModel = remember { object : KoinComponent {}.get<RssViewModel>() }
+                val rssViewModel = koinInject<RssViewModel>()
                 val uiState by rssViewModel.uiState.collectAsState()
 
                 RssContent(

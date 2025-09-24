@@ -21,10 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -91,7 +88,7 @@ fun RssInputForm(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
 
-                    var checkState by remember { mutableStateOf(false) }
+                    val isChecked = inputValue.toBooleanStrictOrNull() ?: false
 
                     Text(
                         text = "人気記事は特定のユーザーやタグに依存しない、全体の人気記事を表示します。購読する場合はチェックを入れて追加をしてください。",
@@ -108,8 +105,7 @@ fun RssInputForm(
                             .fillMaxWidth()
                             .clickable(
                                 onClick = {
-                                    checkState = !checkState
-                                    onValueChange(if (checkState) "true" else "")
+                                    onValueChange(if (!isChecked) "true" else "")
                                 },
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = ripple()
@@ -117,10 +113,9 @@ fun RssInputForm(
                     ) {
 
                         Checkbox(
-                            checked = checkState,
-                            onCheckedChange = {
-                                checkState = !checkState
-                                onValueChange(if (checkState) "true" else "")
+                            checked = isChecked,
+                            onCheckedChange = { checked ->
+                                onValueChange(if (checked) "true" else "")
                             },
                         )
 
@@ -192,6 +187,22 @@ private fun RssInputFormPreview_Expanded() {
     SmartRssTheme {
         RssInputForm(
             model = RssInputFormType.TAG,
+            isExpanded = true,
+            inputValue = "https://example.com/rss",
+            onClick = {},
+            onValueChange = {},
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+        )
+    }
+}
+
+@Preview()
+@Composable
+private fun RssInputFormPreview_Expanded_Papular() {
+    SmartRssTheme {
+        RssInputForm(
+            model = RssInputFormType.POPULAR,
             isExpanded = true,
             inputValue = "https://example.com/rss",
             onClick = {},

@@ -65,7 +65,7 @@ class RssViewModel(
         viewModelScope.launch {
             when (group) {
                 RegisterableRssGroup.Qiita -> {
-                    rssUseCase.chackAndAddQiitaRssFeed(form)
+                    rssUseCase.checkAndAddQiitaRssFeed(form)
                 }
 
                 RegisterableRssGroup.Zenn -> {
