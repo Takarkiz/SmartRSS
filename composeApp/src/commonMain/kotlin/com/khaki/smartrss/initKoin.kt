@@ -17,9 +17,9 @@ fun initKoin(
         modules(
             platformClientEngineModule,
             apiClientModule,
-            appModule,
-            commonDatabaseModule(),
             platformDatabaseModule(),
+            commonDatabaseModule(),
+            appModule,
         )
     }
 }

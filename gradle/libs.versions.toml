@@ -24,8 +24,10 @@ ktor = "3.3.0"
 koin = "4.1.1"
 xml-utils = "0.91.2"
 kotlinx-serialization = "1.9.0"
-room = "2.7.0"
-sqlite = "2.5.0"
+room = "2.8.0"
+sqlite = "2.6.0"
+
+ksp = "2.2.10-2.0.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -72,6 +74,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # Room (KMP)
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 [bundles]
@@ -79,6 +82,8 @@ ktor-core-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor
 xmlutils = ["xmlutils-core", "xmlutils-serialization"]
 
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
