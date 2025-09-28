@@ -2,8 +2,10 @@ package com.khaki.smartrss.di
 
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
+import com.khaki.repository.RssFeedRepository
 import com.khaki.repositoryimpl.QiitaFeedRSSRepositoryImpl
 import com.khaki.repositoryimpl.RssCategoryRepositoryImpl
+import com.khaki.repositoryimpl.RssFeedRepositoryImpl
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
 import org.koin.core.module.dsl.factoryOf
@@ -16,6 +18,8 @@ val appModule = module {
     singleOf(::QiitaFeedRSSRepositoryImpl) bind QiitaFeedRSSRepository::class
 
     singleOf(::RssCategoryRepositoryImpl) bind RssCategoryRepository::class
+
+    singleOf(::RssFeedRepositoryImpl) bind RssFeedRepository::class
 
     // UseCase
     single {

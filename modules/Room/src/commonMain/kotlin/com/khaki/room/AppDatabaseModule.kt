@@ -7,6 +7,7 @@ import org.koin.dsl.module
 
 fun commonDatabaseModule(): Module = module {
     single<RssCategoryDao> { get<AppDatabase>().rssCategoryDao() }
+
     single<RssFeedDao> { get<AppDatabase>().rssFeedDao() }
 }
 
