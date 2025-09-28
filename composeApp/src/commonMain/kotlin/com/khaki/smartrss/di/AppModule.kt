@@ -26,6 +26,7 @@ val appModule = module {
         RssUseCase(
             qiitaFeedsRssRepository = get<QiitaFeedRSSRepository>(),
             rssCategoryRepository = get<RssCategoryRepository>(),
+            rssFeedRepository = get<RssFeedRepository>(),
         )
     }
 
