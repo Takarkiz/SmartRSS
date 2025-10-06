@@ -43,7 +43,7 @@ kotlin {
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
-
+            
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -56,6 +56,8 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+
+            implementation(libs.kotlinx.datetime)
 
             implementation(project(":modules:Api"))
             implementation(project(":modules:core:model"))

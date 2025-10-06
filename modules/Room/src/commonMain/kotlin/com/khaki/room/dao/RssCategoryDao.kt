@@ -38,6 +38,12 @@ interface RssCategoryDao {
     suspend fun doesUrlExist(url: String): Boolean
 
     /**
+     * 指定されたIDの RssCategoryEntity を返す
+     */
+    @Query("SELECT * FROM rsscategoryentity WHERE id = :id")
+    suspend fun getCategoryById(id: String): RssCategoryEntity?
+
+    /**
      * 新しい RssCategoryEntity を登録する
      */
     @Insert(onConflict = OnConflictStrategy.ABORT)

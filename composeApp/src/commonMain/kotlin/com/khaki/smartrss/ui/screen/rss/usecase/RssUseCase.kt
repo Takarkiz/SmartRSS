@@ -7,6 +7,7 @@ import com.khaki.modules.core.model.feed.Tag
 import com.khaki.modules.core.model.feed.UserId
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
+import com.khaki.repository.RssFeedRepository
 import com.khaki.smartrss.ui.Result
 import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
@@ -15,6 +16,7 @@ import kotlin.uuid.Uuid
 class RssUseCase(
     private val qiitaFeedsRssRepository: QiitaFeedRSSRepository,
     private val rssCategoryRepository: RssCategoryRepository,
+    private val rssFeedRepository: RssFeedRepository,
 ) {
 
     val followingCategories: Flow<List<RssCategory>> =
@@ -55,7 +57,11 @@ class RssUseCase(
             return Result.Error(RssAppendingError.NotFoundFeed)
         }
 
-        // TODO: 取得したRSSフィードをRoomデータベースに追加する
+        try {
+            rssFeedRepository.addFeeds(rssFeed.items)
+        } catch (_: Exception) {
+            // 追加に失敗しても、RSSフィードの追加自体は成功とする
+        }
 
         try {
             val hasDuplicate = rssCategoryRepository.doesUrlExist(rssFeed.link)
