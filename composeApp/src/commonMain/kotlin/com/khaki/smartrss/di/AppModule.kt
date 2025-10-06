@@ -3,9 +3,11 @@ package com.khaki.smartrss.di
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
 import com.khaki.repository.RssFeedRepository
+import com.khaki.repository.ZennFeedRSSRepository
 import com.khaki.repositoryimpl.QiitaFeedRSSRepositoryImpl
 import com.khaki.repositoryimpl.RssCategoryRepositoryImpl
 import com.khaki.repositoryimpl.RssFeedRepositoryImpl
+import com.khaki.repositoryimpl.ZennFeedRSSRepositoryImpl
 import com.khaki.smartrss.ui.screen.recomend.RecommendViewModel
 import com.khaki.smartrss.ui.screen.recomend.usecase.RecommendUseCase
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
@@ -19,6 +21,8 @@ val appModule = module {
     // Repository bindings
     singleOf(::QiitaFeedRSSRepositoryImpl) bind QiitaFeedRSSRepository::class
 
+    singleOf(::ZennFeedRSSRepositoryImpl) bind ZennFeedRSSRepository::class
+
     singleOf(::RssCategoryRepositoryImpl) bind RssCategoryRepository::class
 
     singleOf(::RssFeedRepositoryImpl) bind RssFeedRepository::class
@@ -27,6 +31,7 @@ val appModule = module {
     single {
         RssUseCase(
             qiitaFeedsRssRepository = get<QiitaFeedRSSRepository>(),
+            zennFeedsRssRepository = get<ZennFeedRSSRepository>(),
             rssCategoryRepository = get<RssCategoryRepository>(),
             rssFeedRepository = get<RssFeedRepository>(),
         )

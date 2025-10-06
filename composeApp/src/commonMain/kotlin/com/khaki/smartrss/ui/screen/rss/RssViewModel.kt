@@ -41,7 +41,7 @@ class RssViewModel(
                 }
 
                 RegisterableRssGroup.Zenn -> {
-                    // Zenn用のRSSフィード追加ロジックをここに実装
+                    rssUseCase.checkAndAddZennRssFeed(form)
                 }
 
                 RegisterableRssGroup.HatenaBlog -> {

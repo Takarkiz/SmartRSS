@@ -2,12 +2,14 @@ package com.khaki.smartrss.ui.screen.rss.usecase
 
 import com.khaki.modules.core.model.feed.FormType
 import com.khaki.modules.core.model.feed.Popular
+import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.Tag
 import com.khaki.modules.core.model.feed.UserId
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
 import com.khaki.repository.RssFeedRepository
+import com.khaki.repository.ZennFeedRSSRepository
 import com.khaki.smartrss.ui.Result
 import kotlinx.coroutines.flow.Flow
 import kotlin.uuid.ExperimentalUuidApi
@@ -15,6 +17,7 @@ import kotlin.uuid.Uuid
 
 class RssUseCase(
     private val qiitaFeedsRssRepository: QiitaFeedRSSRepository,
+    private val zennFeedsRssRepository: ZennFeedRSSRepository,
     private val rssCategoryRepository: RssCategoryRepository,
     private val rssFeedRepository: RssFeedRepository,
 ) {
@@ -33,45 +36,54 @@ class RssUseCase(
     suspend fun checkAndAddQiitaRssFeed(form: FormType): Result<Boolean, RssAppendingError> {
         val rssFeed = try {
             when (form) {
-                is UserId -> {
-                    qiitaFeedsRssRepository.feedsByUserId(form.value)
-                }
-
-                is Tag -> {
-                    qiitaFeedsRssRepository.feedsByTag(form.value)
-                }
-
-                is Popular -> {
-                    qiitaFeedsRssRepository.popularFeeds()
-                }
-
-                else -> {
-                    return Result.Error(RssAppendingError.IllegalInputFormat)
-                }
+                is UserId -> qiitaFeedsRssRepository.feedsByUserId(form.value)
+                is Tag -> qiitaFeedsRssRepository.feedsByTag(form.value)
+                is Popular -> qiitaFeedsRssRepository.popularFeeds()
+                else -> return Result.Error(RssAppendingError.IllegalInputFormat)
             }
         } catch (e: Exception) {
             return Result.Error(RssAppendingError.FetchingFailed(e))
         }
+        return processFetchedFeed(rssFeed, RssCategory.RSSGroupType.Qiita, form)
+    }
 
+    @OptIn(ExperimentalUuidApi::class)
+    suspend fun checkAndAddZennRssFeed(form: FormType): Result<Boolean, RssAppendingError> {
+        val rssFeed = try {
+            when (form) {
+                is UserId -> zennFeedsRssRepository.feedsByUserId(form.value)
+                is Tag -> zennFeedsRssRepository.feedsByTag(form.value)
+                is Popular -> zennFeedsRssRepository.popularFeeds()
+                else -> return Result.Error(RssAppendingError.IllegalInputFormat)
+            }
+        } catch (e: Exception) {
+            return Result.Error(RssAppendingError.FetchingFailed(e))
+        }
+        return processFetchedFeed(rssFeed, RssCategory.RSSGroupType.Zenn, form)
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private suspend fun processFetchedFeed(
+        rssFeed: RSSFeed,
+        groupType: RssCategory.RSSGroupType,
+        form: FormType,
+    ): Result<Boolean, RssAppendingError> {
         if (rssFeed.items.isEmpty()) {
             return Result.Error(RssAppendingError.NotFoundFeed)
         }
 
-        try {
-            rssFeedRepository.addFeeds(rssFeed.items)
-        } catch (_: Exception) {
-            // 追加に失敗しても、RSSフィードの追加自体は成功とする
-        }
+        // Try to persist the fetched items. Even if it fails, continue to add the category entry.
+        runCatching { rssFeedRepository.addFeeds(rssFeed.items) }
 
-        try {
-            val hasDuplicate = rssCategoryRepository.doesUrlExist(rssFeed.link)
-            if (hasDuplicate) {
-                return Result.Error(RssAppendingError.DuplicateRssCategory)
-            }
+        // Check duplication by URL
+        val hasDuplicate = try {
+            rssCategoryRepository.doesUrlExist(rssFeed.link)
         } catch (e: Exception) {
             return Result.Error(RssAppendingError.RoomDatabaseError(e))
         }
+        if (hasDuplicate) return Result.Error(RssAppendingError.DuplicateRssCategory)
 
+        // Insert category
         try {
             rssCategoryRepository.insertRssCategory(
                 RssCategory(
@@ -80,7 +92,7 @@ class RssUseCase(
                     description = rssFeed.description,
                     following = true,
                     url = rssFeed.link,
-                    type = RssCategory.RSSGroupType.Qiita,
+                    type = groupType,
                     formType = form,
                 )
             )
@@ -89,9 +101,5 @@ class RssUseCase(
         }
 
         return Result.Success(true)
-    }
-
-    suspend fun checkAndAddZennRssFeed(form: FormType) {
-        // ZennのRSSフィード追加ロジックをここに実装
     }
 }
