@@ -1,7 +1,6 @@
 package com.khaki.api.dto
 
 import kotlinx.serialization.Serializable
-// import nl.adaptivity.xmlutil.serialization.XmlAttribute // コメントアウトまたは削除
 import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 import nl.adaptivity.xmlutil.serialization.XmlValue
@@ -24,6 +23,10 @@ data class QiitaRssFeedDto(
     val title: String,
 
     @XmlElement(true)
+    @XmlSerialName("description", namespace = ATOM_NS)
+    val description: String? = null,
+
+    @XmlElement(true)
     @XmlSerialName("updated", namespace = ATOM_NS)
     val updated: String,
 
@@ -34,17 +37,20 @@ data class QiitaRssFeedDto(
 
     @Serializable
     data class Link(
-        @XmlElement(false) // @XmlAttribute の代わりに @XmlElement(false) を使用
+        @XmlElement(false)
         @XmlSerialName("rel")
-        val rel: String,
+        val rel: String? = null,
 
-        @XmlElement(false) // @XmlAttribute の代わりに @XmlElement(false) を使用
+        @XmlElement(false)
         @XmlSerialName("type")
-        val type: String,
+        val type: String? = null,
 
-        @XmlElement(false) // @XmlAttribute の代わりに @XmlElement(false) を使用
+        @XmlElement(false)
         @XmlSerialName("href")
-        val href: String
+        val href: String? = null,
+
+        @XmlValue
+        val url: String? = null
     )
 
     @Serializable
@@ -66,6 +72,10 @@ data class QiitaRssFeedDto(
         val link: Link,
 
         @XmlElement(true)
+        @XmlSerialName("url", namespace = ATOM_NS)
+        val url: String? = null,
+
+        @XmlElement(true)
         @XmlSerialName("title", namespace = ATOM_NS)
         val title: String,
 
@@ -80,7 +90,7 @@ data class QiitaRssFeedDto(
 
     @Serializable
     data class Content(
-        @XmlElement(false) // @XmlAttribute の代わりに @XmlElement(false) を使用
+        @XmlElement(false)
         @XmlSerialName("type")
         val type: String,
 

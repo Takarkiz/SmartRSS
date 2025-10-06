@@ -37,13 +37,13 @@ class QiitaFeedRSSRepositoryImpl(
     private fun mapToDomain(dto: QiitaRssFeedDto): RSSFeed {
         return RSSFeed(
             title = dto.title,
-            link = dto.links.first { it.rel == "self" }.href,
+            link = dto.links.find { it.rel == "self" }?.href ?: "",
             description = "",
             items = dto.entries.map { entry ->
                 FeedItem(
                     id = entry.articleId,
                     title = entry.title,
-                    link = entry.link.href,
+                    link = entry.link.href ?: entry.url ?: "",
                     description = entry.content.value,
                     pubDate = Instant.parse(entry.pubDate)
                         .toLocalDateTime(TimeZone.currentSystemDefault()),
