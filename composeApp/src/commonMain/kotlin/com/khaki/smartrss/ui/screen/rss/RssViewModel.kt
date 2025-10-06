@@ -86,19 +86,22 @@ internal data class RssViewModelState(
                 }
                 .groupBy { it.type }
 
+        val popularRegisteredGroupTypes = rssCategoryList
+            .filter { it.formType is Popular }
+            .map { it.type }
+            .toSet()
+
         val registerable = defaultAllRegisterableRss.mapValues { (group, forms) ->
-            val hasPopularRegistered = when (group) {
-                RegisterableRssGroup.Qiita -> rssCategoryList.any {
-                    it.type == RssCategory.RSSGroupType.Qiita && it.formType is Popular
-                }
-
-                RegisterableRssGroup.Zenn -> rssCategoryList.any {
-                    it.type == RssCategory.RSSGroupType.Zenn && it.formType is Popular
-                }
-
-                else -> false
+            val groupType = when (group) {
+                RegisterableRssGroup.Qiita -> RssCategory.RSSGroupType.Qiita
+                RegisterableRssGroup.Zenn -> RssCategory.RSSGroupType.Zenn
+                else -> null
             }
-            if (hasPopularRegistered) forms.filter { it != RssInputFormType.POPULAR } else forms
+            if (groupType in popularRegisteredGroupTypes) {
+                forms.filter { it != RssInputFormType.POPULAR }
+            } else {
+                forms
+            }
         }
 
         return RssUiState(

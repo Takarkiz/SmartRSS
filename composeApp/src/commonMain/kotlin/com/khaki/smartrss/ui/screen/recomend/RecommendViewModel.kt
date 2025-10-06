@@ -14,6 +14,11 @@ class RecommendViewModel(
     private val recommendUseCase: RecommendUseCase,
 ) : ViewModel() {
 
+    companion object {
+
+        private const val TIMEOUT_MILLS = 5_000L
+    }
+
     val uiState: StateFlow<RecommendUiState> = recommendUseCase.allFeeds.map { feeds ->
         RecommendUiState(
             feedItems = feeds.map {
@@ -32,7 +37,7 @@ class RecommendViewModel(
 
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLS),
         initialValue = RecommendUiState()
     )
 }

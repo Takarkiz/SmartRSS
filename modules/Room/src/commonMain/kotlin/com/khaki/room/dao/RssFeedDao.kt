@@ -32,13 +32,13 @@ interface RssFeedDao {
     /**
      * 新しい RssFeedEntity を1件登録する
      */
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFeed(feed: RssFeedEntity)
 
     /**
      * 複数の RssFeedEntity を一括登録する
      */
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFeeds(feeds: List<RssFeedEntity>)
 
     /**
