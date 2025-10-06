@@ -14,19 +14,19 @@ interface RssFeedDao {
     /**
      * 全ての RssFeedEntity を返す
      */
-    @Query("SELECT * FROM rssfeedentity")
+    @Query("SELECT * FROM RssFeedEntity")
     fun getFeeds(): Flow<List<RssFeedEntity>>
 
     /**
      * 指定されたIDの RssFeedEntity を返す
      */
-    @Query("SELECT * FROM rssfeedentity WHERE id = :id")
+    @Query("SELECT * FROM RssFeedEntity WHERE id = :id")
     suspend fun getFeedsById(id: String): RssFeedEntity?
 
     /**
      * 指定されたカテゴリIDに紐づく RssFeedEntity の一覧を返す
      */
-    @Query("SELECT * FROM rssfeedentity WHERE category_id = :categoryId")
+    @Query("SELECT * FROM RssFeedEntity WHERE category_id = :categoryId")
     fun getFeedsByCategoryId(categoryId: String): Flow<List<RssFeedEntity>>
 
     /**

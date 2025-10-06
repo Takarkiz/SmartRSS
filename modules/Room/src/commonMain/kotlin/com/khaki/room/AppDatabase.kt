@@ -10,7 +10,7 @@ import com.khaki.room.entity.RssCategoryEntity
 import com.khaki.room.entity.RssFeedEntity
 
 @Database(entities = [RssCategoryEntity::class, RssFeedEntity::class], version = 1)
-@TypeConverters(RSSGroupTypeConverter::class)
+@TypeConverters(RSSGroupTypeConverter::class, com.khaki.room.entity.ListStringTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun rssCategoryDao(): RssCategoryDao
 

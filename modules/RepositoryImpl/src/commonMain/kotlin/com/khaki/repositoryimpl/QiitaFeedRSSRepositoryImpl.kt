@@ -41,6 +41,7 @@ class QiitaFeedRSSRepositoryImpl(
             description = "",
             items = dto.entries.map { entry ->
                 FeedItem(
+                    id = entry.articleId,
                     title = entry.title,
                     link = entry.link.href,
                     description = entry.content.value,

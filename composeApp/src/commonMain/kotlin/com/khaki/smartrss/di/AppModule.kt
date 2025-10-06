@@ -6,6 +6,8 @@ import com.khaki.repository.RssFeedRepository
 import com.khaki.repositoryimpl.QiitaFeedRSSRepositoryImpl
 import com.khaki.repositoryimpl.RssCategoryRepositoryImpl
 import com.khaki.repositoryimpl.RssFeedRepositoryImpl
+import com.khaki.smartrss.ui.screen.recomend.RecommendViewModel
+import com.khaki.smartrss.ui.screen.recomend.usecase.RecommendUseCase
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
 import org.koin.core.module.dsl.factoryOf
@@ -30,6 +32,14 @@ val appModule = module {
         )
     }
 
+    single {
+        RecommendUseCase(
+            rssFeedRepository = get<RssFeedRepository>(),
+        )
+    }
+
     // ViewModel - use factory to create a new instance when requested
     factoryOf(::RssViewModel)
+
+    factoryOf(::RecommendViewModel)
 }

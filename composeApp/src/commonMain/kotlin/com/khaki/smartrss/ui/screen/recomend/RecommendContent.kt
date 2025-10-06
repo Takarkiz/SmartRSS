@@ -9,7 +9,7 @@ import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
 
 @Composable
 fun RecommendContent(
-    feedItems: List<FeedItemUiModel>,
+    uiState: RecommendUiState,
     onClickItem: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -20,10 +20,10 @@ fun RecommendContent(
     ) {
 
         items(
-            count = feedItems.size
+            count = uiState.feedItems.size
         ) {
             FeedItem(
-                item = feedItems[it],
+                item = uiState.feedItems[it],
                 onClickItem = { id ->
 
                 }
