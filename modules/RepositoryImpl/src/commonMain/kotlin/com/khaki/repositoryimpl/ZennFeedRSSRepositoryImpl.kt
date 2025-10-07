@@ -5,7 +5,12 @@ import com.khaki.api.service.RSSApiService
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.repository.ZennFeedRSSRepository
-import kotlinx.datetime.*
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class ZennFeedRSSRepositoryImpl(
@@ -82,5 +87,7 @@ class ZennFeedRSSRepositoryImpl(
         return nowLocal()
     }
 
-    private fun nowLocal(): LocalDateTime = LocalDateTime(1970, 1, 1, 0, 0, 0)
+    @OptIn(ExperimentalTime::class)
+    private fun nowLocal(): LocalDateTime =
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 }
