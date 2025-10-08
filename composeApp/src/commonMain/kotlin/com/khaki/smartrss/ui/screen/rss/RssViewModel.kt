@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FormType
 import com.khaki.modules.core.model.feed.Popular
 import com.khaki.modules.core.model.feed.RssCategory
+import com.khaki.modules.core.model.feed.UserId
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormType
@@ -45,7 +46,9 @@ class RssViewModel(
                 }
 
                 RegisterableRssGroup.HatenaBlog -> {
-                    // はてなブログ用のRSSフィード追加ロジックをここに実装
+                    if (form is UserId) {
+                        rssUseCase.checkAndAddHatenaRssFeed(form)
+                    }
                 }
 
                 RegisterableRssGroup.Github -> {

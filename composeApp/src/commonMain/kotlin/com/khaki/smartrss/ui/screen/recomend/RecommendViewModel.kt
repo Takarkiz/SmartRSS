@@ -43,7 +43,14 @@ class RecommendViewModel(
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
-                    thumbnailUrl = null,
+                    thumbnailUrl = when (it.rssType) {
+                        is FeedItem.RSSType.Qiita -> null
+                        is FeedItem.RSSType.Zenn -> (it.rssType as FeedItem.RSSType.Zenn).thumbnailUrl
+
+                        is FeedItem.RSSType.Hatena -> (it.rssType as FeedItem.RSSType.Hatena).thumbnailUrl
+
+                        is FeedItem.RSSType.Other -> (it.rssType as FeedItem.RSSType.Other).thumbnailUrl
+                    },
                 )
             }
         )

@@ -6,6 +6,7 @@ import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.Tag
 import com.khaki.modules.core.model.feed.UserId
+import com.khaki.repository.HatenaFeedRSSRepository
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
 import com.khaki.repository.RssFeedRepository
@@ -18,6 +19,7 @@ import kotlin.uuid.Uuid
 class RssUseCase(
     private val qiitaFeedsRssRepository: QiitaFeedRSSRepository,
     private val zennFeedsRssRepository: ZennFeedRSSRepository,
+    private val hatenaFeedsRssRepository: HatenaFeedRSSRepository,
     private val rssCategoryRepository: RssCategoryRepository,
     private val rssFeedRepository: RssFeedRepository,
 ) {
@@ -60,6 +62,20 @@ class RssUseCase(
             return Result.Error(RssAppendingError.FetchingFailed(e))
         }
         return processFetchedFeed(rssFeed, RssCategory.RSSGroupType.Zenn, form)
+    }
+
+    suspend fun checkAndAddHatenaRssFeed(form: UserId): Result<Boolean, RssAppendingError> {
+        val rssFeed = try {
+            hatenaFeedsRssRepository.feedsByUserId(form.value)
+        } catch (e: Exception) {
+            return Result.Error(RssAppendingError.FetchingFailed(e))
+        }
+
+        return processFetchedFeed(
+            rssFeed = rssFeed,
+            groupType = RssCategory.RSSGroupType.HatenaBlog,
+            form = form
+        )
     }
 
     @OptIn(ExperimentalUuidApi::class)
