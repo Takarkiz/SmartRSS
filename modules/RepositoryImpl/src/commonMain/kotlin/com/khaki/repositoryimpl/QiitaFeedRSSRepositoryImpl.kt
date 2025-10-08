@@ -49,9 +49,6 @@ class QiitaFeedRSSRepositoryImpl(
                         .toLocalDateTime(TimeZone.currentSystemDefault()),
                     rssType = FeedItem.RSSType.Qiita(
                         authorName = entry.author.name,
-                        updatedDate = Instant.parse(entry.updatedDate).toLocalDateTime(
-                            TimeZone.currentSystemDefault()
-                        )
                     )
                 )
             }

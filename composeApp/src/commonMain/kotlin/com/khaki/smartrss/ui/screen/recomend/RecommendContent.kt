@@ -5,12 +5,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.khaki.smartrss.ui.screen.recomend.composable.FeedItem
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
 
 @Composable
 fun RecommendContent(
     uiState: RecommendUiState,
     onClickItem: (String) -> Unit,
+    onClickBookmark: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -25,7 +25,10 @@ fun RecommendContent(
             FeedItem(
                 item = uiState.feedItems[it],
                 onClickItem = { id ->
-
+                    onClickItem(id)
+                },
+                onClickBookmark = { id ->
+                    onClickBookmark(id)
                 }
             )
         }

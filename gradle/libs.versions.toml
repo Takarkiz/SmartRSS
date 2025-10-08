@@ -27,6 +27,8 @@ kotlinx-serialization = "1.9.0"
 room = "2.8.0"
 sqlite = "2.6.0"
 
+coil = "3.3.0"
+
 ksp = "2.2.10-2.0.2"
 
 [libraries]
@@ -77,6 +79,9 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+# Coil (Image Loder)
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 
 [bundles]
 ktor-core-client = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json", "ktor-client-logging"]

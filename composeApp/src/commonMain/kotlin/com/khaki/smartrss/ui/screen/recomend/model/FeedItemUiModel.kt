@@ -1,6 +1,12 @@
 package com.khaki.smartrss.ui.screen.recomend.model
 
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
+import smartrss.composeapp.generated.resources.Res
+import smartrss.composeapp.generated.resources.favicon_hatena
+import smartrss.composeapp.generated.resources.favicon_qiita
+import smartrss.composeapp.generated.resources.favicon_rss
+import smartrss.composeapp.generated.resources.favicon_zenn
 
 data class FeedItemUiModel(
     val id: String,
@@ -9,11 +15,45 @@ data class FeedItemUiModel(
     val link: String,
     val isBookmark: Boolean,
     val pubDate: String,
-    val faviconUrl: String?,
+    val type: RSSFeedType,
     val thumbnailUrl: String?,
-)
+) {
 
-internal class FeedItemUiModelPreviewProvider: PreviewParameterProvider<FeedItemUiModel> {
+    sealed class RSSFeedType {
+
+        abstract val faviconResId: DrawableResource
+
+        data object Qiita : RSSFeedType() {
+            override val faviconResId: DrawableResource
+                get() = Res.drawable.favicon_qiita
+        }
+
+        data class Zenn(
+            val authorName: String,
+            val thumbnailUrl: String?,
+        ) : RSSFeedType() {
+            override val faviconResId: DrawableResource
+                get() = Res.drawable.favicon_zenn
+        }
+
+        data class Hatena(
+            val authorName: String,
+            val thumbnailUrl: String?,
+        ) : RSSFeedType() {
+            override val faviconResId: DrawableResource
+                get() = Res.drawable.favicon_hatena
+        }
+
+        data class Other(
+            val thumbnailUrl: String?,
+        ) : RSSFeedType() {
+            override val faviconResId: DrawableResource
+                get() = Res.drawable.favicon_rss
+        }
+    }
+}
+
+internal class FeedItemUiModelPreviewProvider : PreviewParameterProvider<FeedItemUiModel> {
     override val values: Sequence<FeedItemUiModel>
         get() = sequenceOf(
             FeedItemUiModel(
@@ -23,7 +63,7 @@ internal class FeedItemUiModelPreviewProvider: PreviewParameterProvider<FeedItem
                 link = "https://example.com/1",
                 isBookmark = false,
                 pubDate = "2023-10-01",
-                faviconUrl = null,
+                type = FeedItemUiModel.RSSFeedType.Qiita,
                 thumbnailUrl = null,
             ),
             FeedItemUiModel(
@@ -33,7 +73,7 @@ internal class FeedItemUiModelPreviewProvider: PreviewParameterProvider<FeedItem
                 link = "https://example.com/2",
                 isBookmark = true,
                 pubDate = "2023-10-02",
-                faviconUrl = null,
+                type = FeedItemUiModel.RSSFeedType.Qiita,
                 thumbnailUrl = null,
             )
         )

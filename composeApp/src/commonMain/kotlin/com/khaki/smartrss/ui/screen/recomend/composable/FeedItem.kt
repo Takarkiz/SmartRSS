@@ -1,5 +1,6 @@
 package com.khaki.smartrss.ui.screen.recomend.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
 import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
@@ -32,6 +35,7 @@ import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 fun FeedItem(
     item: FeedItemUiModel,
     onClickItem: (String) -> Unit,
+    onClickBookmark: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -46,25 +50,42 @@ fun FeedItem(
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+
+            Image(
+                modifier = Modifier.height(24.dp),
+                painter = painterResource(item.type.faviconResId),
+                contentDescription = "favicon_icon_image",
+            )
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = item.title,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(
                         1f,
-                        fill = false
+                        fill = true
                     )
                 )
-                Icon(
-                    imageVector = if (item.isBookmark) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
-                    contentDescription = if (item.isBookmark) "Remove bookmark" else "Add bookmark",
-                    tint = MaterialTheme.colorScheme.primary
-                )
+
+                IconButton(
+                    onClick = {
+                        onClickBookmark(item.id)
+                    }
+                ) {
+
+                    Icon(
+                        imageVector = if (item.isBookmark) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                        contentDescription = if (item.isBookmark) "Remove bookmark" else "Add bookmark",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -98,7 +119,8 @@ private fun FeedItemPreview(
     SmartRssTheme {
         FeedItem(
             item = item,
-            onClickItem = {}
+            onClickItem = {},
+            onClickBookmark = {},
         )
     }
 }
