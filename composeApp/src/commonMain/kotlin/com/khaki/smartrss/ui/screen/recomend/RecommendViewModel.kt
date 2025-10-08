@@ -27,7 +27,7 @@ class RecommendViewModel(
                 FeedItemUiModel(
                     id = it.id,
                     title = it.title,
-                    description = it.description,
+                    description = it.description.replace("\n", " "),
                     link = it.link,
                     isBookmark = it.isBookmarked,
                     pubDate = it.pubDate.toRelativeJaString(),
@@ -35,17 +35,13 @@ class RecommendViewModel(
                         is FeedItem.RSSType.Qiita -> FeedItemUiModel.RSSFeedType.Qiita
                         is FeedItem.RSSType.Zenn -> FeedItemUiModel.RSSFeedType.Zenn(
                             authorName = (it.rssType as FeedItem.RSSType.Zenn).authorName,
-                            thumbnailUrl = (it.rssType as FeedItem.RSSType.Zenn).thumbnailUrl,
                         )
 
                         is FeedItem.RSSType.Hatena -> FeedItemUiModel.RSSFeedType.Hatena(
                             authorName = (it.rssType as FeedItem.RSSType.Hatena).authorName,
-                            thumbnailUrl = (it.rssType as FeedItem.RSSType.Hatena).thumbnailUrl,
                         )
 
-                        is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other(
-                            thumbnailUrl = (it.rssType as FeedItem.RSSType.Other).thumbnailUrl,
-                        )
+                        is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
                     thumbnailUrl = null,
                 )

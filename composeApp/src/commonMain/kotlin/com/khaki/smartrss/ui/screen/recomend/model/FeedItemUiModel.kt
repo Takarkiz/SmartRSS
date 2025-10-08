@@ -30,7 +30,6 @@ data class FeedItemUiModel(
 
         data class Zenn(
             val authorName: String,
-            val thumbnailUrl: String?,
         ) : RSSFeedType() {
             override val faviconResId: DrawableResource
                 get() = Res.drawable.favicon_zenn
@@ -38,15 +37,12 @@ data class FeedItemUiModel(
 
         data class Hatena(
             val authorName: String,
-            val thumbnailUrl: String?,
         ) : RSSFeedType() {
             override val faviconResId: DrawableResource
                 get() = Res.drawable.favicon_hatena
         }
 
-        data class Other(
-            val thumbnailUrl: String?,
-        ) : RSSFeedType() {
+        data object Other : RSSFeedType() {
             override val faviconResId: DrawableResource
                 get() = Res.drawable.favicon_rss
         }
