@@ -25,11 +25,15 @@ class RssFeedRepositoryImpl(
     }
 
     override suspend fun addFeed(feed: FeedItem) {
+        if (database.doesUrlExist(feed.link)) return
         database.insertFeed(feed.toEntity())
     }
 
     override suspend fun addFeeds(feeds: List<FeedItem>) {
-        database.insertFeeds(feeds.map { it.toEntity() })
+        val feedEntities = feeds.filter {
+            database.doesUrlExist(it.link).not()
+        }.map { it.toEntity() }
+        database.insertFeeds(feedEntities)
     }
 
     override suspend fun updateBookmark(id: String, isBookmark: Boolean) {
