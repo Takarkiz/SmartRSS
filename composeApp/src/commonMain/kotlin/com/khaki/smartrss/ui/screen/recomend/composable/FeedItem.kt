@@ -29,7 +29,7 @@ fun FeedItem(
             .fillMaxWidth()
             .clickable(
                 onClick = {
-                    onClickItem(item.id)
+                    onClickItem(item.link)
                 },
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(color = MaterialTheme.colorScheme.primary)
