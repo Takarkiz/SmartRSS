@@ -2,6 +2,7 @@ package com.khaki.api.service.impl
 
 import com.khaki.api.dto.HatenaRssFeedDto
 import com.khaki.api.dto.QiitaRssFeedDto
+import com.khaki.api.dto.RssFeedDto
 import com.khaki.api.dto.ZennRssFeedDto
 import com.khaki.api.service.RSSApiService
 import io.ktor.client.HttpClient
@@ -24,10 +25,19 @@ class RssApiServiceImpl(
 
     override suspend fun fetchHatenaRssFeed(requestUrl: String): HatenaRssFeedDto {
         val response = httpClient.get(requestUrl).bodyAsText()
-        return XML.decodeFromString(HatenaRssFeedDto.serializer(), response)
+        return XML {
+            defaultPolicy {
+                ignoreUnknownChildren()
+            }
+        }.decodeFromString(HatenaRssFeedDto.serializer(), response)
     }
 
-    override suspend fun fetchRssFeed(requestUrl: String): String? {
-        TODO("Not yet implemented")
+    override suspend fun fetchRssFeed(requestUrl: String): RssFeedDto {
+        val response = httpClient.get(requestUrl).bodyAsText()
+        return XML {
+            defaultPolicy {
+                ignoreUnknownChildren()
+            }
+        }.decodeFromString(RssFeedDto.serializer(), response)
     }
 }

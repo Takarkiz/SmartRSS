@@ -24,8 +24,8 @@ fun RecommendContent(
         ) {
             FeedItem(
                 item = uiState.feedItems[it],
-                onClickItem = { id ->
-                    onClickItem(id)
+                onClickItem = { url ->
+                    onClickItem(url)
                 },
                 onClickBookmark = { id ->
                     onClickBookmark(id)
