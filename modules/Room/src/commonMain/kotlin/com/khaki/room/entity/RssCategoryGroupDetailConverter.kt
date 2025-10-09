@@ -8,15 +8,17 @@ import kotlinx.serialization.modules.subclass
 
 class RssCategoryGroupDetailConverter {
 
-    // Sealed interfaceを扱うための特別なJsonパーサーを準備！
-    // 「RSSCategoryGroupDetailっていう型は、QiitaとかZennとか色んな形に変身するよ！」って教えてあげる
-    private val json = Json {
-        serializersModule = SerializersModule {
-            polymorphic(RSSCategoryGroupDetail::class) {
-                subclass(RSSCategoryGroupDetail.Qiita::class)
-                subclass(RSSCategoryGroupDetail.Zenn::class)
-                subclass(RSSCategoryGroupDetail.Hatena::class)
-                subclass(RSSCategoryGroupDetail.Other::class)
+    companion object {
+
+        // Sealed interfaceを扱うための特別なJsonパーサーを準備
+        private val json = Json {
+            serializersModule = SerializersModule {
+                polymorphic(RSSCategoryGroupDetail::class) {
+                    subclass(RSSCategoryGroupDetail.Qiita::class)
+                    subclass(RSSCategoryGroupDetail.Zenn::class)
+                    subclass(RSSCategoryGroupDetail.Hatena::class)
+                    subclass(RSSCategoryGroupDetail.Other::class)
+                }
             }
         }
     }

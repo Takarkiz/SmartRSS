@@ -17,7 +17,7 @@ class HatenaFeedRSSRepositoryImpl(
 ) : HatenaFeedRSSRepository {
 
     override suspend fun feedsByUserId(userId: String): RSSFeed {
-        val url = "https://$userId.hatenadiary.jp/feed"
+        val url = "https://$userId/feed"
         val dto = apiService.fetchHatenaRssFeed(url)
         return mapToDomain(dto)
     }

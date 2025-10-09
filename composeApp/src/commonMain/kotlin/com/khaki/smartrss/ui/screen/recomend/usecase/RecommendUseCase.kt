@@ -15,7 +15,7 @@ class RecommendUseCase(
 
     suspend fun updateBookmark(id: String) {
         val feed = rssFeedRepository.getFeed(id) ?: return
-        val isBookmark = feed.isBookmarked.not()
+        val isBookmark = !feed.isBookmarked
         rssFeedRepository.updateBookmark(id, isBookmark)
     }
 }

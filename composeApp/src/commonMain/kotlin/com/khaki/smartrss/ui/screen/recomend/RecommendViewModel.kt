@@ -65,10 +65,4 @@ class RecommendViewModel(
             recommendUseCase.updateBookmark(feedId)
         }
     }
-
-    private fun extractHost(url: String): String? {
-        val lowered = url.trim().lowercase()
-        val match = Regex("^https?://([^/]+)").find(lowered) ?: return null
-        return match.groupValues.getOrNull(1)
-    }
 }
