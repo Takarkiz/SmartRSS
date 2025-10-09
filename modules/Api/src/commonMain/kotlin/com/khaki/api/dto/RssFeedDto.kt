@@ -35,19 +35,19 @@ data class RssFeedDto(
 
         @XmlElement(true)
         @XmlSerialName("lastBuildDate")
-        val lastBuildDate: String,
+        val lastBuildDate: String? = null,
 
         @XmlElement(true)
         @XmlSerialName("docs")
-        val docs: String,
+        val docs: String? = null,
 
         @XmlElement(true)
         @XmlSerialName("generator")
-        val generator: String,
+        val generator: String? = null,
 
         @XmlElement(true)
         @XmlSerialName("language")
-        val language: String,
+        val language: String? = null,
 
         @XmlElement(true)
         @XmlSerialName("image")
