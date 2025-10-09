@@ -1,0 +1,53 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+    <channel>
+        <title>サンプルRSS</title>
+        <link>https://example.com/</link>
+        <description>これはサンプルのRSSフィードです</description>
+        <lastBuildDate>Wed, 01 Jan 2025 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>sample-generator</generator>
+        <language>ja</language>
+        <image>
+            <title>サンプルRSS</title>
+            <url>https://example.com/images/icon.png</url>
+            <link>https://example.com/</link>
+        </image>
+        <copyright>sample-copyright</copyright>
+        <atom:link href="https://example.com/feeds/rss.xml" rel="self"
+            type="application/rss+xml" />
+        <item>
+            <title>
+                <![CDATA[ サンプル記事1 ]]>
+            </title>
+            <link>https://example.com/articles/1</link>
+            <guid>https://example.com/articles/1</guid>
+            <pubDate>Wed, 01 Jan 2025 00:10:00 GMT</pubDate>
+            <description>
+                <![CDATA[ これはサンプルの説明1です。本文の冒頭を含みます。 ]]>
+            </description>
+            <content:encoded>
+                <![CDATA[ これはサンプルの本文1です。より長いテキストがここに入ります。 ]]>
+            </content:encoded>
+            <enclosure length="0" type="png"
+                url="https://example.com/images/1.png" />
+        </item>
+        <item>
+            <title>
+                <![CDATA[ サンプル記事2 ]]>
+            </title>
+            <link>https://example.com/articles/2</link>
+            <guid>https://example.com/articles/2</guid>
+            <pubDate>Wed, 01 Jan 2025 00:20:00 GMT</pubDate>
+            <description>
+                <![CDATA[ これはサンプルの説明2です。続きのテキスト。 ]]>
+            </description>
+            <content:encoded>
+                <![CDATA[ これはサンプルの本文2です。さらに詳しい内容がここに入ります。 ]]>
+            </content:encoded>
+            <enclosure alt="サンプル記事2の画像" length="0"
+                type="png"
+                url="https://example.com/images/2.png" />
+        </item>
+    </channel>
+</rss>

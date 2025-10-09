@@ -5,8 +5,10 @@ import com.khaki.modules.core.model.feed.Popular
 import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.Tag
+import com.khaki.modules.core.model.feed.URL
 import com.khaki.modules.core.model.feed.UserId
 import com.khaki.repository.HatenaFeedRSSRepository
+import com.khaki.repository.OtherFeedRssRepository
 import com.khaki.repository.QiitaFeedRSSRepository
 import com.khaki.repository.RssCategoryRepository
 import com.khaki.repository.RssFeedRepository
@@ -20,6 +22,7 @@ class RssUseCase(
     private val qiitaFeedsRssRepository: QiitaFeedRSSRepository,
     private val zennFeedsRssRepository: ZennFeedRSSRepository,
     private val hatenaFeedsRssRepository: HatenaFeedRSSRepository,
+    private val otherFeedsRssRepository: OtherFeedRssRepository,
     private val rssCategoryRepository: RssCategoryRepository,
     private val rssFeedRepository: RssFeedRepository,
 ) {
@@ -75,6 +78,20 @@ class RssUseCase(
             rssFeed = rssFeed,
             groupType = RssCategory.RSSGroupType.HatenaBlog,
             form = form
+        )
+    }
+
+    suspend fun checkAndAddOtherRssFeed(url: URL): Result<Boolean, RssAppendingError> {
+        val rssFeed = try {
+            otherFeedsRssRepository.feedsByUrl(url.value)
+        } catch (e: Exception) {
+            return Result.Error(RssAppendingError.FetchingFailed(e))
+        }
+
+        return processFetchedFeed(
+            rssFeed = rssFeed,
+            groupType = RssCategory.RSSGroupType.Others,
+            form = url
         )
     }
 

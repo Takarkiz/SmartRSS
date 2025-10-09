@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FormType
 import com.khaki.modules.core.model.feed.Popular
 import com.khaki.modules.core.model.feed.RssCategory
+import com.khaki.modules.core.model.feed.URL
 import com.khaki.modules.core.model.feed.UserId
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
@@ -56,7 +57,9 @@ class RssViewModel(
                 }
 
                 RegisterableRssGroup.Others -> {
-                    // カスタムRSS用のRSSフィード追加ロジックをここに実装
+                    if (form is URL) {
+                        rssUseCase.checkAndAddOtherRssFeed(form)
+                    }
                 }
             }
         }
