@@ -11,7 +11,11 @@ class RssFeedDtoTest {
     @Test
     fun parse_rss_feed_sample() {
         val xmlText = readResource("rss_feeds_sample.xml")
-        val parsed = XML().decodeFromString(RssFeedDto.serializer(), xmlText)
+        val parsed = XML {
+            defaultPolicy {
+                ignoreUnknownChildren()
+            }
+        }.decodeFromString(RssFeedDto.serializer(), xmlText)
 
         // RSS level
         assertEquals("2.0", parsed.version)

@@ -7,6 +7,7 @@ import com.khaki.modules.core.model.feed.RSSFeed
 import com.khaki.repository.OtherFeedRssRepository
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -57,9 +58,11 @@ class OtherFeedRssRepositoryImpl(
             val minute = timeParts[1].toInt()
             val second = timeParts[2].toInt()
 
-            // The date is in GMT, we can create a LocalDateTime directly
-            // Note: This does not handle timezones other than GMT.
-            LocalDateTime(year, monthNumber, day, hour, minute, second)
+            // The date is in GMT, create a LocalDateTime assuming UTC
+            val utcLocalDateTime = LocalDateTime(year, monthNumber, day, hour, minute, second)
+            // Convert from UTC to the system's default timezone
+            val instant = utcLocalDateTime.toInstant(TimeZone.UTC)
+            return instant.toLocalDateTime(TimeZone.currentSystemDefault())
         } catch (e: Exception) {
             // Fallback for parsing errors
             nowLocal()

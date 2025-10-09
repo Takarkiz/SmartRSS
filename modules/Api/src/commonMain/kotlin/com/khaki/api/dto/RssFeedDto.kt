@@ -59,7 +59,7 @@ data class RssFeedDto(
 
         @XmlElement(true)
         @XmlSerialName("link", namespace = ATOM_NS)
-        val atomLink: AtomLinkDto,
+        val atomLink: AtomLinkDto? = null,
 
         @XmlElement(true)
         @XmlSerialName("item")
