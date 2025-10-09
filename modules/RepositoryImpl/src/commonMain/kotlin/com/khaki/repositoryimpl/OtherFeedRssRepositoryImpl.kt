@@ -30,7 +30,7 @@ class OtherFeedRssRepositoryImpl(
                     id = it.guid,
                     title = it.title,
                     link = it.link,
-                    description = it.description,
+                    description = it.description ?: "",
                     pubDate = parseRfc1123(it.pubDate),
                     rssType = FeedItem.RSSType.Other(
                         thumbnailUrl = it.enclosure?.url

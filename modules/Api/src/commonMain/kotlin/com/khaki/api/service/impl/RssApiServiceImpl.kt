@@ -25,11 +25,19 @@ class RssApiServiceImpl(
 
     override suspend fun fetchHatenaRssFeed(requestUrl: String): HatenaRssFeedDto {
         val response = httpClient.get(requestUrl).bodyAsText()
-        return XML.decodeFromString(HatenaRssFeedDto.serializer(), response)
+        return XML {
+            defaultPolicy {
+                ignoreUnknownChildren()
+            }
+        }.decodeFromString(HatenaRssFeedDto.serializer(), response)
     }
 
     override suspend fun fetchRssFeed(requestUrl: String): RssFeedDto {
         val response = httpClient.get(requestUrl).bodyAsText()
-        return XML.decodeFromString(RssFeedDto.serializer(), response)
+        return XML {
+            defaultPolicy {
+                ignoreUnknownChildren()
+            }
+        }.decodeFromString(RssFeedDto.serializer(), response)
     }
 }

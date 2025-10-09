@@ -120,11 +120,15 @@ data class RssFeedDto(
 
         @XmlElement(true)
         @XmlSerialName("description")
-        val description: String,
+        val description: String?,
 
         @XmlElement(true)
         @XmlSerialName("encoded", namespace = CONTENT_NS)
-        val contentEncoded: String,
+        val contentEncoded: String?,
+
+        @XmlElement(true)
+        @XmlSerialName("category")
+        val category: List<String>? = null,
 
         @XmlElement(true)
         @XmlSerialName("enclosure")
