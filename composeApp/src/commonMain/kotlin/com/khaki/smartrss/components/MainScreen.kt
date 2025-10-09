@@ -82,7 +82,12 @@ fun MainScreen() {
 
                 RecommendContent(
                     uiState = recommendUiState,
-                    onClickItem = { /* Handle item click */ },
+                    onClickItem = {
+                        // TODO: 投稿のページへ遷移する
+                    },
+                    onClickBookmark = { id ->
+                        recommendViewModel.updateBookmarkState(id)
+                    },
                     modifier = Modifier.padding(innerPadding)
                 )
             }

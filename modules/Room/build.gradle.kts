@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlinSerialization)
     id("com.google.devtools.ksp")
 }
 
@@ -73,6 +74,9 @@ kotlin {
                 // Room KMP dependencies
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
+
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.serialization.json)
 
                 implementation(libs.koin.core)
             }

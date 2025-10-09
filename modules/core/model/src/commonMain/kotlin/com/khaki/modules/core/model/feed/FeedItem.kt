@@ -20,7 +20,6 @@ data class FeedItem(
 
         data class Qiita(
             val authorName: String,
-            val updatedDate: LocalDateTime,
         ) : RSSType
 
         data class Zenn(
@@ -31,7 +30,6 @@ data class FeedItem(
         data class Hatena(
             val authorName: String,
             val thumbnailUrl: String?,
-            val updatedDate: LocalDateTime,
         ) : RSSType
 
         data class Other(

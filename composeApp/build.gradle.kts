@@ -59,6 +59,8 @@ kotlin {
 
             implementation(libs.kotlinx.datetime)
 
+            implementation(libs.coil.compose)
+
             implementation(project(":modules:Api"))
             implementation(project(":modules:core:model"))
             implementation(project(":modules:core:Repository"))

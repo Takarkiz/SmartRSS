@@ -12,4 +12,10 @@ class RecommendUseCase(
     val allFeeds: Flow<List<FeedItem>> = rssFeedRepository
         .getFeeds()
         .map { feeds -> feeds.sortedByDescending { it.pubDate } }
+
+    suspend fun updateBookmark(id: String) {
+        val feed = rssFeedRepository.getFeed(id) ?: return
+        val isBookmark = feed.isBookmarked.not()
+        rssFeedRepository.updateBookmark(id, isBookmark)
+    }
 }
