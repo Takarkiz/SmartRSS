@@ -92,7 +92,6 @@ data class HatenaRssFeedDto(
         @XmlSerialName("title", namespace = ATOM_NS)
         val title: String,
 
-        // Hatena entries can contain multiple link elements (e.g., main link and enclosure)
         @XmlElement(true)
         @XmlSerialName("link", namespace = ATOM_NS)
         val links: List<Link> = emptyList(),
@@ -118,6 +117,10 @@ data class HatenaRssFeedDto(
         val content: Content? = null,
 
         @XmlElement(true)
+        @XmlSerialName("category", namespace = ATOM_NS)
+        val categories: List<Category> = emptyList(),
+
+        @XmlElement(true)
         @XmlSerialName("author", namespace = ATOM_NS)
         val author: Author? = null
     )
@@ -140,5 +143,16 @@ data class HatenaRssFeedDto(
 
         @XmlValue
         val value: String? = null
+    )
+
+    @Serializable
+    data class Category(
+        @XmlElement(false)
+        @XmlSerialName("term")
+        val term: String,
+
+        @XmlElement(false)
+        @XmlSerialName("label")
+        val label: String? = null
     )
 }

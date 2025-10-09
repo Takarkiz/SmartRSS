@@ -36,6 +36,34 @@ class HatenaRssFeedDtoTest {
         assertTrue(first.links.any { it.rel == "enclosure" && (it.type?.startsWith("image") == true) })
     }
 
+    @Test
+    fun parse_hatena_feed_sample2() {
+        val xmlText = readResource("hatena_sample2.xml")
+        val parsed = XML().decodeFromString(HatenaRssFeedDto.serializer(), xmlText)
+
+        // feed level
+        assertEquals("hatenablog://blog/0000000000000000000", parsed.id)
+        assertEquals("Anonymous Blog", parsed.title)
+        assertEquals("anonymous-user", parsed.author?.name)
+        assertTrue(parsed.entries.isNotEmpty(), "entries should not be empty")
+
+        // entry level
+        val entry = parsed.entries.first()
+        assertEquals("Anonymous Entry Title", entry.title)
+        assertEquals("hatenablog://entry/1111111111111111111", entry.id)
+        assertNotNull(entry.published)
+        assertNotNull(entry.updated)
+        assertEquals(
+            "This is an anonymous summary for the test entry. It provides a brief overview of the content.",
+            entry.summary?.value
+        )
+        assertEquals(
+            "<p>This is the full anonymous content for the test entry. All personal and specific information has been removed to protect privacy.</p>",
+            entry.content?.value
+        )
+        assertEquals("anonymous-user", entry.author?.name)
+    }
+
     private fun readResource(name: String): String {
         val cl = this::class.java.classLoader ?: error("ClassLoader not found")
         cl.getResourceAsStream(name).use { stream ->
