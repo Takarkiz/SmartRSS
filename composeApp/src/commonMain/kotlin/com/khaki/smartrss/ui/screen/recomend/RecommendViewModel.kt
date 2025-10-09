@@ -31,25 +31,23 @@ class RecommendViewModel(
                     link = it.link,
                     isBookmark = it.isBookmarked,
                     pubDate = it.pubDate.toRelativeJaString(),
-                    type = when (it.rssType) {
+                    type = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> FeedItemUiModel.RSSFeedType.Qiita
                         is FeedItem.RSSType.Zenn -> FeedItemUiModel.RSSFeedType.Zenn(
-                            authorName = (it.rssType as FeedItem.RSSType.Zenn).authorName,
+                            authorName = rssType.authorName,
                         )
 
                         is FeedItem.RSSType.Hatena -> FeedItemUiModel.RSSFeedType.Hatena(
-                            authorName = (it.rssType as FeedItem.RSSType.Hatena).authorName,
+                            authorName = rssType.authorName,
                         )
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
-                    thumbnailUrl = when (it.rssType) {
+                    thumbnailUrl = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> null
-                        is FeedItem.RSSType.Zenn -> (it.rssType as FeedItem.RSSType.Zenn).thumbnailUrl
-
-                        is FeedItem.RSSType.Hatena -> (it.rssType as FeedItem.RSSType.Hatena).thumbnailUrl
-
-                        is FeedItem.RSSType.Other -> (it.rssType as FeedItem.RSSType.Other).thumbnailUrl
+                        is FeedItem.RSSType.Zenn -> rssType.thumbnailUrl
+                        is FeedItem.RSSType.Hatena -> rssType.thumbnailUrl
+                        is FeedItem.RSSType.Other -> rssType.thumbnailUrl
                     },
                 )
             }
