@@ -45,23 +45,23 @@ private fun RssFeedEntity.toModel(): FeedItem {
         link = feedUrl,
         pubDate = pub,
         description = description,
-        rssType = when (type) {
+        rssType = when (val type = type) {
             is RSSCategoryGroupDetail.Qiita -> RSSType.Qiita(
-                authorName = (type as RSSCategoryGroupDetail.Qiita).authorName,
+                authorName = type.authorName,
             )
 
             is RSSCategoryGroupDetail.Zenn -> RSSType.Zenn(
-                authorName = (type as RSSCategoryGroupDetail.Zenn).authorName,
-                thumbnailUrl = (type as RSSCategoryGroupDetail.Zenn).thumbnailUrl,
+                authorName = type.authorName,
+                thumbnailUrl = type.thumbnailUrl,
             )
 
             is RSSCategoryGroupDetail.Hatena -> RSSType.Hatena(
-                authorName = (type as RSSCategoryGroupDetail.Hatena).authorName,
-                thumbnailUrl = (type as RSSCategoryGroupDetail.Hatena).thumbnailUrl,
+                authorName = type.authorName,
+                thumbnailUrl = type.thumbnailUrl,
             )
 
             is RSSCategoryGroupDetail.Other -> RSSType.Other(
-                thumbnailUrl = (type as RSSCategoryGroupDetail.Other).thumbnailUrl,
+                thumbnailUrl = type.thumbnailUrl,
             )
         },
         tag = tagIds,

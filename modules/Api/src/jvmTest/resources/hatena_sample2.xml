@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+    <title>Anonymous Blog</title>
+    <subtitle>This is a subtitle for the anonymous blog.</subtitle>
+    <link href="https://anonymous.example.com/" />
+    <updated>2025-10-08T09:17:49+09:00</updated>
+    <author>
+        <name>anonymous-user</name>
+    </author>
+    <generator uri="https://blog.hatena.ne.jp/" version="42f79471deb2125a73b7c416e7e81d">
+        Hatena::Blog
+    </generator>
+    <id>hatenablog://blog/0000000000000000000</id>
+    <entry>
+        <title>Anonymous Entry Title</title>
+        <link href="https://anonymous.example.com/entry/1" />
+        <id>hatenablog://entry/1111111111111111111</id>
+        <published>2025-10-08T09:17:49+09:00</published>
+        <updated>2025-10-08T14:10:10+09:00</updated>
+        <summary type="html">This is an anonymous summary for the test entry. It provides a brief overview of the content.</summary>
+        <content type="html">&lt;p&gt;This is the full anonymous content for the test entry. All personal and specific information has been removed to protect privacy.&lt;/p&gt;</content>
+        <author>
+            <name>anonymous-user</name>
+        </author>
+        <category label="poem" term="poem" />
+    </entry>
+</feed>
