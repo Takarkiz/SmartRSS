@@ -42,15 +42,6 @@ interface RssFeedDao {
     suspend fun insertFeeds(feeds: List<RssFeedEntity>)
 
     /**
-     * 既に保存済みのURLを持つRssFeedEntityが存在するかを返す
-     *
-     * @param url 対象のURL
-     * @return URLを持つRssFeedEntityが存在する場合はtrue, 存在しない場合はfalse
-     */
-    @Query("SELECT EXISTS(SELECT * FROM RssFeedEntity WHERE feed_url = :url)")
-    suspend fun doesUrlExist(url: String): Boolean
-
-    /**
      * 既存の RssFeedEntity を更新する
      */
     @Update

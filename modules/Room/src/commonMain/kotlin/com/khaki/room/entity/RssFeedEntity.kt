@@ -2,10 +2,16 @@ package com.khaki.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
-@Entity
+@Entity(
+    indices = [Index(
+        value = ["feed_url"],
+        unique = true
+    )]
+)
 data class RssFeedEntity(
     @PrimaryKey val id: String,
     val title: String,
