@@ -81,6 +81,10 @@ class RssUseCase(
         )
     }
 
+    fun checkAndAddGithubRssFeed(): Result<Boolean, RssAppendingError> {
+        return Result.Error(RssAppendingError.NotImplemented)
+    }
+
     suspend fun checkAndAddOtherRssFeed(url: URL): Result<Boolean, RssAppendingError> {
         val rssFeed = try {
             otherFeedsRssRepository.feedsByUrl(url.value)

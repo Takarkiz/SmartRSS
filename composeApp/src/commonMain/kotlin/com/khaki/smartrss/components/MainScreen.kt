@@ -8,10 +8,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +29,7 @@ import com.khaki.smartrss.ui.screen.recomend.RecommendViewModel
 import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
+import kotlinx.coroutines.flow.collect
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
@@ -35,6 +39,7 @@ fun MainScreen() {
 
     var currentTab by remember { mutableStateOf(AppTabs.Recommended) }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = Modifier
@@ -73,6 +78,7 @@ fun MainScreen() {
                 }
             }
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
         when (currentTab) {
             AppTabs.Recommended -> {
@@ -103,6 +109,12 @@ fun MainScreen() {
             AppTabs.RSS -> {
                 val rssViewModel = koinInject<RssViewModel>()
                 val uiState by rssViewModel.uiState.collectAsState()
+
+                LaunchedEffect(rssViewModel) {
+                    rssViewModel.errorMessageFlow.collect { message ->
+                        snackbarHostState.showSnackbar(message)
+                    }
+                }
 
                 RssContent(
                     uiState = uiState,
