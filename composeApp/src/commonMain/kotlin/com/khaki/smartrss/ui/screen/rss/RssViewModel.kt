@@ -134,6 +134,13 @@ class RssViewModel(
         }
     }
 
+    // すでに登録済みのRSSの最新フィードを取得する
+    fun refreshFeeds() {
+        viewModelScope.launch {
+            rssUseCase.refreshFeeds()
+        }
+    }
+
 }
 
 internal data class RssViewModelState(

@@ -15,6 +15,7 @@ import com.khaki.repository.RssFeedRepository
 import com.khaki.repository.ZennFeedRSSRepository
 import com.khaki.smartrss.ui.Result
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -29,6 +30,57 @@ class RssUseCase(
 
     val followingCategories: Flow<List<RssCategory>> =
         rssCategoryRepository.getAllFollowingCategories()
+
+    suspend fun refreshFeeds() {
+        // Collect all categories once and refresh feeds for each
+        val categories = try {
+            rssCategoryRepository.getAllCategories().first()
+        } catch (e: Exception) {
+            // If we failed to read categories, nothing to refresh
+            return
+        }
+
+        for (category in categories) {
+            try {
+                val feed = when (category.type) {
+                    RssCategory.RSSGroupType.Qiita -> when (val form = category.formType) {
+                        is UserId -> qiitaFeedsRssRepository.feedsByUserId(form.value)
+                        is Tag -> qiitaFeedsRssRepository.feedsByTag(form.value)
+                        is Popular -> qiitaFeedsRssRepository.popularFeeds()
+                        is URL -> continue // Unsupported for Qiita
+                        else -> continue
+                    }
+
+                    RssCategory.RSSGroupType.Zenn -> when (val form = category.formType) {
+                        is UserId -> zennFeedsRssRepository.feedsByUserId(form.value)
+                        is Tag -> zennFeedsRssRepository.feedsByTag(form.value)
+                        is Popular -> zennFeedsRssRepository.popularFeeds()
+                        is URL -> continue // Unsupported for Zenn
+                        else -> continue
+                    }
+
+                    RssCategory.RSSGroupType.HatenaBlog -> when (val form = category.formType) {
+                        is UserId -> hatenaFeedsRssRepository.feedsByUserId(form.value)
+                        else -> continue
+                    }
+
+                    RssCategory.RSSGroupType.Others -> when (val form = category.formType) {
+                        is URL -> otherFeedsRssRepository.feedsByUrl(form.value)
+                        else -> continue
+                    }
+
+                    RssCategory.RSSGroupType.Github -> continue // Not supported yet
+                    else -> continue
+                }
+
+                // Persist latest items; repository may deduplicate
+                runCatching { rssFeedRepository.addFeeds(feed.items) }
+            } catch (e: Exception) {
+                print(e)
+                continue
+            }
+        }
+    }
 
     /**
      * QiitaのRSSフィードが有効であるかどうかを判断し、RSSフィードとして追加をする
