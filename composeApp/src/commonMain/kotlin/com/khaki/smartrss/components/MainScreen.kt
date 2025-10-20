@@ -29,7 +29,6 @@ import com.khaki.smartrss.ui.screen.recomend.RecommendViewModel
 import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
-import kotlinx.coroutines.flow.collect
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
@@ -123,6 +122,12 @@ fun MainScreen() {
                     },
                     onConfirmItem = { group, form ->
                         rssViewModel.appendRssFeed(group, form)
+                    },
+                    onExpandBottomSheet = {
+                        rssViewModel.updateExpandedBottomSheet(it)
+                    },
+                    onDismissRequest = {
+                        rssViewModel.updateExpandedBottomSheet(null)
                     },
                     modifier = Modifier.padding(innerPadding)
                 )

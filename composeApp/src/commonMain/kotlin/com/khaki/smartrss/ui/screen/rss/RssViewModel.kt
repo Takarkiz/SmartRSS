@@ -46,6 +46,13 @@ class RssViewModel(
     fun appendRssFeed(group: RegisterableRssGroup, form: FormType) {
 
         viewModelScope.launch {
+
+            viewModelState.update {
+                it.copy(
+                    isLoadingGetRss = true
+                )
+            }
+
             val result = when (group) {
                 RegisterableRssGroup.Qiita -> {
                     rssUseCase.checkAndAddQiitaRssFeed(form)
@@ -78,7 +85,8 @@ class RssViewModel(
 
             viewModelState.update {
                 it.copy(
-                    isLoadingGetRss = false
+                    isLoadingGetRss = false,
+                    expandedBottomSheet = null
                 )
             }
 
@@ -117,10 +125,20 @@ class RssViewModel(
             }
         }
     }
+
+    fun updateExpandedBottomSheet(group: RegisterableRssGroup?) {
+        viewModelState.update {
+            it.copy(
+                expandedBottomSheet = group
+            )
+        }
+    }
+
 }
 
 internal data class RssViewModelState(
-    val isLoadingGetRss: Boolean = false
+    val isLoadingGetRss: Boolean = false,
+    val expandedBottomSheet: RegisterableRssGroup? = null,
 ) {
 
     fun toUiState(
@@ -166,7 +184,8 @@ internal data class RssViewModelState(
         return RssUiState(
             isLoading = isLoadingGetRss,
             registerableRssFormat = registerable,
-            registeredRssGroupList = registeredMap
+            registeredRssGroupList = registeredMap,
+            expandedBottomSheet = expandedBottomSheet,
         )
     }
 

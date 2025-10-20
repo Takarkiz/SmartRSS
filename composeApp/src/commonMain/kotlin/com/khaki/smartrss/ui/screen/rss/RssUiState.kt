@@ -10,7 +10,8 @@ import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 data class RssUiState(
     val isLoading: Boolean,
     val registerableRssFormat: Map<RegisterableRssGroup, List<RssInputFormType>>,
-    val registeredRssGroupList: Map<RegisterableRssGroup, List<RegisteredRssGroup>>
+    val registeredRssGroupList: Map<RegisterableRssGroup, List<RegisteredRssGroup>>,
+    val expandedBottomSheet: RegisterableRssGroup?
 )
 
 internal class RssUiStatePreviewParameterProvider : PreviewParameterProvider<RssUiState> {
@@ -29,12 +30,14 @@ internal class RssUiStatePreviewParameterProvider : PreviewParameterProvider<Rss
                 RssUiState(
                     isLoading = false,
                     registerableRssFormat = formMap,
-                    registeredRssGroupList = registeredMap
+                    registeredRssGroupList = registeredMap,
+                    expandedBottomSheet = RegisterableRssGroup.Qiita,
                 ),
                 RssUiState(
                     isLoading = true,
                     registerableRssFormat = formMap,
-                    registeredRssGroupList = emptyMap()
+                    registeredRssGroupList = emptyMap(),
+                    expandedBottomSheet = null
                 )
             )
         }
