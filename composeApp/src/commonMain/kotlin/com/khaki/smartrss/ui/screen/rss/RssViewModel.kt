@@ -7,15 +7,21 @@ import com.khaki.modules.core.model.feed.Popular
 import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.URL
 import com.khaki.modules.core.model.feed.UserId
+import com.khaki.smartrss.ui.Result
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RssInputFormType
+import com.khaki.smartrss.ui.screen.rss.usecase.RssAppendingError
 import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RssViewModel(
@@ -34,10 +40,20 @@ class RssViewModel(
             initialValue = RssViewModelState().toUiState(emptyList())
         )
 
+    private val errorMessage: MutableSharedFlow<String> = MutableSharedFlow()
+    val errorMessageFlow: SharedFlow<String> = errorMessage.asSharedFlow()
+
     fun appendRssFeed(group: RegisterableRssGroup, form: FormType) {
 
         viewModelScope.launch {
-            when (group) {
+
+            viewModelState.update {
+                it.copy(
+                    isLoadingGetRss = true
+                )
+            }
+
+            val result = when (group) {
                 RegisterableRssGroup.Qiita -> {
                     rssUseCase.checkAndAddQiitaRssFeed(form)
                 }
@@ -49,25 +65,87 @@ class RssViewModel(
                 RegisterableRssGroup.HatenaBlog -> {
                     if (form is UserId) {
                         rssUseCase.checkAndAddHatenaRssFeed(form)
+                    } else {
+                        Result.Error(RssAppendingError.IllegalInputFormat)
                     }
                 }
 
                 RegisterableRssGroup.Github -> {
-                    // GitHubリリースノート用のRSSフィード追加ロジックをここに実装
+                    rssUseCase.checkAndAddGithubRssFeed()
                 }
 
                 RegisterableRssGroup.Others -> {
                     if (form is URL) {
                         rssUseCase.checkAndAddOtherRssFeed(form)
+                    } else {
+                        Result.Error(RssAppendingError.IllegalInputFormat)
+                    }
+                }
+            }
+
+            viewModelState.update {
+                it.copy(
+                    isLoadingGetRss = false,
+                    expandedBottomSheet = null
+                )
+            }
+
+            when (result) {
+                is Result.Success -> {
+                    // Nothing to do
+                }
+
+                is Result.Error -> {
+                    when (result.error) {
+                        RssAppendingError.DuplicateRssCategory -> {
+                            errorMessage.emit("既に登録されているRSSフィードです")
+                        }
+
+                        is RssAppendingError.FetchingFailed -> {
+                            errorMessage.emit("RSSフィードの取得に失敗しました")
+                        }
+
+                        RssAppendingError.IllegalInputFormat -> {
+                            errorMessage.emit("入力形式が不正です")
+                        }
+
+                        RssAppendingError.NotFoundFeed -> {
+                            errorMessage.emit("フィードが見つかりませんでした")
+                        }
+
+                        RssAppendingError.NotImplemented -> {
+                            errorMessage.emit("未実装です")
+                        }
+
+                        is RssAppendingError.RoomDatabaseError -> {
+                            errorMessage.emit("Roomデータベースのエラーが発生しました")
+                        }
                     }
                 }
             }
         }
     }
+
+    fun updateExpandedBottomSheet(group: RegisterableRssGroup?) {
+        viewModelState.update {
+            it.copy(
+                expandedBottomSheet = group
+            )
+        }
+    }
+
+    // すでに登録済みのRSSの最新フィードを取得する
+    fun refreshFeeds() {
+        viewModelScope.launch {
+            rssUseCase.refreshFeeds()
+        }
+    }
+
 }
 
 internal data class RssViewModelState(
-    val isLoadingGetRss: Boolean = false
+    val isLoadingGetRss: Boolean = false,
+    val expandedBottomSheet: RegisterableRssGroup? = null,
 ) {
 
     fun toUiState(
@@ -113,7 +191,8 @@ internal data class RssViewModelState(
         return RssUiState(
             isLoading = isLoadingGetRss,
             registerableRssFormat = registerable,
-            registeredRssGroupList = registeredMap
+            registeredRssGroupList = registeredMap,
+            expandedBottomSheet = expandedBottomSheet,
         )
     }
 

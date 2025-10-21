@@ -15,10 +15,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.khaki.modules.core.model.feed.FormType
@@ -36,6 +32,8 @@ internal fun RssContent(
     uiState: RssUiState,
     onClickRssItem: (RegisteredRssGroup) -> Unit,
     onConfirmItem: (RegisterableRssGroup, FormType) -> Unit,
+    onExpandBottomSheet: (RegisterableRssGroup) -> Unit,
+    onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
@@ -44,8 +42,6 @@ internal fun RssContent(
         } else {
             StaggeredGridCells.Fixed(2)
         }
-
-        var selectedGroup: RegisterableRssGroup? by remember { mutableStateOf(null) }
 
         LazyVerticalStaggeredGrid(
             columns = columns,
@@ -86,7 +82,7 @@ internal fun RssContent(
                     targetGroup = group,
                     registeredRss = uiState.registeredRssGroupList[group] ?: emptyList(),
                     onClickAddButton = {
-                        selectedGroup = it
+                        onExpandBottomSheet(group)
                     },
                     onClickGroupItem = {
                         onClickRssItem(it)
@@ -95,10 +91,10 @@ internal fun RssContent(
             }
         }
 
-        selectedGroup?.let { group ->
+        uiState.expandedBottomSheet?.let { group ->
             ModalBottomSheet(
                 onDismissRequest = {
-                    selectedGroup = null
+                    onDismissRequest()
                 },
             ) {
                 RSSAdditionalFormContent(
@@ -124,6 +120,8 @@ fun RssContentPreview_Normal(
                 uiState = uiState,
                 onClickRssItem = {},
                 onConfirmItem = { _, _ -> },
+                onExpandBottomSheet = {},
+                onDismissRequest = {},
             )
         }
     }
