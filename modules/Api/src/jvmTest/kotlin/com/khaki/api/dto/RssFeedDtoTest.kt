@@ -30,7 +30,7 @@ class RssFeedDtoTest {
         assertEquals("sample-generator", channel.generator)
         assertEquals("ja", channel.language)
         assertEquals("sample-copyright", channel.copyright)
-        assertEquals("https://example.com/feeds/rss.xml", channel.atomLink.href)
+        assertEquals("https://example.com/feeds/rss.xml", channel.atomLink?.href)
 
         // Image level
         val image = channel.image
@@ -46,7 +46,9 @@ class RssFeedDtoTest {
         assertEquals("https://example.com/articles/1", firstItem.link)
         assertEquals("https://example.com/articles/1", firstItem.guid)
         assertNotNull(firstItem.pubDate)
+        assertNotNull(firstItem.description)
         assertTrue(firstItem.description.trim().startsWith("これはサンプルの説明1"))
+        assertNotNull(firstItem.contentEncoded)
         assertTrue(firstItem.contentEncoded.trim().startsWith("これはサンプルの本文1"))
 
         val enclosure = firstItem.enclosure

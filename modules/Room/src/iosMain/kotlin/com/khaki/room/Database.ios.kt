@@ -7,10 +7,11 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
-fun provideDatabase(): RoomDatabase.Builder<AppDatabase> {
-    val dbFilePath = documentDirectory() + "/" + APP_DATABASE_NAME
+@OptIn(ExperimentalForeignApi::class)
+fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
+    val dbFilePath = documentDirectory() + "/app_database.db"
     return Room.databaseBuilder<AppDatabase>(
-        name = dbFilePath
+        name = dbFilePath,
     )
 }
 
@@ -25,4 +26,3 @@ private fun documentDirectory(): String {
     )
     return requireNotNull(documentDirectory?.path)
 }
-
