@@ -35,6 +35,8 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }
 
+const val APP_DATABASE_NAME = "app-database.db"
+
 fun getAppDatabase(
     builder: RoomDatabase.Builder<AppDatabase>
 ): AppDatabase {
