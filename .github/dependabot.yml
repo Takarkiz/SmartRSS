@@ -1,0 +1,22 @@
+
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      androidx:
+        patterns:
+          - "androidx.*"
+      koin:
+        patterns:
+          - "io.insert-koin.*"
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin.*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
