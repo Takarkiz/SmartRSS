@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -43,7 +44,6 @@ kotlin {
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
-            
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -60,6 +60,9 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.coil.compose)
+
+            implementation(libs.navigation3.runtime)
+            implementation(libs.navigation3.ui)
 
             implementation(project(":modules:Api"))
             implementation(project(":modules:core:model"))
