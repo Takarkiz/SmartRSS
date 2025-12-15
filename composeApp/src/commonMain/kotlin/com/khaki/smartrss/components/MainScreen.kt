@@ -37,7 +37,9 @@ import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onFeedClick: (String) -> Unit,
+) {
 
     var currentTab by remember { mutableStateOf(AppTabs.Recommended) }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -106,7 +108,7 @@ fun MainScreen() {
                 RecommendContent(
                     uiState = recommendUiState,
                     onClickItem = {
-                        // TODO: 投稿のページへ遷移する
+                        onFeedClick(it)
                     },
                     onClickBookmark = { id ->
                         recommendViewModel.updateBookmarkState(id)
@@ -158,6 +160,8 @@ fun MainScreen() {
 @Composable
 private fun PreviewMainScreen() {
     SmartRssTheme {
-        MainScreen()
+        MainScreen(
+            onFeedClick = {}
+        )
     }
 }

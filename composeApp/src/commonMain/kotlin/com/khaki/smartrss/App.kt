@@ -1,14 +1,78 @@
 package com.khaki.smartrss
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSerializable
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.serialization.NavBackStackSerializer
+import androidx.navigation3.ui.NavDisplay
+import androidx.savedstate.serialization.SavedStateConfiguration
 import com.khaki.smartrss.components.MainScreen
+import com.khaki.smartrss.ui.navigation.Home
+import com.khaki.smartrss.ui.navigation.RssFeed
+import com.khaki.smartrss.ui.navigation.Screen
+import com.khaki.smartrss.ui.screen.rssfeed.RSSFeedScreen
 import com.khaki.smartrss.ui.theme.SmartRssTheme
+import kotlinx.serialization.PolymorphicSerializer
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
     SmartRssTheme {
-        MainScreen()
+
+        val configuration = SavedStateConfiguration {
+            serializersModule = SerializersModule {
+                polymorphic(Screen::class) {
+                    subclass(Home.serializer())
+                    subclass(RssFeed.serializer())
+                }
+            }
+        }
+
+        val backStack = rememberNavBackStack<Screen>(
+            configuration = configuration,
+            Home,
+        )
+
+        NavDisplay(
+            backStack = backStack,
+            onBack = { backStack.removeLast() },
+            entryProvider = entryProvider {
+                entry<Home> {
+                    MainScreen(
+                        onFeedClick = { url ->
+                            backStack.add(
+                                RssFeed(
+                                    title = "詳細",
+                                    url = url,
+                                )
+                            )
+                        }
+                    )
+                }
+
+                entry<RssFeed> { result ->
+                    RSSFeedScreen()
+                }
+            }
+        )
+    }
+}
+
+@Composable
+inline fun <reified T : NavKey> rememberNavBackStack(
+    configuration: SavedStateConfiguration,
+    vararg elements: T,
+): NavBackStack<T> {
+    return rememberSerializable(
+        configuration = configuration,
+        serializer = NavBackStackSerializer(PolymorphicSerializer(T::class)),
+    ) {
+        NavBackStack(*elements)
     }
 }
