@@ -2,9 +2,8 @@ package com.khaki.smartrss.ui.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.KSerializer
 
-interface Screen : NavKey
+sealed interface Screen : NavKey
 
 @Serializable
 data object Home : Screen
