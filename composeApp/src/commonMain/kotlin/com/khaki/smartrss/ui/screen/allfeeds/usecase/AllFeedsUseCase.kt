@@ -1,11 +1,11 @@
-package com.khaki.smartrss.ui.screen.recomend.usecase
+package com.khaki.smartrss.ui.screen.allfeeds.usecase
 
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.repository.RssFeedRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class RecommendUseCase(
+class AllFeedsUseCase(
     private val rssFeedRepository: RssFeedRepository,
 ) {
 
