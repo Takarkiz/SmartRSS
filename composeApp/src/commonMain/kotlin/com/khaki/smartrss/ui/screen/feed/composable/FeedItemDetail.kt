@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbDown
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.ThumbDown
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -79,7 +80,7 @@ fun FeedItemDetail(
                     IconButton(onClick = { onClickBad() }) {
                         Icon(
                             imageVector = if (rating == FeedItemUiModel.Rating.Bad) {
-                                Icons.Outlined.ThumbDown
+                                Icons.Filled.ThumbDown
                             } else {
                                 Icons.Outlined.ThumbDown
                             },
