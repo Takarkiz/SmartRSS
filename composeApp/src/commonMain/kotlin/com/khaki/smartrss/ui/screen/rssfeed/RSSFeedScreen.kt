@@ -4,13 +4,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,6 +27,9 @@ fun RSSFeedScreen(
     onRequestUrlChange: (String) -> Unit,
     onBack: () -> Unit,
 ) {
+
+    var requestedExternalBrowserUrl: String? by remember { mutableStateOf(null) }
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -51,7 +60,45 @@ fun RSSFeedScreen(
                 .fillMaxSize()
                 .padding(it),
             onRequestUrlChange = { url ->
-                onRequestUrlChange(url)
+                requestedExternalBrowserUrl = url
+            }
+        )
+    }
+
+    if (requestedExternalBrowserUrl != null) {
+        AlertDialog(
+            onDismissRequest = {
+                requestedExternalBrowserUrl = null
+            },
+            title = {
+                Text(
+                    text = "別のページを開こうとしています"
+                )
+            },
+            text = {
+                Text(
+                    text = "別のブラウザでこのページを開きますか？\n（$requestedExternalBrowserUrl）"
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val url = requestedExternalBrowserUrl ?: return@TextButton
+                        requestedExternalBrowserUrl = null
+                        onRequestUrlChange(url)
+                    }
+                ) {
+                    Text("開く")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        requestedExternalBrowserUrl = null
+                    }
+                ) {
+                    Text("キャンセル")
+                }
             }
         )
     }
@@ -63,5 +110,3 @@ expect fun RSSFeedContent(
     uiState: RSSFeedUiState,
     onRequestUrlChange: (String) -> Unit
 )
-
-
