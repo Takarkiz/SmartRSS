@@ -1,28 +1,28 @@
-package com.khaki.smartrss.ui.screen.recomend
+package com.khaki.smartrss.ui.screen.allfeeds
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.smartrss.ext.toRelativeJaString
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
-import com.khaki.smartrss.ui.screen.recomend.usecase.RecommendUseCase
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
+import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class RecommendViewModel(
-    private val recommendUseCase: RecommendUseCase,
+class AllFeedsViewModel(
+    private val useCase: AllFeedsUseCase,
 ) : ViewModel() {
 
-    companion object {
+    companion object Companion {
 
         private const val TIMEOUT_MILLS = 5_000L
     }
 
-    val uiState: StateFlow<RecommendUiState> = recommendUseCase.allFeeds.map { feeds ->
-        RecommendUiState(
+    val uiState: StateFlow<AllFeedsUiState> = useCase.allFeeds.map { feeds ->
+        AllFeedsUiState(
             feedItems = feeds.map {
                 FeedItemUiModel(
                     id = it.id,
@@ -55,12 +55,12 @@ class RecommendViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLS),
-        initialValue = RecommendUiState()
+        initialValue = AllFeedsUiState()
     )
 
     fun updateBookmarkState(feedId: String) {
         viewModelScope.launch {
-            recommendUseCase.updateBookmark(feedId)
+            useCase.updateBookmark(feedId)
         }
     }
 }

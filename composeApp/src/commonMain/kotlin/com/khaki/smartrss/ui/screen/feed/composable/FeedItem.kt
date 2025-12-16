@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.recomend.composable
+package com.khaki.smartrss.ui.screen.feed.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModelPreviewProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
