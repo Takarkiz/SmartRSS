@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -42,7 +43,7 @@ fun MainScreen(
     onFeedClick: (String, String) -> Unit,
 ) {
 
-    var currentTab by remember { mutableStateOf(AppTabs.Recommended) }
+    var currentTab by rememberSaveable { mutableStateOf(AppTabs.Recommended) }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val snackbarHostState = remember { SnackbarHostState() }
 
