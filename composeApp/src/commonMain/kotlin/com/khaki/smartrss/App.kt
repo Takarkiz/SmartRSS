@@ -50,7 +50,7 @@ fun App() {
             backStack = backStack,
             onBack = { backStack.removeLast() },
             entryProvider = entryProvider {
-                entry<Home> {
+                entry<Home> { _ ->
                     MainScreen(
                         onFeedClick = { _, url ->
                             backStack.add(
