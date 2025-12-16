@@ -26,8 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
-import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsViewModel
+import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsViewModel
 import com.khaki.smartrss.ui.screen.recomend.RecommendFeedsContent
 import com.khaki.smartrss.ui.screen.rss.RssContent
@@ -46,6 +46,8 @@ fun MainScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val allFeedsViewModel = koinInject<AllFeedsViewModel>()
+    val bookmarkFeedsViewModel = koinInject<BookmarkFeedsViewModel>()
     val rssViewModel = koinInject<RssViewModel>()
 
     Scaffold(
@@ -106,7 +108,6 @@ fun MainScreen(
             }
 
             AppTabs.AllFeeds -> {
-                val allFeedsViewModel = koinInject<AllFeedsViewModel>()
                 val uiState by allFeedsViewModel.uiState.collectAsState()
 
                 AllFeedsContent(
@@ -122,7 +123,6 @@ fun MainScreen(
             }
 
             AppTabs.Bookmarks -> {
-                val bookmarkFeedsViewModel = koinInject<BookmarkFeedsViewModel>()
                 val uiState by bookmarkFeedsViewModel.uiState.collectAsState()
 
                 BookmarkFeedsContent(

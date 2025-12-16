@@ -60,7 +60,7 @@ class BookmarkFeedsViewModel(
 
     fun updateBookmarkState(feedId: String) {
         viewModelScope.launch {
-            val feed = uiState.value.feedItems.first { it.id == feedId }
+            val feed = uiState.value.feedItems.firstOrNull { it.id == feedId } ?: return@launch
             useCase.updateBookmark(feedId, !feed.isBookmark)
         }
     }

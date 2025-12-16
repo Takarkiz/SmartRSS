@@ -21,7 +21,10 @@ fun BookmarkFeedsContent(
         LazyColumn(
             modifier = modifier.fillMaxSize()
         ) {
-            items(uiState.feedItems) { item ->
+            items(
+                items = uiState.feedItems,
+                key = { it.id }
+            ) { item ->
                 FeedItem(
                     item = item,
                     onClickItem = onClickItem,
