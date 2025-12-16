@@ -52,6 +52,11 @@ val appModule = module {
     single {
         AllFeedsUseCase(
             rssFeedRepository = get<RssFeedRepository>(),
+            qiitaFeedsRssRepository = get<QiitaFeedRSSRepository>(),
+            zennFeedsRssRepository = get<ZennFeedRSSRepository>(),
+            hatenaFeedsRssRepository = get<HatenaFeedRSSRepository>(),
+            otherFeedsRssRepository = get<OtherFeedRssRepository>(),
+            rssCategoryRepository = get<RssCategoryRepository>(),
         )
     }
 

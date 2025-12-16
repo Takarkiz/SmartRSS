@@ -6,9 +6,10 @@ import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.smartrss.ext.toRelativeJaString
 import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,9 @@ class AllFeedsViewModel(
         private const val TIMEOUT_MILLS = 5_000L
     }
 
-    val uiState: StateFlow<AllFeedsUiState> = useCase.allFeeds.map { feeds ->
+    private val _isRefreshing = MutableStateFlow(false)
+
+    val uiState: StateFlow<AllFeedsUiState> = useCase.allFeeds.combine(_isRefreshing) { feeds, isRefreshing ->
         AllFeedsUiState(
             feedItems = feeds.map {
                 FeedItemUiModel(
@@ -51,13 +54,22 @@ class AllFeedsViewModel(
                         is FeedItem.RSSType.Other -> rssType.thumbnailUrl
                     },
                 )
-            }
+            },
+            isRefreshing = isRefreshing
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLS),
         initialValue = AllFeedsUiState()
     )
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            useCase.refreshFeeds()
+            _isRefreshing.value = false
+        }
+    }
 
     fun updateBookmarkState(feedId: String) {
         viewModelScope.launch {
