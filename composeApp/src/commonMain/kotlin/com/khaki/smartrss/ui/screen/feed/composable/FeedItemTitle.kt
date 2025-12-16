@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModelPreviewProvider
@@ -31,6 +32,7 @@ fun FeedItemTitle(
     typeIconResource: DrawableResource,
     onClickBookmark: () -> Unit,
     modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
 ) {
     Row(
         modifier = modifier
@@ -52,7 +54,7 @@ fun FeedItemTitle(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = color,
             )
 
         }
