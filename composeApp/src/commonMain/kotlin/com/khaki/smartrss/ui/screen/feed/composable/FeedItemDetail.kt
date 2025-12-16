@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.recomend.composable
+package com.khaki.smartrss.ui.screen.feed.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModelPreviewProvider
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModelPreviewProvider
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.smartrss.ext.toRelativeJaString
-import com.khaki.smartrss.ui.screen.recomend.model.FeedItemUiModel
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

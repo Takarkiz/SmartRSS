@@ -1,4 +1,4 @@
-package com.khaki.smartrss.ui.screen.recomend.model
+package com.khaki.smartrss.ui.screen.feed.model
 
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
