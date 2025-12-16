@@ -63,4 +63,10 @@ class AllFeedsViewModel(
             useCase.updateBookmark(feedId)
         }
     }
+
+    fun doAsRead(feedId: String) {
+        viewModelScope.launch {
+            useCase.doAsRead(feedId)
+        }
+    }
 }

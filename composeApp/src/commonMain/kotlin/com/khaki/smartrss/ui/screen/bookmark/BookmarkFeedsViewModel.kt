@@ -64,4 +64,10 @@ class BookmarkFeedsViewModel(
             useCase.updateBookmark(feedId, !feed.isBookmark)
         }
     }
+
+    fun doAsRead(feedId: String) {
+        viewModelScope.launch {
+            useCase.doAsRead(feedId)
+        }
+    }
 }

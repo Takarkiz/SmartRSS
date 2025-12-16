@@ -39,7 +39,7 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onFeedClick: (String) -> Unit,
+    onFeedClick: (String, String) -> Unit,
 ) {
 
     var currentTab by remember { mutableStateOf(AppTabs.Recommended) }
@@ -112,8 +112,9 @@ fun MainScreen(
 
                 AllFeedsContent(
                     uiState = uiState,
-                    onClickItem = {
-                        onFeedClick(it)
+                    onClickItem = { id, url ->
+                        allFeedsViewModel.doAsRead(id)
+                        onFeedClick(id, url)
                     },
                     onClickBookmark = { id ->
                         allFeedsViewModel.updateBookmarkState(id)
@@ -127,8 +128,9 @@ fun MainScreen(
 
                 BookmarkFeedsContent(
                     uiState = uiState,
-                    onClickItem = {
-                        onFeedClick(it)
+                    onClickItem = { id, url ->
+                        bookmarkFeedsViewModel.doAsRead(id)
+                        onFeedClick(id, url)
                     },
                     onClickBookmark = { id ->
                         bookmarkFeedsViewModel.updateBookmarkState(id)
@@ -173,7 +175,7 @@ fun MainScreen(
 private fun PreviewMainScreen() {
     SmartRssTheme {
         MainScreen(
-            onFeedClick = {}
+            onFeedClick = { _, _ -> }
         )
     }
 }

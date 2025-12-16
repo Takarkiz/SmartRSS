@@ -15,4 +15,8 @@ class BookmarkFeedsUseCase(
     suspend fun updateBookmark(feedId: String, isBookmark: Boolean) {
         rssFeedRepository.updateBookmark(feedId, isBookmark)
     }
+
+    suspend fun doAsRead(id: String) {
+        rssFeedRepository.doAsRead(id)
+    }
 }

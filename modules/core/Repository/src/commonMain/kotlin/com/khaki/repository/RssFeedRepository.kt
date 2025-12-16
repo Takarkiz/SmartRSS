@@ -14,4 +14,6 @@ interface RssFeedRepository {
     suspend fun addFeeds(feeds: List<FeedItem>)
 
     suspend fun updateBookmark(id: String, isBookmark: Boolean)
+
+    suspend fun doAsRead(id: String)
 }

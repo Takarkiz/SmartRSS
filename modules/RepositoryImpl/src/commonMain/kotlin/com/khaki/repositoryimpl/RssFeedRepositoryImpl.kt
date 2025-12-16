@@ -35,6 +35,10 @@ class RssFeedRepositoryImpl(
     override suspend fun updateBookmark(id: String, isBookmark: Boolean) {
         database.updateBookmarkedState(id, isBookmark)
     }
+
+    override suspend fun doAsRead(id: String) {
+        database.updateReadState(id)
+    }
 }
 
 private fun RssFeedEntity.toModel(): FeedItem {

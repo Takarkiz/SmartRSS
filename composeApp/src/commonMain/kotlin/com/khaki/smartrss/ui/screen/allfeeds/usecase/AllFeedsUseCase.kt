@@ -18,4 +18,8 @@ class AllFeedsUseCase(
         val isBookmark = !feed.isBookmarked
         rssFeedRepository.updateBookmark(id, isBookmark)
     }
+
+    suspend fun doAsRead(id: String) {
+        rssFeedRepository.doAsRead(id)
+    }
 }
