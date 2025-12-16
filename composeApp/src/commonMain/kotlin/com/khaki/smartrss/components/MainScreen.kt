@@ -28,6 +28,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
 import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsViewModel
+import com.khaki.smartrss.ui.screen.recomend.RecommendFeedsContent
 import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
@@ -100,7 +101,7 @@ fun MainScreen(
     ) { innerPadding ->
         when (currentTab) {
             AppTabs.Recommended -> {
-
+                RecommendFeedsContent()
             }
 
             AppTabs.AllFeeds -> {
