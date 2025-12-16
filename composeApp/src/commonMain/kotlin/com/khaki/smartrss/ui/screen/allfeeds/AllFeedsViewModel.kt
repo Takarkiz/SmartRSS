@@ -30,6 +30,7 @@ class AllFeedsViewModel(
                     description = it.description.replace("\n", " "),
                     link = it.link,
                     isBookmark = it.isBookmarked,
+                    isRead = it.isRead,
                     pubDate = it.pubDate.toRelativeJaString(),
                     type = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> FeedItemUiModel.RSSFeedType.Qiita
@@ -61,6 +62,12 @@ class AllFeedsViewModel(
     fun updateBookmarkState(feedId: String) {
         viewModelScope.launch {
             useCase.updateBookmark(feedId)
+        }
+    }
+
+    fun doAsRead(feedId: String) {
+        viewModelScope.launch {
+            useCase.doAsRead(feedId)
         }
     }
 }

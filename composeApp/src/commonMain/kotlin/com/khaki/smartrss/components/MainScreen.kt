@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -39,10 +40,10 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onFeedClick: (String) -> Unit,
+    onFeedClick: (String, String) -> Unit,
 ) {
 
-    var currentTab by remember { mutableStateOf(AppTabs.Recommended) }
+    var currentTab by rememberSaveable { mutableStateOf(AppTabs.Recommended) }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -112,8 +113,9 @@ fun MainScreen(
 
                 AllFeedsContent(
                     uiState = uiState,
-                    onClickItem = {
-                        onFeedClick(it)
+                    onClickItem = { id, url ->
+                        allFeedsViewModel.doAsRead(id)
+                        onFeedClick(id, url)
                     },
                     onClickBookmark = { id ->
                         allFeedsViewModel.updateBookmarkState(id)
@@ -127,8 +129,9 @@ fun MainScreen(
 
                 BookmarkFeedsContent(
                     uiState = uiState,
-                    onClickItem = {
-                        onFeedClick(it)
+                    onClickItem = { id, url ->
+                        bookmarkFeedsViewModel.doAsRead(id)
+                        onFeedClick(id, url)
                     },
                     onClickBookmark = { id ->
                         bookmarkFeedsViewModel.updateBookmarkState(id)
@@ -173,7 +176,7 @@ fun MainScreen(
 private fun PreviewMainScreen() {
     SmartRssTheme {
         MainScreen(
-            onFeedClick = {}
+            onFeedClick = { _, _ -> }
         )
     }
 }
