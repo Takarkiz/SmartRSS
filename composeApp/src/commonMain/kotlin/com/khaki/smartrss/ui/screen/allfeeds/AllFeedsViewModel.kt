@@ -3,6 +3,7 @@ package com.khaki.smartrss.ui.screen.allfeeds
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FeedItem
+import com.khaki.modules.core.model.feed.UserRating
 import com.khaki.smartrss.ext.toRelativeJaString
 import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
 import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
@@ -44,7 +45,11 @@ class AllFeedsViewModel(
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
-                    userRating = FeedItemUiModel.Rating.Good,
+                    userRating = when (it.userRating) {
+                        UserRating.Bad -> FeedItemUiModel.Rating.Bad
+                        UserRating.Good -> FeedItemUiModel.Rating.Good
+                        UserRating.None -> FeedItemUiModel.Rating.None
+                    },
                     thumbnailUrl = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> null
                         is FeedItem.RSSType.Zenn -> rssType.thumbnailUrl
@@ -68,13 +73,13 @@ class AllFeedsViewModel(
 
     fun updateGoodState(feedId: String) {
         viewModelScope.launch {
-            // TODO: Implement good button click action in useCase
+            useCase.updateGoodState(feedId)
         }
     }
 
     fun updateBadState(feedId: String) {
         viewModelScope.launch {
-            // TODO: Implement bad button click action in useCase
+            useCase.updateBadState(feedId)
         }
     }
 

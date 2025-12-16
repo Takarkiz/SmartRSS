@@ -67,14 +67,22 @@ fun FeedItemDetail(
                 ) {
                     IconButton(onClick = { onClickGood() }) {
                         Icon(
-                            imageVector = if (rating == FeedItemUiModel.Rating.Good) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
+                            imageVector = if (rating == FeedItemUiModel.Rating.Good) {
+                                Icons.Filled.ThumbUp
+                            } else {
+                                Icons.Outlined.ThumbUp
+                            },
                             tint = MaterialTheme.colorScheme.onSurface,
                             contentDescription = "Good",
                         )
                     }
                     IconButton(onClick = { onClickBad() }) {
                         Icon(
-                            imageVector = if (rating == FeedItemUiModel.Rating.Bad) Icons.Outlined.ThumbDown else Icons.Outlined.ThumbDown,
+                            imageVector = if (rating == FeedItemUiModel.Rating.Bad) {
+                                Icons.Outlined.ThumbDown
+                            } else {
+                                Icons.Outlined.ThumbDown
+                            },
                             tint = MaterialTheme.colorScheme.onSurface,
                             contentDescription = "Bad",
                         )

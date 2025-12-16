@@ -27,6 +27,7 @@ data class RssFeedEntity(
     @ColumnInfo("is_favorite") val isFavorite: Boolean = false,
     @ColumnInfo("is_bookmarked") val isBookmarked: Boolean = false,
     @ColumnInfo("recommend_score") val recommendScore: Int = 0,
+    @ColumnInfo("user_rating") val userRating: UserRating = UserRating.None,
 )
 
 @Serializable
@@ -54,4 +55,10 @@ sealed interface RSSCategoryGroupDetail {
     data class Other(
         val thumbnailUrl: String?,
     ) : RSSCategoryGroupDetail
+}
+
+@Serializable
+@Polymorphic
+enum class UserRating {
+    Good, Bad, None
 }
