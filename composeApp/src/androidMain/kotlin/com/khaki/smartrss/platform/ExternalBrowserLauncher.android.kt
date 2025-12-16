@@ -1,8 +1,8 @@
 package com.khaki.smartrss.platform
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
@@ -20,7 +20,12 @@ actual fun ExternalBrowserLauncher(
         val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        context.startActivity(intent)
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            // 対応するアプリが見つからない場合のエラーハンドリング
+            e.printStackTrace()
+        }
         onLaunched()
     }
 }

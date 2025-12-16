@@ -26,9 +26,13 @@ actual fun RSSFeedContent(
     var isLoading by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.fillMaxSize()) {
+
         AndroidView(
             factory = { context ->
-                WebView(context).apply {
+                WebView(context)
+            },
+            update = { webView ->
+                webView.apply {
                     webViewClient = object : WebViewClient() {
                         override fun shouldOverrideUrlLoading(
                             view: WebView?,
@@ -52,12 +56,9 @@ actual fun RSSFeedContent(
                             isLoading = false
                         }
                     }
-                    loadUrl(uiState.requestUrl)
-                }
-            },
-            update = { webView ->
-                if (webView.url != uiState.requestUrl) {
-                    webView.loadUrl(uiState.requestUrl)
+                    if (url != uiState.requestUrl) {
+                        loadUrl(uiState.requestUrl)
+                    }
                 }
             },
             modifier = Modifier.fillMaxSize()

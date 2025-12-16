@@ -30,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     SmartRssTheme {
 
-        val configuration = SavedStateConfiguration { 
+        val configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
                 polymorphic(Screen::class) {
                     subclass(Home.serializer())
