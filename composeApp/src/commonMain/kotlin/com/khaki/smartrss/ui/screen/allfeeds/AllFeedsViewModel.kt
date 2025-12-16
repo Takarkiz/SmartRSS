@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.smartrss.ext.toRelativeJaString
-import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
+import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -44,6 +44,7 @@ class AllFeedsViewModel(
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
+                    userRating = FeedItemUiModel.Rating.Good,
                     thumbnailUrl = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> null
                         is FeedItem.RSSType.Zenn -> rssType.thumbnailUrl
@@ -62,6 +63,18 @@ class AllFeedsViewModel(
     fun updateBookmarkState(feedId: String) {
         viewModelScope.launch {
             useCase.updateBookmark(feedId)
+        }
+    }
+
+    fun updateGoodState(feedId: String) {
+        viewModelScope.launch {
+            // TODO: Implement good button click action in useCase
+        }
+    }
+
+    fun updateBadState(feedId: String) {
+        viewModelScope.launch {
+            // TODO: Implement bad button click action in useCase
         }
     }
 

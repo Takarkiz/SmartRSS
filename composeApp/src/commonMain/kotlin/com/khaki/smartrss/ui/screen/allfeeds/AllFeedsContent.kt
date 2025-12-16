@@ -12,6 +12,8 @@ fun AllFeedsContent(
     uiState: AllFeedsUiState,
     onClickItem: (String, String) -> Unit,
     onClickBookmark: (String) -> Unit,
+    onClickGood: (String) -> Unit,
+    onClickBad: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -30,6 +32,12 @@ fun AllFeedsContent(
                 },
                 onClickBookmark = { id ->
                     onClickBookmark(id)
+                },
+                onClickGood = { id ->
+                    onClickGood(id)
+                },
+                onClickBad = { id ->
+                    onClickBad(id)
                 }
             )
         }

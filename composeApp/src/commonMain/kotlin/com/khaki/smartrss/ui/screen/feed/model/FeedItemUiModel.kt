@@ -17,6 +17,7 @@ data class FeedItemUiModel(
     val isRead: Boolean,
     val pubDate: String,
     val type: RSSFeedType,
+    val userRating: Rating,
     val thumbnailUrl: String?,
 ) {
 
@@ -48,6 +49,10 @@ data class FeedItemUiModel(
                 get() = Res.drawable.favicon_rss
         }
     }
+
+    enum class Rating {
+        Good, Bad, None
+    }
 }
 
 internal class FeedItemUiModelPreviewProvider : PreviewParameterProvider<FeedItemUiModel> {
@@ -63,6 +68,7 @@ internal class FeedItemUiModelPreviewProvider : PreviewParameterProvider<FeedIte
                 pubDate = "2023-10-01",
                 type = FeedItemUiModel.RSSFeedType.Qiita,
                 thumbnailUrl = null,
+                userRating = FeedItemUiModel.Rating.Good,
             ),
             FeedItemUiModel(
                 id = "2",
@@ -74,6 +80,7 @@ internal class FeedItemUiModelPreviewProvider : PreviewParameterProvider<FeedIte
                 pubDate = "2023-10-02",
                 type = FeedItemUiModel.RSSFeedType.Qiita,
                 thumbnailUrl = null,
+                userRating = FeedItemUiModel.Rating.None,
             )
         )
 }

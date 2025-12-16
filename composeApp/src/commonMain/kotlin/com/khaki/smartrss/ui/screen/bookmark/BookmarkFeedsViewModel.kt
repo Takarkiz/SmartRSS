@@ -44,6 +44,7 @@ class BookmarkFeedsViewModel(
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
+                    userRating = FeedItemUiModel.Rating.Bad,
                     thumbnailUrl = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> null
                         is FeedItem.RSSType.Zenn -> rssType.thumbnailUrl

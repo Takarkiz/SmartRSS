@@ -13,6 +13,8 @@ fun BookmarkFeedsContent(
     uiState: BookmarkFeedsUiState,
     onClickItem: (String, String) -> Unit,
     onClickBookmark: (String) -> Unit,
+    onClickGood: (String) -> Unit,
+    onClickBad: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (uiState.feedItems.isEmpty()) {
@@ -30,7 +32,9 @@ fun BookmarkFeedsContent(
                     onClickItem = {
                         onClickItem(item.id, item.link)
                     },
-                    onClickBookmark = onClickBookmark
+                    onClickBookmark = onClickBookmark,
+                    onClickGood = onClickGood,
+                    onClickBad = onClickBad,
                 )
             }
         }

@@ -120,6 +120,12 @@ fun MainScreen(
                     onClickBookmark = { id ->
                         allFeedsViewModel.updateBookmarkState(id)
                     },
+                    onClickGood = { id ->
+                        allFeedsViewModel.updateGoodState(id)
+                    },
+                    onClickBad = { id ->
+                        allFeedsViewModel.updateBadState(id)
+                    },
                     modifier = Modifier.padding(innerPadding)
                 )
             }
@@ -135,6 +141,12 @@ fun MainScreen(
                     },
                     onClickBookmark = { id ->
                         bookmarkFeedsViewModel.updateBookmarkState(id)
+                    },
+                    onClickGood = {
+                        // TODO: Implement good button click action
+                    },
+                    onClickBad = {
+                        // TODO: Implement bad button click action
                     },
                     modifier = Modifier.padding(innerPadding)
                 )
