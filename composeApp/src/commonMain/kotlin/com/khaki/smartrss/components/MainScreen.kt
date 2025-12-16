@@ -28,6 +28,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
 import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsViewModel
+import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsViewModel
 import com.khaki.smartrss.ui.screen.recomend.RecommendFeedsContent
 import com.khaki.smartrss.ui.screen.rss.RssContent
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
@@ -121,7 +122,19 @@ fun MainScreen(
             }
 
             AppTabs.Bookmarks -> {
-                BookmarkFeedsContent()
+                val bookmarkFeedsViewModel = koinInject<BookmarkFeedsViewModel>()
+                val uiState by bookmarkFeedsViewModel.uiState.collectAsState()
+
+                BookmarkFeedsContent(
+                    uiState = uiState,
+                    onClickItem = {
+                        onFeedClick(it)
+                    },
+                    onClickBookmark = { id ->
+                        bookmarkFeedsViewModel.updateBookmarkState(id)
+                    },
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
 
             AppTabs.RSS -> {

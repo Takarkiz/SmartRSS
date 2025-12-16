@@ -14,6 +14,8 @@ import com.khaki.repositoryimpl.RssFeedRepositoryImpl
 import com.khaki.repositoryimpl.ZennFeedRSSRepositoryImpl
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsViewModel
 import com.khaki.smartrss.ui.screen.allfeeds.usecase.AllFeedsUseCase
+import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsViewModel
+import com.khaki.smartrss.ui.screen.bookmark.usecase.BookmarkFeedsUseCase
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
 import org.koin.core.module.dsl.factoryOf
@@ -53,8 +55,16 @@ val appModule = module {
         )
     }
 
+    single {
+        BookmarkFeedsUseCase(
+            rssFeedRepository = get<RssFeedRepository>(),
+        )
+    }
+
     // ViewModel - use factory to create a new instance when requested
     factoryOf(::RssViewModel)
 
     factoryOf(::AllFeedsViewModel)
+
+    factoryOf(::BookmarkFeedsViewModel)
 }
