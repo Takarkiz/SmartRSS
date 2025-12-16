@@ -57,7 +57,12 @@ fun App() {
                 }
 
                 entry<RssFeed> { result ->
-                    RSSFeedScreen()
+                    RSSFeedScreen(
+                        title = result.title,
+                        url = result.url,
+                        onBack = { backStack.removeLast() },
+                        onRequestUrlChange = { url -> }
+                    )
                 }
             }
         )
