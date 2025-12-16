@@ -4,4 +4,5 @@ import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
 
 data class AllFeedsUiState(
     val feedItems: List<FeedItemUiModel> = emptyList(),
+    val isRefreshing: Boolean = false,
 )
