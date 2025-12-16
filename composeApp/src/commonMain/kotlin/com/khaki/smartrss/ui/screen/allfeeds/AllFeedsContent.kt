@@ -2,6 +2,7 @@ package com.khaki.smartrss.ui.screen.allfeeds
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.khaki.smartrss.ui.screen.feed.composable.FeedItem
@@ -18,12 +19,12 @@ fun AllFeedsContent(
         modifier = modifier
             .fillMaxSize()
     ) {
-
         items(
-            count = uiState.feedItems.size
-        ) {
+            items = uiState.feedItems,
+            key = { it.id }
+        ) { item ->
             FeedItem(
-                item = uiState.feedItems[it],
+                item = item,
                 onClickItem = { url ->
                     onClickItem(url)
                 },
