@@ -24,6 +24,8 @@ fun FeedItem(
     item: FeedItemUiModel,
     onClickItem: (String) -> Unit,
     onClickBookmark: (String) -> Unit,
+    onClickGood: (String) -> Unit,
+    onClickBad: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -53,8 +55,14 @@ fun FeedItem(
             description = item.description,
             pubDate = item.pubDate,
             thumbnailUrl = item.thumbnailUrl,
+            rating = item.userRating,
+            onClickGood = {
+                onClickGood(item.id)
+            },
+            onClickBad = {
+                onClickBad(item.id)
+            }
         )
-
     }
 }
 
@@ -68,6 +76,8 @@ private fun FeedItemPreview(
             item = item,
             onClickItem = {},
             onClickBookmark = {},
+            onClickGood = {},
+            onClickBad = {},
         )
     }
 }

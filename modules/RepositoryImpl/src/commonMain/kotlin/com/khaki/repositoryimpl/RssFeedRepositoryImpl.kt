@@ -2,6 +2,7 @@ package com.khaki.repositoryimpl
 
 import com.khaki.modules.core.model.feed.FeedItem
 import com.khaki.modules.core.model.feed.FeedItem.RSSType
+import com.khaki.modules.core.model.feed.UserRating
 import com.khaki.repository.RssFeedRepository
 import com.khaki.room.dao.RssFeedDao
 import com.khaki.room.entity.RSSCategoryGroupDetail
@@ -24,16 +25,23 @@ class RssFeedRepositoryImpl(
         return database.getFeedsById(id)?.toModel()
     }
 
-    override suspend fun addFeed(feed: FeedItem) {
-        database.insertFeed(feed.toEntity())
-    }
-
     override suspend fun addFeeds(feeds: List<FeedItem>) {
         database.insertFeeds(feeds.map { it.toEntity() })
     }
 
-    override suspend fun updateBookmark(id: String, isBookmark: Boolean) {
-        database.updateBookmarkedState(id, isBookmark)
+    override suspend fun updateBookmark(id: String, isBookmarked: Boolean) {
+        database.updateBookmarkedState(id, isBookmarked)
+    }
+
+    override suspend fun updateUserRating(id: String, userRating: UserRating) {
+        database.updateUserRating(
+            id = id,
+            userRating = when (userRating) {
+                UserRating.Bad -> com.khaki.room.entity.UserRating.Bad
+                UserRating.Good -> com.khaki.room.entity.UserRating.Good
+                UserRating.None -> com.khaki.room.entity.UserRating.None
+            }
+        )
     }
 
     override suspend fun doAsRead(id: String) {
@@ -73,6 +81,11 @@ private fun RssFeedEntity.toModel(): FeedItem {
         isFavorite = isFavorite,
         isBookmarked = isBookmarked,
         recommendScore = recommendScore,
+        userRating = when (userRating) {
+            com.khaki.room.entity.UserRating.Bad -> UserRating.Bad
+            com.khaki.room.entity.UserRating.Good -> UserRating.Good
+            com.khaki.room.entity.UserRating.None -> UserRating.None
+        },
     )
 }
 
@@ -108,6 +121,11 @@ private fun FeedItem.toEntity(): RssFeedEntity = RssFeedEntity(
     isFavorite = isFavorite,
     isBookmarked = isBookmarked,
     recommendScore = recommendScore,
+    userRating = when (userRating) {
+        UserRating.Bad -> com.khaki.room.entity.UserRating.Bad
+        UserRating.Good -> com.khaki.room.entity.UserRating.Good
+        UserRating.None -> com.khaki.room.entity.UserRating.None
+    }
 )
 
 private fun nowFallback(): LocalDateTime =

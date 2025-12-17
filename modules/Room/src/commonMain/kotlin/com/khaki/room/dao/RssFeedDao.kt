@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.khaki.room.entity.RssFeedEntity
+import com.khaki.room.entity.UserRating
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -80,4 +81,12 @@ interface RssFeedDao {
      */
     @Query("UPDATE RssFeedEntity SET is_bookmarked = :isBookmarked WHERE id = :id")
     suspend fun updateBookmarkedState(id: String, isBookmarked: Boolean)
+
+    /**
+     * 指定されたIDの RssFeedEntity のユーザー評価を更新する
+     * @param id 更新対象のエンティティのID
+     * @param userRating 新しいユーザー評価
+     */
+    @Query("UPDATE RssFeedEntity SET user_rating = :userRating WHERE id = :id")
+    suspend fun updateUserRating(id: String, userRating: UserRating)
 }

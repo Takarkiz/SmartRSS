@@ -13,6 +13,7 @@ import com.khaki.room.entity.RSSGroupTypeConverter
 import com.khaki.room.entity.RssCategoryEntity
 import com.khaki.room.entity.RssCategoryGroupDetailConverter
 import com.khaki.room.entity.RssFeedEntity
+import com.khaki.room.entity.UserRatingConverter
 
 @Database(
     entities = [RssCategoryEntity::class, RssFeedEntity::class],
@@ -21,7 +22,8 @@ import com.khaki.room.entity.RssFeedEntity
 @TypeConverters(
     RSSGroupTypeConverter::class,
     ListStringTypeConverter::class,
-    RssCategoryGroupDetailConverter::class
+    RssCategoryGroupDetailConverter::class,
+    UserRatingConverter::class,
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {

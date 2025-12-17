@@ -17,6 +17,8 @@ fun AllFeedsContent(
     onRefresh: () -> Unit,
     onClickItem: (String, String) -> Unit,
     onClickBookmark: (String) -> Unit,
+    onClickGood: (String) -> Unit,
+    onClickBad: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val state = rememberPullToRefreshState()
@@ -43,6 +45,12 @@ fun AllFeedsContent(
                     },
                     onClickBookmark = { id ->
                         onClickBookmark(id)
+                    },
+                    onClickGood = { id ->
+                        onClickGood(id)
+                    },
+                    onClickBad = { id ->
+                        onClickBad(id)
                     }
                 )
             }

@@ -6,6 +6,7 @@ import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.Tag
 import com.khaki.modules.core.model.feed.URL
 import com.khaki.modules.core.model.feed.UserId
+import com.khaki.modules.core.model.feed.UserRating
 import com.khaki.repository.HatenaFeedRSSRepository
 import com.khaki.repository.OtherFeedRssRepository
 import com.khaki.repository.QiitaFeedRSSRepository
@@ -49,20 +50,24 @@ class AllFeedsUseCase(
                 is Popular -> qiitaFeedsRssRepository.popularFeeds()
                 else -> null
             }
+
             RssCategory.RSSGroupType.Zenn -> when (val form = category.formType) {
                 is UserId -> zennFeedsRssRepository.feedsByUserId(form.value)
                 is Tag -> zennFeedsRssRepository.feedsByTag(form.value)
                 is Popular -> zennFeedsRssRepository.popularFeeds()
                 else -> null
             }
+
             RssCategory.RSSGroupType.HatenaBlog -> when (val form = category.formType) {
                 is UserId -> hatenaFeedsRssRepository.feedsByUserId(form.value)
                 else -> null
             }
+
             RssCategory.RSSGroupType.Others -> when (val form = category.formType) {
                 is URL -> otherFeedsRssRepository.feedsByUrl(form.value)
                 else -> null
             }
+
             else -> null // Github and others are not supported
         }
 
@@ -73,6 +78,24 @@ class AllFeedsUseCase(
         val feed = rssFeedRepository.getFeed(id) ?: return
         val isBookmark = !feed.isBookmarked
         rssFeedRepository.updateBookmark(id, isBookmark)
+    }
+
+    suspend fun updateGoodState(id: String) {
+        val currentFeed = rssFeedRepository.getFeed(id) ?: return
+        if (currentFeed.userRating == UserRating.Good) {
+            rssFeedRepository.updateUserRating(id, UserRating.None)
+        } else {
+            rssFeedRepository.updateUserRating(id, UserRating.Good)
+        }
+    }
+
+    suspend fun updateBadState(id: String) {
+        val currentFeed = rssFeedRepository.getFeed(id) ?: return
+        if (currentFeed.userRating == UserRating.Bad) {
+            rssFeedRepository.updateUserRating(id, UserRating.None)
+        } else {
+            rssFeedRepository.updateUserRating(id, UserRating.Bad)
+        }
     }
 
     suspend fun doAsRead(id: String) {

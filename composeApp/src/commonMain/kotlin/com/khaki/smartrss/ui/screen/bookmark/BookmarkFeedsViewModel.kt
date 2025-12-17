@@ -3,6 +3,7 @@ package com.khaki.smartrss.ui.screen.bookmark
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khaki.modules.core.model.feed.FeedItem
+import com.khaki.modules.core.model.feed.UserRating
 import com.khaki.smartrss.ext.toRelativeJaString
 import com.khaki.smartrss.ui.screen.bookmark.usecase.BookmarkFeedsUseCase
 import com.khaki.smartrss.ui.screen.feed.model.FeedItemUiModel
@@ -44,6 +45,11 @@ class BookmarkFeedsViewModel(
 
                         is FeedItem.RSSType.Other -> FeedItemUiModel.RSSFeedType.Other
                     },
+                    userRating = when (it.userRating) {
+                        UserRating.Bad -> FeedItemUiModel.Rating.Bad
+                        UserRating.Good -> FeedItemUiModel.Rating.Good
+                        UserRating.None -> FeedItemUiModel.Rating.None
+                    },
                     thumbnailUrl = when (val rssType = it.rssType) {
                         is FeedItem.RSSType.Qiita -> null
                         is FeedItem.RSSType.Zenn -> rssType.thumbnailUrl
@@ -63,6 +69,18 @@ class BookmarkFeedsViewModel(
         viewModelScope.launch {
             val feed = uiState.value.feedItems.firstOrNull { it.id == feedId } ?: return@launch
             useCase.updateBookmark(feedId, !feed.isBookmark)
+        }
+    }
+
+    fun updateGoodState(feedId: String) {
+        viewModelScope.launch {
+            useCase.updateGoodState(feedId)
+        }
+    }
+
+    fun updateBadState(feedId: String) {
+        viewModelScope.launch {
+            useCase.updateBadState(feedId)
         }
     }
 

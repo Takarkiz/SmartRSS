@@ -14,6 +14,7 @@ data class FeedItem(
     val isFavorite: Boolean = false,
     val isBookmarked: Boolean = false,
     val recommendScore: Int = 0,
+    val userRating: UserRating = UserRating.None,
 ) {
 
     sealed interface RSSType {
