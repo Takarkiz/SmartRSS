@@ -1,19 +1,18 @@
 package com.khaki.smartrss.ui.screen.feed.composable
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbDown
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.ThumbDown
 import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,16 +68,14 @@ fun FeedItemDetail(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(
-                        modifier = Modifier
-                            .background(
-                                shape = CircleShape,
-                                color = if (rating == FeedItemUiModel.Rating.Good) {
-                                    MaterialTheme.colorScheme.surfaceVariant
-                                } else {
-                                    Color.Transparent
-                                }
-                            ),
+                    FilledIconButton(
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = if (rating == FeedItemUiModel.Rating.Good) {
+                                MaterialTheme.colorScheme.surfaceVariant
+                            } else {
+                                Color.Transparent
+                            }
+                        ),
                         onClick = { onClickGood() }
                     ) {
                         Icon(
@@ -91,16 +88,14 @@ fun FeedItemDetail(
                             contentDescription = "Good",
                         )
                     }
-                    IconButton(
-                        modifier = Modifier
-                            .background(
-                                shape = CircleShape,
-                                color = if (rating == FeedItemUiModel.Rating.Bad) {
-                                    MaterialTheme.colorScheme.surfaceVariant
-                                } else {
-                                    Color.Transparent
-                                }
-                            ),
+                    FilledIconButton(
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = if (rating == FeedItemUiModel.Rating.Bad) {
+                                MaterialTheme.colorScheme.surfaceVariant
+                            } else {
+                                Color.Transparent
+                            }
+                        ),
                         onClick = { onClickBad() }
                     ) {
                         Icon(
