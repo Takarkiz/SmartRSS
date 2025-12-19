@@ -9,6 +9,9 @@ sealed interface Screen : NavKey
 data object Home : Screen
 
 @Serializable
+data object Setting : Screen
+
+@Serializable
 data class RssFeed(
     val title: String,
     val url: String,

@@ -1,6 +1,7 @@
 package com.khaki.smartrss
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +18,17 @@ import com.khaki.smartrss.platform.ExternalBrowserLauncher
 import com.khaki.smartrss.ui.navigation.Home
 import com.khaki.smartrss.ui.navigation.RssFeed
 import com.khaki.smartrss.ui.navigation.Screen
+import com.khaki.smartrss.ui.navigation.Setting
 import com.khaki.smartrss.ui.screen.rssfeed.RSSFeedScreen
+import com.khaki.smartrss.ui.screen.setting.SettingScreen
+import com.khaki.smartrss.ui.screen.setting.SettingViewModel
 import com.khaki.smartrss.ui.theme.SmartRssTheme
 import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 
 @Composable
 @Preview
@@ -34,6 +39,7 @@ fun App() {
             serializersModule = SerializersModule {
                 polymorphic(Screen::class) {
                     subclass(Home.serializer())
+                    subclass(Setting.serializer())
                     subclass(RssFeed.serializer())
                 }
             }
@@ -59,7 +65,22 @@ fun App() {
                                     url = url,
                                 )
                             )
+                        },
+                        onSettingClick = {
+                            backStack.add(Setting)
                         }
+                    )
+                }
+
+                entry<Setting> { _ ->
+                    val settingViewModel = koinInject<SettingViewModel>()
+                    val uiState by settingViewModel.uiState.collectAsState()
+                    SettingScreen(
+                        uiState = uiState,
+                        onClickSummaryEnable = { isEnabled ->
+                            settingViewModel.toggleSummaryEnabled(isEnabled)
+                        },
+                        onBack = { backStack.removeLast() }
                     )
                 }
 
