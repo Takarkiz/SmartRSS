@@ -80,15 +80,9 @@ fun App() {
                         onClickSummaryEnable = { isEnabled ->
                             settingViewModel.toggleSummaryEnabled(isEnabled)
                         },
-                        onClickDeleteAllFeeds = {
-                            settingViewModel.showDeleteAllFeedsDialog()
-                        },
                         onBack = { backStack.removeLast() },
                         onDeleteAllFeeds = {
                             settingViewModel.deleteAllFeeds()
-                        },
-                        onDismissDeleteAllFeedsDialog = {
-                            settingViewModel.hideDeleteAllFeedsDialog()
                         }
                     )
                 }

@@ -5,7 +5,7 @@ import com.khaki.repository.RssFeedRepository
 class DeleteAllFeedsUseCase(
     private val rssFeedRepository: RssFeedRepository,
 ) {
-    suspend operator fun invoke() {
+    suspend fun deleteAll() {
         rssFeedRepository.deleteAllFeeds()
     }
 }

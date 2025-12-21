@@ -23,21 +23,26 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.DialogProperties
+import com.khaki.smartrss.ui.screen.setting.composable.ButtonType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
-    onClickDeleteAllFeeds: () -> Unit,
     onBack: () -> Unit,
     onDeleteAllFeeds: () -> Unit,
-    onDismissDeleteAllFeedsDialog: () -> Unit,
 ) {
-    if (uiState.showDeleteAllFeedsDialog) {
+    var showDeleteAllFeedsDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteAllFeedsDialog) {
         AlertDialog(
-            onDismissRequest = onDismissDeleteAllFeedsDialog,
+            onDismissRequest = { showDeleteAllFeedsDialog = false },
             title = {
                 Text(text = "フィードを全て削除しますか？")
             },
@@ -48,6 +53,7 @@ fun SettingScreen(
                 TextButton(
                     onClick = {
                         onDeleteAllFeeds()
+                        showDeleteAllFeedsDialog = false
                     }
                 ) {
                     Text("削除")
@@ -55,7 +61,7 @@ fun SettingScreen(
             },
             dismissButton = {
                 TextButton(
-                    onClick = onDismissDeleteAllFeedsDialog
+                    onClick = { showDeleteAllFeedsDialog = false }
                 ) {
                     Text("キャンセル")
                 }
@@ -102,7 +108,7 @@ fun SettingScreen(
 private fun SettingContent(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
-    onClickDeleteAllFeeds: () -> Unit,
+    onShowDeleteAllFeedsDialog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -146,7 +152,8 @@ private fun SettingContent(
                     SettingType.BUTTON -> {
                         SettingButtonItem(
                             title = item.title,
-                            onClick = onClickDeleteAllFeeds
+                            onClick = onShowDeleteAllFeedsDialog,
+                            buttonType = ButtonType.DESTRUCTIVE
                         )
                     }
                 }
