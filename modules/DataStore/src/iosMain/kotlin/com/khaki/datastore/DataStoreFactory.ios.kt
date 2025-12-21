@@ -20,9 +20,9 @@ actual class DataStoreFactory {
             directory = NSDocumentDirectory,
             inDomain = NSUserDomainMask,
             appropriateForURL = null,
-            create = false,
+            create = true,
             error = null,
         )
-        return requireNotNull(documentDirectory).path!!
+        return requireNotNull(documentDirectory?.path) { "Could not find document directory." }
     }
 }

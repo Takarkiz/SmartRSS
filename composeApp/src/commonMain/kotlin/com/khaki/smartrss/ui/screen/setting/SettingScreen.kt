@@ -41,7 +41,7 @@ fun SettingScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
+                            contentDescription = "戻る"
                         )
                     }
                 }
