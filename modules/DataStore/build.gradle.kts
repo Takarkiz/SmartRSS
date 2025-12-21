@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
@@ -6,6 +8,8 @@ plugins {
 }
 
 kotlin {
+
+    jvmToolchain(21)
 
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
@@ -22,6 +26,12 @@ kotlin {
             sourceSetTreeName = "test"
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+    }
+
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -64,6 +74,8 @@ kotlin {
                 implementation(libs.datastore)
                 implementation(libs.datastore.preferences)
                 implementation(libs.koin.core)
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 

@@ -2,6 +2,7 @@ package com.khaki.smartrss
 
 import com.khaki.api.apiClientModule
 import com.khaki.api.platformClientEngineModule
+import com.khaki.datastore.platformDataStoreModule
 import com.khaki.room.commonDatabaseModule
 import com.khaki.room.platformDatabaseModule
 import com.khaki.smartrss.di.appModule
@@ -19,6 +20,7 @@ fun initKoin(
             apiClientModule,
             platformDatabaseModule(),
             commonDatabaseModule(),
+            platformDataStoreModule(),
             appModule,
         )
     }
