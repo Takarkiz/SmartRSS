@@ -17,16 +17,56 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.khaki.smartrss.ui.screen.setting.composable.SettingButtonItem
 import com.khaki.smartrss.ui.screen.setting.composable.SettingSwitchItem
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.window.DialogProperties
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
+    onClickDeleteAllFeeds: () -> Unit,
     onBack: () -> Unit,
+    onDeleteAllFeeds: () -> Unit,
+    onDismissDeleteAllFeedsDialog: () -> Unit,
 ) {
+    if (uiState.showDeleteAllFeedsDialog) {
+        AlertDialog(
+            onDismissRequest = onDismissDeleteAllFeedsDialog,
+            title = {
+                Text(text = "フィードを全て削除しますか？")
+            },
+            text = {
+                Text(text = "この操作は取り消せません。")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDeleteAllFeeds()
+                    }
+                ) {
+                    Text("削除")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onDismissDeleteAllFeedsDialog
+                ) {
+                    Text("キャンセル")
+                }
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            )
+        )
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -51,6 +91,7 @@ fun SettingScreen(
         SettingContent(
             uiState = uiState,
             onClickSummaryEnable = onClickSummaryEnable,
+            onClickDeleteAllFeeds = onClickDeleteAllFeeds,
             modifier = Modifier
                 .padding(it)
         )
@@ -61,6 +102,7 @@ fun SettingScreen(
 private fun SettingContent(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
+    onClickDeleteAllFeeds: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -100,6 +142,13 @@ private fun SettingContent(
                             }
                         )
                     }
+
+                    SettingType.BUTTON -> {
+                        SettingButtonItem(
+                            title = item.title,
+                            onClick = onClickDeleteAllFeeds
+                        )
+                    }
                 }
             }
         }
@@ -117,6 +166,7 @@ private fun PreviewSettingScreen() {
         SettingContent(
             uiState = SettingUiState(),
             onClickSummaryEnable = {},
+            onClickDeleteAllFeeds = {}
         )
     }
 }

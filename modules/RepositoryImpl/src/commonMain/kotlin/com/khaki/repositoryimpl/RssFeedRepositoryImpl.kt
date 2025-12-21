@@ -47,6 +47,10 @@ class RssFeedRepositoryImpl(
     override suspend fun doAsRead(id: String) {
         database.updateReadState(id)
     }
+
+    override suspend fun deleteAllFeeds() {
+        database.deleteAllFeeds()
+    }
 }
 
 private fun RssFeedEntity.toModel(): FeedItem {

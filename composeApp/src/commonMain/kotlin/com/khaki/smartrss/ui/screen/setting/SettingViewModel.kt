@@ -2,19 +2,27 @@ package com.khaki.smartrss.ui.screen.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SettingViewModel(
-    private val useCase: SettingUseCase
+    private val useCase: SettingUseCase,
+    private val deleteAllFeedsUseCase: DeleteAllFeedsUseCase,
 ) : ViewModel() {
 
-    val uiState: StateFlow<SettingUiState> = useCase.setting.map {
+    private val _showDeleteAllFeedsDialog = MutableStateFlow(false)
+
+    val uiState: StateFlow<SettingUiState> = combine(
+        useCase.setting,
+        _showDeleteAllFeedsDialog
+    ) { setting, showDeleteAllFeedsDialog ->
         SettingUiState(
-            isSummaryEnabled = it.isDetailSummary
+            isSummaryEnabled = setting.isDetailSummary,
+            showDeleteAllFeedsDialog = showDeleteAllFeedsDialog
         )
     }.stateIn(
         scope = viewModelScope,
@@ -25,6 +33,21 @@ class SettingViewModel(
     fun toggleSummaryEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
             useCase.updateSummarySetting(isEnabled)
+        }
+    }
+
+    fun showDeleteAllFeedsDialog() {
+        _showDeleteAllFeedsDialog.value = true
+    }
+
+    fun hideDeleteAllFeedsDialog() {
+        _showDeleteAllFeedsDialog.value = false
+    }
+
+    fun deleteAllFeeds() {
+        viewModelScope.launch {
+            deleteAllFeedsUseCase()
+            hideDeleteAllFeedsDialog()
         }
     }
 }
