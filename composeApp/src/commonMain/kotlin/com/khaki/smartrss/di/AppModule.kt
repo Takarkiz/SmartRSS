@@ -20,6 +20,7 @@ import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsViewModel
 import com.khaki.smartrss.ui.screen.bookmark.usecase.BookmarkFeedsUseCase
 import com.khaki.smartrss.ui.screen.rss.RssViewModel
 import com.khaki.smartrss.ui.screen.rss.usecase.RssUseCase
+import com.khaki.smartrss.ui.screen.setting.SettingUseCase
 import com.khaki.smartrss.ui.screen.setting.SettingViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -68,6 +69,12 @@ val appModule = module {
     single {
         BookmarkFeedsUseCase(
             rssFeedRepository = get<RssFeedRepository>(),
+        )
+    }
+
+    single {
+        SettingUseCase(
+            settingRepository = get<SettingRepository>(),
         )
     }
 
