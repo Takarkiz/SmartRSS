@@ -89,4 +89,10 @@ interface RssFeedDao {
      */
     @Query("UPDATE RssFeedEntity SET user_rating = :userRating WHERE id = :id")
     suspend fun updateUserRating(id: String, userRating: UserRating)
+
+    /**
+     * 全ての RssFeedEntity を削除する
+     */
+    @Query("DELETE FROM RssFeedEntity")
+    suspend fun deleteAllFeeds()
 }

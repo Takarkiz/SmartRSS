@@ -18,4 +18,6 @@ interface RssFeedRepository {
 
     suspend fun doAsRead(id: String)
 
+    suspend fun deleteAllFeeds()
+
 }

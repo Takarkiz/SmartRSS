@@ -17,8 +17,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.khaki.smartrss.ui.screen.setting.composable.SettingButtonItem
 import com.khaki.smartrss.ui.screen.setting.composable.SettingSwitchItem
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.window.DialogProperties
+import com.khaki.smartrss.ui.screen.setting.composable.ButtonType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +36,43 @@ fun SettingScreen(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
     onBack: () -> Unit,
+    onDeleteAllFeeds: () -> Unit,
 ) {
+    var showDeleteAllFeedsDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteAllFeedsDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteAllFeedsDialog = false },
+            title = {
+                Text(text = "フィードを全て削除しますか？")
+            },
+            text = {
+                Text(text = "この操作は取り消せません。")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDeleteAllFeeds()
+                        showDeleteAllFeedsDialog = false
+                    }
+                ) {
+                    Text("削除")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDeleteAllFeedsDialog = false }
+                ) {
+                    Text("キャンセル")
+                }
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            )
+        )
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -51,6 +97,7 @@ fun SettingScreen(
         SettingContent(
             uiState = uiState,
             onClickSummaryEnable = onClickSummaryEnable,
+            onShowDeleteAllFeedsDialog = { showDeleteAllFeedsDialog = true },
             modifier = Modifier
                 .padding(it)
         )
@@ -61,6 +108,7 @@ fun SettingScreen(
 private fun SettingContent(
     uiState: SettingUiState,
     onClickSummaryEnable: (Boolean) -> Unit,
+    onShowDeleteAllFeedsDialog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -100,6 +148,14 @@ private fun SettingContent(
                             }
                         )
                     }
+
+                    SettingType.BUTTON -> {
+                        SettingButtonItem(
+                            title = item.title,
+                            onClick = onShowDeleteAllFeedsDialog,
+                            buttonType = ButtonType.DESTRUCTIVE
+                        )
+                    }
                 }
             }
         }
@@ -117,6 +173,7 @@ private fun PreviewSettingScreen() {
         SettingContent(
             uiState = SettingUiState(),
             onClickSummaryEnable = {},
+            onShowDeleteAllFeedsDialog = {}
         )
     }
 }

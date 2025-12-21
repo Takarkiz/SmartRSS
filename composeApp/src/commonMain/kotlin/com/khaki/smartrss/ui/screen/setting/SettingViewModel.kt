@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SettingViewModel(
-    private val useCase: SettingUseCase
+    private val useCase: SettingUseCase,
+    private val deleteAllFeedsUseCase: DeleteAllFeedsUseCase,
 ) : ViewModel() {
 
     val uiState: StateFlow<SettingUiState> = useCase.setting.map {
@@ -25,6 +26,12 @@ class SettingViewModel(
     fun toggleSummaryEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
             useCase.updateSummarySetting(isEnabled)
+        }
+    }
+
+    fun deleteAllFeeds() {
+        viewModelScope.launch {
+            deleteAllFeedsUseCase.deleteAll()
         }
     }
 }

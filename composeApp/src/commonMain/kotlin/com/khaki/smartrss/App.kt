@@ -80,7 +80,10 @@ fun App() {
                         onClickSummaryEnable = { isEnabled ->
                             settingViewModel.toggleSummaryEnabled(isEnabled)
                         },
-                        onBack = { backStack.removeLast() }
+                        onBack = { backStack.removeLast() },
+                        onDeleteAllFeeds = {
+                            settingViewModel.deleteAllFeeds()
+                        }
                     )
                 }
 
