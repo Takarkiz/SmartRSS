@@ -97,7 +97,7 @@ fun SettingScreen(
         SettingContent(
             uiState = uiState,
             onClickSummaryEnable = onClickSummaryEnable,
-            onClickDeleteAllFeeds = onClickDeleteAllFeeds,
+            onShowDeleteAllFeedsDialog = { showDeleteAllFeedsDialog = true },
             modifier = Modifier
                 .padding(it)
         )
@@ -173,7 +173,7 @@ private fun PreviewSettingScreen() {
         SettingContent(
             uiState = SettingUiState(),
             onClickSummaryEnable = {},
-            onClickDeleteAllFeeds = {}
+            onShowDeleteAllFeedsDialog = {}
         )
     }
 }
