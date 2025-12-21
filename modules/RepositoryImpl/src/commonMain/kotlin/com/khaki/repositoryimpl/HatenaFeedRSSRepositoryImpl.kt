@@ -22,6 +22,11 @@ class HatenaFeedRSSRepositoryImpl(
         return mapToDomain(dto)
     }
 
+    override suspend fun feedsByUrl(url: String): RSSFeed {
+        val dto = apiService.fetchHatenaRssFeed(url)
+        return mapToDomain(dto)
+    }
+
     private fun mapToDomain(dto: HatenaRssFeedDto): RSSFeed {
         return RSSFeed(
             title = dto.title,

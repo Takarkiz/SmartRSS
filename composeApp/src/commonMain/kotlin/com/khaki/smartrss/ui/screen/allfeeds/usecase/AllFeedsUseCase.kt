@@ -55,11 +55,13 @@ class AllFeedsUseCase(
                 is UserId -> zennFeedsRssRepository.feedsByUserId(form.value)
                 is Tag -> zennFeedsRssRepository.feedsByTag(form.value)
                 is Popular -> zennFeedsRssRepository.popularFeeds()
+                is URL -> zennFeedsRssRepository.feedsByUrl(form.value)
                 else -> null
             }
 
             RssCategory.RSSGroupType.HatenaBlog -> when (val form = category.formType) {
                 is UserId -> hatenaFeedsRssRepository.feedsByUserId(form.value)
+                is URL -> hatenaFeedsRssRepository.feedsByUrl(form.value)
                 else -> null
             }
 

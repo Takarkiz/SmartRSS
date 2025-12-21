@@ -6,4 +6,5 @@ interface HatenaFeedRSSRepository {
 
     // Fetch feeds by Hatena Blog userId (e.g., https://{userId}/feed)
     suspend fun feedsByUserId(userId: String): RSSFeed
+    suspend fun feedsByUrl(url: String): RSSFeed
 }

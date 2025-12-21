@@ -43,6 +43,11 @@ class ZennFeedRSSRepositoryImpl(
         return mapToDomain(dto)
     }
 
+    override suspend fun feedsByUrl(url: String): RSSFeed {
+        val dto = apiService.fetchZennRssFeed(url)
+        return mapToDomain(dto)
+    }
+
     private fun mapToDomain(dto: ZennRssFeedDto): RSSFeed {
         val channel = dto.channel
         return RSSFeed(

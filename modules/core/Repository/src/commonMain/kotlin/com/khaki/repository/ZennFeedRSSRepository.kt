@@ -9,4 +9,5 @@ interface ZennFeedRSSRepository {
     suspend fun feedsByTag(tag: String): RSSFeed
 
     suspend fun feedsByUserId(userId: String): RSSFeed
+    suspend fun feedsByUrl(url: String): RSSFeed
 }
