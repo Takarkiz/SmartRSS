@@ -26,6 +26,7 @@ xml-utils = "0.91.3"
 kotlinx-serialization = "1.9.0"
 room = "2.8.4"
 sqlite = "2.6.0"
+datastore = "1.2.0"
 
 coil = "3.3.0"
 
@@ -86,6 +87,10 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 # Navigation (CMP)
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3-runtime" }
 navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3-ui" }
+
+# DataStore
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 # Coil (Image Loader)
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
