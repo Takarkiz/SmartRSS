@@ -33,7 +33,7 @@ coil = "3.3.0"
 ksp = "2.3.3"
 
 navigation3-runtime = "1.0.0"
-navigation3-ui = "1.0.0-alpha06"
+navigation3-ui = "1.1.0-alpha01"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
