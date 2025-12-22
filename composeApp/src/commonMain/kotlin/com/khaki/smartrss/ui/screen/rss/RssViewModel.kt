@@ -164,7 +164,7 @@ internal data class RssViewModelState(
                     RegisteredRssGroup(
                         id = it.id,
                         name = it.name,
-                        url = it.url,
+                        url = it.getFeedUrl(),
                         type = group,
                     )
                 }

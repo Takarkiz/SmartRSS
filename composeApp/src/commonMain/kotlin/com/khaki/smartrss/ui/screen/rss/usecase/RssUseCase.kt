@@ -180,7 +180,6 @@ class RssUseCase(
                     name = rssFeed.title,
                     description = rssFeed.description,
                     following = true,
-                    url = rssFeed.link,
                     type = groupType,
                     formType = form,
                 )
