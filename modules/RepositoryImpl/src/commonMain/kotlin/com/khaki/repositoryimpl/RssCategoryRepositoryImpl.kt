@@ -56,7 +56,7 @@ class RssCategoryRepositoryImpl(
             name = category.name,
             description = category.description,
             following = category.following,
-            url = category.url,
+            url = category.getFeedUrl(),
             type = when (category.type) {
                 RssCategory.RSSGroupType.Qiita -> RSSGroupType.Qiita
                 RssCategory.RSSGroupType.Zenn -> RSSGroupType.Zenn
@@ -81,7 +81,6 @@ class RssCategoryRepositoryImpl(
             name = categoryEntity.name,
             description = categoryEntity.description,
             following = categoryEntity.following,
-            url = categoryEntity.url,
             type = when (categoryEntity.type) {
                 RSSGroupType.Qiita -> RssCategory.RSSGroupType.Qiita
                 RSSGroupType.Zenn -> RssCategory.RSSGroupType.Zenn
