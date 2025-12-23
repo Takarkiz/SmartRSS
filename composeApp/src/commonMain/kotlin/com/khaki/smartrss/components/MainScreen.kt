@@ -26,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.khaki.smartrss.ui.navigation.FeedClickArgs
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsContent
 import com.khaki.smartrss.ui.screen.allfeeds.AllFeedsViewModel
 import com.khaki.smartrss.ui.screen.bookmark.BookmarkFeedsContent
@@ -40,7 +41,7 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onFeedClick: (String, String, String) -> Unit,
+    onFeedClick: (FeedClickArgs) -> Unit,
     onSettingClick: () -> Unit,
 ) {
 
@@ -114,9 +115,9 @@ fun MainScreen(
                     onRefresh = {
                         allFeedsViewModel.refresh()
                     },
-                    onClickItem = { id, url, title ->
-                        allFeedsViewModel.doAsRead(id)
-                        onFeedClick(id, url, title)
+                    onClickItem = { args ->
+                        allFeedsViewModel.doAsRead(args.id)
+                        onFeedClick(args)
                     },
                     onClickBookmark = { id ->
                         allFeedsViewModel.updateBookmarkState(id)
@@ -136,9 +137,9 @@ fun MainScreen(
 
                 BookmarkFeedsContent(
                     uiState = uiState,
-                    onClickItem = { id, url, title ->
-                        bookmarkFeedsViewModel.doAsRead(id)
-                        onFeedClick(id, url, title)
+                    onClickItem = { args ->
+                        bookmarkFeedsViewModel.doAsRead(args.id)
+                        onFeedClick(args)
                     },
                     onClickBookmark = { id ->
                         bookmarkFeedsViewModel.updateBookmarkState(id)
@@ -189,7 +190,7 @@ fun MainScreen(
 private fun PreviewMainScreen() {
     SmartRssTheme {
         MainScreen(
-            onFeedClick = { _, _, _ -> },
+            onFeedClick = { _ -> },
             onSettingClick = {}
         )
     }
