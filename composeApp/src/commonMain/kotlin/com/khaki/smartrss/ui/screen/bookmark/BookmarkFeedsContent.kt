@@ -5,13 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.khaki.smartrss.ui.navigation.FeedClickArgs
 import com.khaki.smartrss.ui.screen.bookmark.composable.EmptyBookmarkFeeds
 import com.khaki.smartrss.ui.screen.feed.composable.FeedItem
 
 @Composable
 fun BookmarkFeedsContent(
     uiState: BookmarkFeedsUiState,
-    onClickItem: (String, String) -> Unit,
+    onClickItem: (FeedClickArgs) -> Unit,
     onClickBookmark: (String) -> Unit,
     onClickGood: (String) -> Unit,
     onClickBad: (String) -> Unit,
@@ -30,7 +31,13 @@ fun BookmarkFeedsContent(
                 FeedItem(
                     item = item,
                     onClickItem = {
-                        onClickItem(item.id, item.link)
+                        onClickItem(
+                            FeedClickArgs(
+                                id = item.id,
+                                url = item.link,
+                                title = item.title
+                            )
+                        )
                     },
                     onClickBookmark = onClickBookmark,
                     onClickGood = onClickGood,

@@ -8,6 +8,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.khaki.smartrss.ui.navigation.FeedClickArgs
 import com.khaki.smartrss.ui.screen.feed.composable.FeedItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -15,7 +16,7 @@ import com.khaki.smartrss.ui.screen.feed.composable.FeedItem
 fun AllFeedsContent(
     uiState: AllFeedsUiState,
     onRefresh: () -> Unit,
-    onClickItem: (String, String) -> Unit,
+    onClickItem: (FeedClickArgs) -> Unit,
     onClickBookmark: (String) -> Unit,
     onClickGood: (String) -> Unit,
     onClickBad: (String) -> Unit,
@@ -40,8 +41,14 @@ fun AllFeedsContent(
             ) { item ->
                 FeedItem(
                     item = item,
-                    onClickItem = { url ->
-                        onClickItem(item.id, item.link)
+                    onClickItem = {
+                        onClickItem(
+                            FeedClickArgs(
+                                id = item.id,
+                                url = item.link,
+                                title = item.title
+                            )
+                        )
                     },
                     onClickBookmark = { id ->
                         onClickBookmark(id)

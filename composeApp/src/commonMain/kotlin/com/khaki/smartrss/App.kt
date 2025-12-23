@@ -15,6 +15,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.khaki.smartrss.components.MainScreen
 import com.khaki.smartrss.platform.ExternalBrowserLauncher
+import com.khaki.smartrss.ui.navigation.FeedClickArgs
 import com.khaki.smartrss.ui.navigation.Home
 import com.khaki.smartrss.ui.navigation.RssFeed
 import com.khaki.smartrss.ui.navigation.Screen
@@ -58,11 +59,11 @@ fun App() {
             entryProvider = entryProvider {
                 entry<Home> { _ ->
                     MainScreen(
-                        onFeedClick = { _, url ->
+                        onFeedClick = { args ->
                             backStack.add(
                                 RssFeed(
-                                    title = "詳細",
-                                    url = url,
+                                    title = args.title,
+                                    url = args.url,
                                 )
                             )
                         },
