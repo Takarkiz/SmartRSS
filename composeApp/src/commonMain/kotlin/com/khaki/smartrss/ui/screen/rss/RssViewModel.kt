@@ -6,7 +6,6 @@ import com.khaki.modules.core.model.feed.FormType
 import com.khaki.modules.core.model.feed.Popular
 import com.khaki.modules.core.model.feed.RssCategory
 import com.khaki.modules.core.model.feed.URL
-import com.khaki.modules.core.model.feed.UserId
 import com.khaki.smartrss.ui.Result
 import com.khaki.smartrss.ui.screen.rss.model.RegisterableRssGroup
 import com.khaki.smartrss.ui.screen.rss.model.RegisteredRssGroup
@@ -63,7 +62,7 @@ class RssViewModel(
                 }
 
                 RegisterableRssGroup.HatenaBlog -> {
-                    if (form is UserId) {
+                    if (form is URL) {
                         rssUseCase.checkAndAddHatenaRssFeed(form)
                     } else {
                         Result.Error(RssAppendingError.IllegalInputFormat)
@@ -175,16 +174,19 @@ internal data class RssViewModelState(
             .map { it.type }
             .toSet()
 
-        val registerable = defaultAllRegisterableRss.mapValues { (group, forms) ->
+        val registerable = RegisterableRssGroup.entries.associateWith { group ->
+            val supportedForms = RssInputFormType.supportedFor(group)
             val groupType = when (group) {
                 RegisterableRssGroup.Qiita -> RssCategory.RSSGroupType.Qiita
                 RegisterableRssGroup.Zenn -> RssCategory.RSSGroupType.Zenn
-                else -> null
+                RegisterableRssGroup.HatenaBlog -> RssCategory.RSSGroupType.HatenaBlog
+                RegisterableRssGroup.Github -> RssCategory.RSSGroupType.Github
+                RegisterableRssGroup.Others -> RssCategory.RSSGroupType.Others
             }
             if (groupType in popularRegisteredGroupTypes) {
-                forms.filter { it != RssInputFormType.POPULAR }
+                supportedForms.filter { it != RssInputFormType.POPULAR }
             } else {
-                forms
+                supportedForms
             }
         }
 
@@ -195,27 +197,4 @@ internal data class RssViewModelState(
             expandedBottomSheet = expandedBottomSheet,
         )
     }
-
-    private val defaultAllRegisterableRss: Map<RegisterableRssGroup, List<RssInputFormType>> =
-        mapOf(
-            RegisterableRssGroup.Qiita to listOf(
-                RssInputFormType.USER,
-                RssInputFormType.TAG,
-                RssInputFormType.POPULAR
-            ),
-            RegisterableRssGroup.Zenn to listOf(
-                RssInputFormType.USER,
-                RssInputFormType.TAG,
-                RssInputFormType.POPULAR
-            ),
-            RegisterableRssGroup.HatenaBlog to listOf(
-                RssInputFormType.USER
-            ),
-            RegisterableRssGroup.Github to listOf(
-                RssInputFormType.USER,
-            ),
-            RegisterableRssGroup.Others to listOf(
-                RssInputFormType.URL
-            )
-        )
 }

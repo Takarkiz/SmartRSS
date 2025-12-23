@@ -34,7 +34,8 @@ class AllFeedsUseCase(
         val categories = try {
             rssCategoryRepository.getAllCategories().first()
         } catch (e: Exception) {
-            return // Failed to read categories
+            e.printStackTrace()
+            return
         }
 
         categories.forEach { category ->
@@ -59,7 +60,7 @@ class AllFeedsUseCase(
             }
 
             RssCategory.RSSGroupType.HatenaBlog -> when (val form = category.formType) {
-                is UserId -> hatenaFeedsRssRepository.feedsByUserId(form.value)
+                is URL -> hatenaFeedsRssRepository.feedsByUrl(form.value)
                 else -> null
             }
 

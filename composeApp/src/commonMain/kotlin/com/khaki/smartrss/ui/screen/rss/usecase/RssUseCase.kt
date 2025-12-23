@@ -60,7 +60,7 @@ class RssUseCase(
                     }
 
                     RssCategory.RSSGroupType.HatenaBlog -> when (val form = category.formType) {
-                        is UserId -> hatenaFeedsRssRepository.feedsByUserId(form.value)
+                        is URL -> hatenaFeedsRssRepository.feedsByUrl(form.value)
                         else -> continue
                     }
 
@@ -119,9 +119,9 @@ class RssUseCase(
         return processFetchedFeed(rssFeed, RssCategory.RSSGroupType.Zenn, form)
     }
 
-    suspend fun checkAndAddHatenaRssFeed(form: UserId): Result<Boolean, RssAppendingError> {
+    suspend fun checkAndAddHatenaRssFeed(form: URL): Result<Boolean, RssAppendingError> {
         val rssFeed = try {
-            hatenaFeedsRssRepository.feedsByUserId(form.value)
+            hatenaFeedsRssRepository.feedsByUrl(form.value)
         } catch (e: Exception) {
             return Result.Error(RssAppendingError.FetchingFailed(e))
         }

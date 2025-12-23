@@ -129,7 +129,7 @@ internal fun RSSAdditionalFormContent(
         Button(
             onClick = {
                 val formType = when (inputForms.getOrNull(expandedFormIndex)) {
-                    RssInputFormType.USER -> UserId.of(inputValue)
+                    RssInputFormType.USER -> if (target == RegisterableRssGroup.HatenaBlog) URL.of(inputValue) else UserId.of(inputValue)
                     RssInputFormType.TAG -> Tag.of(inputValue)
                     RssInputFormType.URL -> URL.of(inputValue)
                     RssInputFormType.POPULAR -> Popular

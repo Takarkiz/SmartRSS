@@ -35,6 +35,18 @@ enum class RssInputFormType(
         title = "URLで登録",
         iconImageVector = Icons.Default.Link
     );
+
+    companion object {
+        fun supportedFor(group: RegisterableRssGroup): List<RssInputFormType> {
+            return when (group) {
+                RegisterableRssGroup.Qiita -> listOf(POPULAR, USER, TAG)
+                RegisterableRssGroup.Zenn -> listOf(POPULAR, USER, TAG)
+                RegisterableRssGroup.HatenaBlog -> listOf(URL)
+                RegisterableRssGroup.Github -> listOf(URL) // Adjust as needed
+                RegisterableRssGroup.Others -> listOf(URL)
+            }
+        }
+    }
 }
 
 internal class RssInputFormTypePreviewParameterProvider :
