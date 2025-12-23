@@ -18,7 +18,7 @@ class HatenaFeedRSSRepositoryImpl(
 
     override suspend fun feedsByUrl(url: String): RSSFeed {
         val feedUrl = url.removeSuffix("/").let {
-            if (it.endsWith("/feed")) it else "$it/feed"
+            if (it.endsWith("/feed") || it.endsWith("/rss")) it else "$it/feed"
         }
         val dto = apiService.fetchHatenaRssFeed(feedUrl)
         return mapToDomain(dto)
