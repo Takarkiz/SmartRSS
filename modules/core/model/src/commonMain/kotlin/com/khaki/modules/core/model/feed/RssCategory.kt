@@ -38,7 +38,14 @@ data class RssCategory(
 
             RSSGroupType.HatenaBlog -> {
                 when (formType) {
-                    is UserId -> "https://${formType.value}.hatenablog.com/rss"
+                    is URL -> {
+                        val url = formType.value.removeSuffix("/")
+                        if (url.endsWith("/feed")) {
+                            url
+                        } else {
+                            "$url/feed"
+                        }
+                    }
                     else -> throw IllegalStateException()
                 }
             }
