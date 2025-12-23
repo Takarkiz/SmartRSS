@@ -15,7 +15,7 @@ import com.khaki.smartrss.ui.screen.feed.composable.FeedItem
 fun AllFeedsContent(
     uiState: AllFeedsUiState,
     onRefresh: () -> Unit,
-    onClickItem: (String, String) -> Unit,
+    onClickItem: (String, String, String) -> Unit,
     onClickBookmark: (String) -> Unit,
     onClickGood: (String) -> Unit,
     onClickBad: (String) -> Unit,
@@ -40,8 +40,8 @@ fun AllFeedsContent(
             ) { item ->
                 FeedItem(
                     item = item,
-                    onClickItem = { url ->
-                        onClickItem(item.id, item.link)
+                    onClickItem = {
+                        onClickItem(item.id, item.link, item.title)
                     },
                     onClickBookmark = { id ->
                         onClickBookmark(id)

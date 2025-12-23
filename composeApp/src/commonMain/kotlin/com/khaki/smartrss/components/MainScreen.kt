@@ -40,7 +40,7 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onFeedClick: (String, String) -> Unit,
+    onFeedClick: (String, String, String) -> Unit,
     onSettingClick: () -> Unit,
 ) {
 
@@ -114,9 +114,9 @@ fun MainScreen(
                     onRefresh = {
                         allFeedsViewModel.refresh()
                     },
-                    onClickItem = { id, url ->
+                    onClickItem = { id, url, title ->
                         allFeedsViewModel.doAsRead(id)
-                        onFeedClick(id, url)
+                        onFeedClick(id, url, title)
                     },
                     onClickBookmark = { id ->
                         allFeedsViewModel.updateBookmarkState(id)
@@ -136,9 +136,9 @@ fun MainScreen(
 
                 BookmarkFeedsContent(
                     uiState = uiState,
-                    onClickItem = { id, url ->
+                    onClickItem = { id, url, title ->
                         bookmarkFeedsViewModel.doAsRead(id)
-                        onFeedClick(id, url)
+                        onFeedClick(id, url, title)
                     },
                     onClickBookmark = { id ->
                         bookmarkFeedsViewModel.updateBookmarkState(id)
@@ -189,7 +189,7 @@ fun MainScreen(
 private fun PreviewMainScreen() {
     SmartRssTheme {
         MainScreen(
-            onFeedClick = { _, _ -> },
+            onFeedClick = { _, _, _ -> },
             onSettingClick = {}
         )
     }

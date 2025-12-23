@@ -58,10 +58,10 @@ fun App() {
             entryProvider = entryProvider {
                 entry<Home> { _ ->
                     MainScreen(
-                        onFeedClick = { _, url ->
+                        onFeedClick = { _, url, title ->
                             backStack.add(
                                 RssFeed(
-                                    title = "詳細",
+                                    title = title,
                                     url = url,
                                 )
                             )
