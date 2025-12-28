@@ -19,7 +19,7 @@ subprojects {
 
     dependencies {
         // Jetpack Compose-specific rules for Detekt
-        add("detektPlugins", "io.nlopez.compose.rules:detekt:0.5.2")
+        add("detektPlugins", "io.nlopez.compose.rules:detekt:0.5.3")
     }
 
     // Ensure detekt runs as part of verification
